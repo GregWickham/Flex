@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A7A76754-DE7A-4C19-A027-C3B419A55A92}</ProjectGuid>
+    <ProjectGuid>{843BDE60-F30E-4921-A444-11D34C12EE10}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Flex_Database</RootNamespace>
-    <AssemblyName>Flex_Database</AssemblyName>
+    <RootNamespace>Flex.ElementSelectors</RootNamespace>
+    <AssemblyName>Flex_ElementSelectors</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -42,12 +42,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Words\WordSelector.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Echo\FlexibleRealization\FlexibleRealization.csproj">
+      <Project>{69a075e7-46b1-4aee-b5e9-8f7da88d773a}</Project>
+      <Name>FlexibleRealization</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-	<Target Name="SpicNSpan" AfterTargets="Clean">
-		<!-- bin -->
-		<RemoveDir Directories="$(TargetDir)" />
-		<!-- obj -->
-		<RemoveDir Directories="$(ProjectDir)$(BaseIntermediateOutputPath)" />
-	</Target>
 </Project>
