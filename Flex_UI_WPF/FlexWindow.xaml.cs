@@ -94,9 +94,26 @@ namespace Flex.UserInterface
         /// <summary>The user has entered some text in the inputTextBox</summary>
         private void inputTextBox_TextInput(object sender, TextCompositionEventArgs e) => HandleTextInput(e.Text);
 
-        private void showVariantsButton_Click(object sender, RoutedEventArgs e)
+        private void showVariationsButton_Click(object sender, RoutedEventArgs e)
         {
-
+            foreach (IElementTreeNode eachRealizableVariation in GraphEditor.SelectedBuilder.GetRealizableVariations())
+            {
+                TryToRealize(eachRealizableVariation);
+            }
         }
+
+        /// <summary>Try to transform <paramref name="editableTree"/> into realizable form and if successful, try to realize it</summary>
+        private void TryToRealize(IElementTreeNode editableTree)
+        {
+            RealizationResult result = editableTree.Realize();
+            switch (result.Outcome)
+            {
+                case RealizationOutcome.Success:
+                    Console.WriteLine(result.Realized);
+                    break;
+                default: break;
+            }
+        }
+
     }
 }

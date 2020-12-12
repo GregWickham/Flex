@@ -76,7 +76,7 @@
                 <TextBox x:Name="realizedTextBox" Margin="4"
                      HorizontalAlignment="Stretch" VerticalContentAlignment="Center"
                      TextWrapping="NoWrap" />
-                <Button Grid.Column="1" Name="showVariantsButton" Content="Show Variants" Margin="0 4 4 4" Padding="8 0 8 0" Click="showVariantsButton_Click"/>
+                <Button Grid.Column="1" Name="showVariationsButton" Content="Show Variations" Margin="0 4 4 4" Padding="8 0 8 0" Click="showVariationsButton_Click"/>
             </Grid>
         </Grid>
 

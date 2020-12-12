@@ -12,6 +12,7 @@ namespace Datamuse
         private static readonly HttpClient HTTP_Client = new HttpClient();
 
         private static readonly string WordsEndpoint = "https://api.datamuse.com/words";
+
         private static async Task<IEnumerable<Word>> ResponseTo(string request)
         {
             try
@@ -20,7 +21,7 @@ namespace Datamuse
                 return JsonConvert.DeserializeObject<IList<Word>>(responseBody)
                     .OrderBy(result => result.Score);
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException)
             {
                 return new List<Word>();
             }

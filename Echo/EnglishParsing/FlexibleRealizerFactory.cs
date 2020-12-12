@@ -11,32 +11,17 @@ using System;
 
 namespace FlexibleRealization
 {
-    /// <summary>Thrown we we can't transform a tree from editable form to realizable form</summary>
-    /// <remarks>Most often results from a problem with phrase coordination</remarks>
-    public class TreeCannotBeTransformedToRealizableFormException : Exception
-    {
-        public TreeCannotBeTransformedToRealizableFormException(Exception inner) : base("Element Tree could not be transformed to realizable form", inner) { }
-    }
-
-    /// <summary>Thrown when a tree ostensibly in realizable form fails to build its NLGElement</summary>
-    public class SpecCannotBeBuiltException : Exception
-    {
-        public SpecCannotBeBuiltException(Exception inner) : base("SimpleNLG specification cannot be built from tree", inner) { }
-    }
-
     /// <summary>Provides static methods for creating and transforming element builder trees</summary>
     public static class FlexibleRealizerFactory
     {
         private static readonly java.lang.Class IndexAnnotationClass = new CoreAnnotations.IndexAnnotation().getClass();
 
-        public static NLGSpec SpecFrom(string text) => RealizableSpecFrom(
-            RealizableTreeFrom(
-                EditableTreeFrom(text)));
-
-        public static NLGSpec SpecFrom(IElementTreeNode editableTree) => RealizableSpecFrom(
-            RealizableTreeFrom(editableTree));
-
-        public static NLGSpec SpecFrom(IElementBuilder realizableTree) => RealizableSpecFrom(realizableTree);
+        /// <summary>Parse <paramref name="text"/>, construct an editable tree of IElementTreeNode from the parse, transform the editable tree to a realizable tree,
+        /// build an NLGElement from the realizable tree, and wrap the NLGElement in an NLGSpec.</summary>
+        /// <returns>An <see cref="NLGSpec"/> ready for sending to the SimpleNLG client</returns>
+        public static NLGSpec SpecFrom(string text) => EditableTreeFrom(text)
+            .AsRealizableTree()
+                .ToNLGSpec();
 
         /// <summary>Send <paramref name="text"/> to the CoreNLP server, and transform the resulting annotations into a directed graph (tree) form that can be displayed and edited in a GUI.</summary>
         /// <remarks>
@@ -61,54 +46,6 @@ namespace FlexibleRealization
                 .Propagate(ElementBuilder.Consolidate)
                 .Propagate(ElementBuilder.Configure)
                 .Tree;
-        }
-
-        /// <summary>Attempt to transform <paramref name="editableTree"/> into a structure that can be serialized as XML and realized by SimpleNLG.</summary>
-        /// <remarks>The propagated "Coordinate" operation causes CoordinablePhraseBuilders to coordinate themselves.  This process may cause those phrase builders to change form.
-        /// <paramref name="editableTree"/> does NOT need to be the root of the tree in which it resides.  This allows the UI to selectively realize portions of a tree.</remarks>
-        /// <returns>An IElementBuilder representing the transformed tree, if the transformation succeeds</returns>
-        /// <exception cref="TreeCannotBeTransformedToRealizableFormException">If the transformation fails</exception>
-        public static IElementBuilder RealizableTreeFrom(IElementTreeNode editableTree)
-        {
-            try
-            {
-                return new RootNode(editableTree.CopyLightweight())
-                    .Propagate(ElementBuilder.Coordinate)
-                    .Tree;
-            }
-            catch (Exception transformationException)
-            {
-                throw new TreeCannotBeTransformedToRealizableFormException(transformationException);
-            }
-        }
-
-        /// <summary>Wrap <paramref name="elementBuilderTree"/> in the necessary objects to prepare it for realization.</summary>
-        /// <returns>An <see cref="NLGSpec"/> that's ready to be serialized as XML and sent to a SimpleNLG server</returns>
-        /// <exception cref="SpecCannotBeBuiltException"></exception>
-        public static NLGSpec RealizableSpecFrom(IElementBuilder realizableTree)
-        {
-            try
-            {
-                return new NLGSpec
-                {
-                    Item = new RequestType
-                    {
-                        Document = new DocumentElement
-                        {
-                            cat = documentCategory.DOCUMENT,
-                            catSpecified = true,
-                            child = new NLGElement[]
-                            {
-                                realizableTree.BuildElement()
-                            }
-                        }
-                    }
-                };
-            }
-            catch (Exception buildException)
-            {
-                throw new SpecCannotBeBuiltException(buildException);
-            }
         }
 
         /// <summary>Return the RootNode of an element tree constructed from <paramref name="parse"/> and <paramref name="constituent"/></summary>
