@@ -9,13 +9,18 @@ namespace Flex.UserInterface.ViewModels
 {
     public abstract class WordSelectorViewModel : INotifyPropertyChanged
     {
+        /// <summary>Return an instance of the appropriate view model for <paramref name="builder"/>, or null if there is no such view model</summary>
         public static WordSelectorViewModel For(WordElementBuilder builder) => builder switch
         {
+            NounBuilder noun => new NounSelectorViewModel(noun),
+            VerbBuilder verb => new VerbSelectorViewModel(verb),
             AdjectiveBuilder adjective => new AdjectiveSelectorViewModel(adjective), 
-            _ => throw new InvalidOperationException("No view model available for that type of WordElementBuilder")
+            AdverbBuilder adverb => new AdverbSelectorViewModel(adverb),
+            _ => null
         };
 
-        public WordSelectorViewModel(WordElementBuilder builder)
+        /// <summary>Check to see if <paramref name="builder"/> is already configured with a WordSelector as its WordSource.  If not, swap out the existing SingleWordSource for a WordSelector.</summary>
+        private protected WordSelectorViewModel(WordElementBuilder builder)
         {
             switch (builder.WordSource)
             {
@@ -30,12 +35,17 @@ namespace Flex.UserInterface.ViewModels
             }
         }
 
+        /// <summary>The domain model for this view model</summary>
         private protected WordSelector Selector { get; set; }
 
         public string DefaultWord => $"Alternates for: {Selector.Default}";
 
+        /// <summary>A list of options presented to the user.  The user can select from this list to configure the Selector's list of Alternates</summary>
         public List<string> Potential { get; private set; } = new List<string>();
 
+        /// <summary>
+        /// The list 
+        /// </summary>
         public List<string> Actual => Selector.Alternates;
 
         internal bool HasAlternates => Selector.Alternates.Count() > 0;

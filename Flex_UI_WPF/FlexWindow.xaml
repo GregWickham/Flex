@@ -18,7 +18,7 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <Grid>
+        <Grid Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="30"/>
@@ -80,9 +80,9 @@
             </Grid>
         </Grid>
 
-        <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
+        <GridSplitter Grid.Column="1" Width="2" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
 
-        <local:WordSelectorControl x:Name="WordSelectorConfiguratior" Grid.Column="2" Height="Auto" Visibility="Collapsed"/>
+        <local:WordSelectorControl x:Name="WordSelectorConfiguratior" Grid.Column="2" Height="Auto" Width="240" Visibility="Collapsed"/>
 
     </Grid>
 

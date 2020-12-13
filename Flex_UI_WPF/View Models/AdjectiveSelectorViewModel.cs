@@ -1,12 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using FlexibleRealization;
-using Flex.ElementSelectors;
+﻿using FlexibleRealization;
 using Datamuse;
 
 namespace Flex.UserInterface.ViewModels
 {
-    public class AdjectiveSelectorViewModel : WordSelectorViewModel
+    internal class AdjectiveSelectorViewModel : WordSelectorViewModel
     {
         internal AdjectiveSelectorViewModel(AdjectiveBuilder builder) : base(builder) { }
 

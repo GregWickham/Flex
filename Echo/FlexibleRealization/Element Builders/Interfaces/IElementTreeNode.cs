@@ -40,6 +40,8 @@ namespace FlexibleRealization
 
         IElementTreeNode CopyLightweight();
 
+        IEnumerator<IElementTreeNode> GetVariationsEnumerator();
+
         IEnumerable<IElementTreeNode> GetRealizableVariations();
 
         void Propagate(ElementTreeNodeOperation operateOn);

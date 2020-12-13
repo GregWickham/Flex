@@ -284,6 +284,10 @@ namespace FlexibleRealization
             }
         }
 
+        ///Return an IEnumerator for the variations of this
+        public virtual IEnumerator<IElementTreeNode> GetVariationsEnumerator() => new List<IElementTreeNode> { this }.GetEnumerator();
+
+        /// <summary>Return the realizable variations of this</summary>
         public virtual IEnumerable<IElementTreeNode> GetRealizableVariations() => new List<IElementTreeNode> { this.AsRealizableTree() };
 
         /// <summary>Propagate the operation specified by <paramref name="operateOn"/> through the subtree of which this is the root, in depth-first fashion.</summary>

@@ -45,8 +45,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Adjective.cs" />
+    <Compile Include="Adverb.cs" />
     <Compile Include="Client.cs" />
+    <Compile Include="Noun.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Verb.cs" />
     <Compile Include="Word.cs" />
   </ItemGroup>
   <ItemGroup>

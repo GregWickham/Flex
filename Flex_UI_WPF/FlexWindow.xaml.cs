@@ -26,8 +26,13 @@ namespace Flex.UserInterface
             switch (selectedBuilder)
             {
                 case WordElementBuilder word:
-                    WordSelectorConfiguratior.ViewModel = WordSelectorViewModel.For(word);
-                    ShowWordConfigurator();
+                    WordSelectorViewModel viewModel = WordSelectorViewModel.For(word);
+                    if (viewModel != null)
+                    {
+                        WordSelectorConfiguratior.ViewModel = viewModel;
+                        ShowWordConfigurator();
+                    }
+                    else HideConfigurators();
                     break;
                 default:
                     HideConfigurators();
