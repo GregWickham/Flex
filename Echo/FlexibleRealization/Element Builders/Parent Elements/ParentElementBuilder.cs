@@ -106,7 +106,7 @@ namespace FlexibleRealization
         private protected void AddDescendantsTo(List<IElementTreeNode> list) => Children.ToList().ForEach(child => list.AddRange(child.WithAllDescendentBuilders));
 
         /// <summary>Return all the PartOfSpeechBuilders descended from this that have indexes between <paramref name="start"/> and <paramref name="end"/>, non-inclusive</summary>
-        internal IEnumerable<PartOfSpeechBuilder> PartsOfSpeechInSubtreeBetween(PartOfSpeechBuilder start, PartOfSpeechBuilder end) => PartsOfSpeechInSubtree
+        internal IEnumerable<PartOfSpeechBuilder> PartsOfSpeechInSubtreeBetween(PartOfSpeechBuilder start, PartOfSpeechBuilder end) => GetElementsOfTypeInSubtree<PartOfSpeechBuilder>()
             .Where(posb => posb.Token.Index > start.Token.Index && posb.Token.Index < end.Token.Index);
 
         #endregion Tree structure

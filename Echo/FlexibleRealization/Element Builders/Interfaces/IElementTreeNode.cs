@@ -26,9 +26,7 @@ namespace FlexibleRealization
 
         IEnumerable<IElementTreeNode> WithAllDescendentBuilders { get; }
 
-        IEnumerable<PartOfSpeechBuilder> PartsOfSpeechInSubtree { get; }
-
-        PartOfSpeechBuilder PartOfSpeechInSubtreeWithIndex(int index);
+        IEnumerable<TElement> GetElementsOfTypeInSubtree<TElement>() where TElement : ElementBuilder;
 
         IEnumerable<SyntacticRelation> SyntacticRelationsWithAtLeastOneEndpointInSubtree { get; }
 

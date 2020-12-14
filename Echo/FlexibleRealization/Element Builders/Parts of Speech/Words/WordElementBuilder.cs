@@ -74,9 +74,12 @@ namespace FlexibleRealization
 
         public WordElement BuildWord()
         {
-            Word.Base = WordSource.GetWord();
+            Word.Base = SelectWord();
             return Word;
         }
+
+        /// <summary>Return the word to be used during element building</summary>
+        internal virtual string SelectWord() => WordSource.GetWord();
 
         ///Return an IEnumerator for the variations of this
         public override IEnumerator<IElementTreeNode> GetVariationsEnumerator() => new Variations.Enumerator(this);
