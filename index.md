@@ -6,6 +6,6 @@ In addition to CoreNLP and SimpleNLG, Flex uses the [Datamuse API](https://www.d
 
 ### The User Interface
 
-The Visual Studio startup project for the user interface is `Flex_UI_WPF`.  Let's start it it and parse a simple declarative clause:
+The Visual Studio startup project for the user interface is `Flex_UI_WPF`.  Let's start it, and parse a simple declarative clause:
 
 ![Flex window after parsing](/images/ParsedSDC.jpg)
