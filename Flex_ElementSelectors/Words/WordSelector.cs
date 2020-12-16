@@ -22,13 +22,13 @@ namespace Flex.ElementSelectors
 
         public void AddAlternates(IEnumerable<string> wordsToAdd) => Alternates.AddRange(wordsToAdd.Select(word => new WeightedWord(word)));
 
-        public void RemoveAlternates(IEnumerable<string> wordsToRemove) => Alternates = Alternates
-            .Where(weightedWord => !wordsToRemove.Contains(weightedWord.Word))
+        public void RemoveAlternates(IEnumerable<WeightedWord> wordsToRemove) => Alternates = Alternates
+            .Where(weightedWord => !wordsToRemove.Contains(weightedWord))
             .ToList();
 
         private WeightedWord Current;
 
-        IEnumerator<string> IWordSource.EnumerateVariations() => new Variations.Enumerator(this);
+        IEnumerator<string> IWordSource.GetVariationsEnumerator() => new Variations.Enumerator(this);
 
         public class Variations : IEnumerable<string>
         {
@@ -75,7 +75,5 @@ namespace Flex.ElementSelectors
                 public void Reset() => CurrentIndex = -1;
             }
         }
-
-
     }
 }

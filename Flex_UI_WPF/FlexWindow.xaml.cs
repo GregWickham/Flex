@@ -75,7 +75,6 @@ namespace Flex.UserInterface
         {
             realizedTextBox.Background = Brushes.WhiteSmoke;
             realizedTextBox.Text = realizedText;
-            VariationsWindow.DefaultForm = realizedText;
         }
 
         /// <summary>This event handler is called when the GraphEditor has tried to realize an IElementTreeNode, but failed</summary>
@@ -127,6 +126,7 @@ namespace Flex.UserInterface
         /// <summary>The user has clicked on the "Show Variations" button</summary>
         private void showVariationsButton_Click(object sender, RoutedEventArgs e)
         {
+            VariationsWindow.DefaultForm = realizedTextBox.Text;
             VariationsWindow.Variations.Clear();
             if (!VariationsWindowIsShowing)
             {

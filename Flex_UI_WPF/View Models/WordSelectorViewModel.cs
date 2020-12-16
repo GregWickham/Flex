@@ -93,11 +93,11 @@ namespace Flex.UserInterface.ViewModels
             OnPropertyChanged("Actual");
         }
 
-        internal void MoveFromActualToPotential(IEnumerable<string> wordsToMove)
+        internal void MoveFromActualToPotential(IEnumerable<WeightedWord> wordsToMove)
         {
             Selector.RemoveAlternates(wordsToMove);
             OnPropertyChanged("Actual");
-            Potential.AddRange(wordsToMove);
+            Potential.AddRange(wordsToMove.Select(weightedWord => weightedWord.Word));
             OnPropertyChanged("Potential");
         }
 

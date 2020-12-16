@@ -60,7 +60,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Selector Controls\Parts of Speech\WordSelectorControl.xaml.cs">
+    <Compile Include="Selector Configurators\Parts of Speech\WordSelectorControl.xaml.cs">
       <DependentUpon>WordSelectorControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="VariationsListWindow.xaml.cs">
@@ -87,7 +87,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Selector Controls\Parts of Speech\WordSelectorControl.xaml">
+    <Page Include="Selector Configurators\Parts of Speech\WordSelectorControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -162,10 +162,10 @@
     <Resource Include="Resources\Images\Chevron_Up.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Selector Controls\Parts of Speech\Left.png" />
+    <Resource Include="Selector Configurators\Parts of Speech\Left.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Selector Controls\Parts of Speech\Right.png" />
+    <Resource Include="Selector Configurators\Parts of Speech\Right.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\Columns.png" />

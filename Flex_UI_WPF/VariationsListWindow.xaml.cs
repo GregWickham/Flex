@@ -22,13 +22,17 @@ namespace Flex.UserInterface
             Hide();
         }
 
-        public string WindowTitle => $"Variations of {DefaultForm}";
+        public string WindowTitle => $"Variations of \"{DefaultForm}\"";
 
         private string defaultForm;
         internal string DefaultForm 
         { 
             get => defaultForm;
-            set { defaultForm = value; OnPropertyChanged("DefaultForm"); }
+            set 
+            { 
+                defaultForm = value; 
+                OnPropertyChanged("WindowTitle"); 
+            }
         }
 
         public ObservableCollection<string> Variations { get; } = new ObservableCollection<string>();
