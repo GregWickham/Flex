@@ -7,9 +7,9 @@ namespace Flex.UserInterface.ViewModels
     {
         internal VerbSelectorViewModel(VerbBuilder builder) : base(builder) { }
 
-        internal override async void GetSynonyms()
+        private protected override async void GetSynonymsFor(string verb)
         {
-            AddPotential(await Verb.SynonymsFor(Selector.Default));
+            SetPotential(await Verb.SynonymsFor(verb));
         }
     }
 }

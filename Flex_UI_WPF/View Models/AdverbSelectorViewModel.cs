@@ -7,9 +7,9 @@ namespace Flex.UserInterface.ViewModels
     {
         internal AdverbSelectorViewModel(AdverbBuilder builder) : base(builder) { }
 
-        internal override async void GetSynonyms()
+        private protected override async void GetSynonymsFor(string adverb)
         {
-            AddPotential(await Adverb.SynonymsFor(Selector.Default));
+            SetPotential(await Adverb.SynonymsFor(adverb));
         }
     }
 }

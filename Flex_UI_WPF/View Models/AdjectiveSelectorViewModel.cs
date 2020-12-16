@@ -7,9 +7,9 @@ namespace Flex.UserInterface.ViewModels
     {
         internal AdjectiveSelectorViewModel(AdjectiveBuilder builder) : base(builder) { }
 
-        internal override async void GetSynonyms()
+        private protected override async void GetSynonymsFor(string adjective)
         {
-            AddPotential(await Adjective.SynonymsFor(Selector.Default));
+            SetPotential(await Adjective.SynonymsFor(adjective));
         }
     }
 }

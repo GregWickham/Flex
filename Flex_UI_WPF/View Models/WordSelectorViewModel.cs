@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows.Input;
 using FlexibleRealization;
 using Flex.ElementSelectors;
 
@@ -35,23 +37,48 @@ namespace Flex.UserInterface.ViewModels
             }
         }
 
+        /// <summary>Called after this has been set as DataContext for the view</summary>
+        internal void Initialize()
+        {
+            PivotWord = Selector.Default.Word;
+            OnPropertyChanged("DefaultWord");
+            GetSynonymsFor(PivotWord);
+        }
+
         /// <summary>The domain model for this view model</summary>
-        private protected WordSelector Selector { get; set; }
+        public WordSelector Selector { get; set; }
 
-        public string DefaultWord => $"Alternates for: {Selector.Default}";
+        /// <summary>The word currently being used in Datamuse queries to select Potential alternates</summary>
+        private protected string PivotWord { get; set; }
 
-        /// <summary>A list of options presented to the user.  The user can select from this list to configure the Selector's list of Alternates</summary>
+        internal void SetPivot(string word)
+        {
+            PivotWord = word;
+            GetSynonymsFor(PivotWord);
+        }
+
+        public string DefaultWord => Selector.Default.Word;
+
+        /// <summary>A list of options presented to the user.  The user can select from this list to configure the Selector's actual list of Alternates</summary>
         public List<string> Potential { get; private set; } = new List<string>();
 
-        /// <summary>
-        /// The list 
-        /// </summary>
-        public List<string> Actual => Selector.Alternates;
+        /// <summary>The list of actual alternates for the selector</summary>
+        public List<WeightedWord> Actual => Selector.Alternates;
 
-        internal bool HasAlternates => Selector.Alternates.Count() > 0;
-
-        internal void AddPotential(IEnumerable<string> words)
+        private bool isPotentialControlExpanded = false;
+        public bool IsPotentialControlExpanded
         {
+            get => isPotentialControlExpanded;
+            set
+            {
+                isPotentialControlExpanded = value;
+                OnPropertyChanged("IsPotentialControlExpanded");
+            }
+        }
+
+        internal void SetPotential(IEnumerable<string> words)
+        {
+            Potential.Clear();
             Potential.AddRange(words);
             OnPropertyChanged("Potential");
         }
@@ -62,11 +89,19 @@ namespace Flex.UserInterface.ViewModels
                 .Where(candidate => !wordsToMove.Contains(candidate))
                 .ToList();
             OnPropertyChanged("Potential");
-            Selector.Alternates.AddRange(wordsToMove);
+            Selector.AddAlternates(wordsToMove);
             OnPropertyChanged("Actual");
         }
 
-        internal abstract void GetSynonyms();
+        internal void MoveFromActualToPotential(IEnumerable<string> wordsToMove)
+        {
+            Selector.RemoveAlternates(wordsToMove);
+            OnPropertyChanged("Actual");
+            Potential.AddRange(wordsToMove);
+            OnPropertyChanged("Potential");
+        }
+
+        private protected abstract void GetSynonymsFor(string word);
 
 
         #region Standard implementation of INotifyPropertyChanged

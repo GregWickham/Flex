@@ -40,6 +40,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -62,6 +63,9 @@
     <Compile Include="Selector Controls\Parts of Speech\WordSelectorControl.xaml.cs">
       <DependentUpon>WordSelectorControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="VariationsListWindow.xaml.cs">
+      <DependentUpon>VariationsListWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View Models\AdjectiveSelectorViewModel.cs" />
     <Compile Include="View Models\AdverbSelectorViewModel.cs" />
     <Compile Include="View Models\NounSelectorViewModel.cs" />
@@ -79,7 +83,15 @@
       <DependentUpon>FlexWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Resources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Selector Controls\Parts of Speech\WordSelectorControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="VariationsListWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -145,7 +157,22 @@
       <Name>WordNet_LINQ</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\Images\Chevron_Down.png" />
+    <Resource Include="Resources\Images\Chevron_Up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Selector Controls\Parts of Speech\Left.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Selector Controls\Parts of Speech\Right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Columns.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Weight.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="SpicNSpan" AfterTargets="Clean">
     <!-- bin -->

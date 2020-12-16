@@ -7,9 +7,9 @@ namespace Flex.UserInterface.ViewModels
     {
         internal NounSelectorViewModel(NounBuilder builder) : base(builder) { }
 
-        internal override async void GetSynonyms()
+        private protected override async void GetSynonymsFor(string noun)
         {
-            AddPotential(await Noun.SynonymsFor(Selector.Default));
+            SetPotential(await Noun.SynonymsFor(noun));
         }
     }
 }

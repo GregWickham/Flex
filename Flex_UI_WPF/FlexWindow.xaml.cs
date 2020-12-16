@@ -19,7 +19,9 @@ namespace Flex.UserInterface
             GraphEditor.ElementBuilderSelected += GraphEditor_ElementBuilderSelected;
             GraphEditor.RealizationFailed += GraphEditor_RealizationFailed;
             GraphEditor.TextRealized += GraphEditor_TextRealized;
+            VariationsWindow.Closing += VariationsWindow_Closing;
         }
+
 
         private void GraphEditor_ElementBuilderSelected(ElementBuilder selectedBuilder)
         {
@@ -39,14 +41,32 @@ namespace Flex.UserInterface
                     break;
             }
 
+            // Adjusting the Window Width prevents the GraphEditor from being re-laid out which can mess up vertex positions
             void HideConfigurators()
             {
-                WordSelectorConfiguratior.Visibility = Visibility.Collapsed;
+                if (WordSelectorConfiguratior.Visibility == Visibility.Visible)
+                {
+                    // Suspend layout while doing this stuff
+                    using (var d = Dispatcher.DisableProcessing())
+                    {
+                        Width = Width - WordSelectorConfiguratior.Width;
+                        WordSelectorConfiguratior.Visibility = Visibility.Collapsed;
+                    }
+                }
             }
 
+            // Adjusting the Window Width prevents the GraphEditor from being re-laid out which can mess up vertex positions
             void ShowWordConfigurator()
             {
-                WordSelectorConfiguratior.Visibility = Visibility.Visible;
+                if (WordSelectorConfiguratior.Visibility == Visibility.Collapsed)
+                {
+                    // Suspend layout while doing this stuff
+                    using (var d = Dispatcher.DisableProcessing())
+                    {
+                        Width = Width + WordSelectorConfiguratior.Width;
+                        WordSelectorConfiguratior.Visibility = Visibility.Visible;
+                    }
+                }
             }
         }
 
@@ -55,6 +75,7 @@ namespace Flex.UserInterface
         {
             realizedTextBox.Background = Brushes.WhiteSmoke;
             realizedTextBox.Text = realizedText;
+            VariationsWindow.DefaultForm = realizedText;
         }
 
         /// <summary>This event handler is called when the GraphEditor has tried to realize an IElementTreeNode, but failed</summary>
@@ -74,7 +95,11 @@ namespace Flex.UserInterface
             GraphEditor.TextRealized -= GraphEditor_TextRealized;
         }
 
-        public Visibility WordAlternativesVisibility { get; private set; }
+        private readonly VariationsListWindow VariationsWindow = new VariationsListWindow();
+
+        private bool VariationsWindowIsShowing { get; set; }
+
+        private void VariationsWindow_Closing(object sender, CancelEventArgs e) => VariationsWindowIsShowing = false;
 
         /// <summary>When the user changes a setting for the CoreNLP server, save its settings</summary>
         private void CoreNLP_SettingChanged(object sender, System.Windows.Controls.TextChangedEventArgs e) => Stanford.CoreNLP.Properties.Settings.Default.Save();
@@ -99,22 +124,29 @@ namespace Flex.UserInterface
         /// <summary>The user has entered some text in the inputTextBox</summary>
         private void inputTextBox_TextInput(object sender, TextCompositionEventArgs e) => HandleTextInput(e.Text);
 
+        /// <summary>The user has clicked on the "Show Variations" button</summary>
         private void showVariationsButton_Click(object sender, RoutedEventArgs e)
         {
+            VariationsWindow.Variations.Clear();
+            if (!VariationsWindowIsShowing)
+            {
+                VariationsWindow.Show();
+                VariationsWindowIsShowing = true;
+            }
             foreach (IElementTreeNode eachRealizableVariation in GraphEditor.SelectedBuilder.GetRealizableVariations())
             {
-                TryToRealize(eachRealizableVariation);
+                TryToRealizeVariation(eachRealizableVariation);
             }
         }
 
         /// <summary>Try to transform <paramref name="editableTree"/> into realizable form and if successful, try to realize it</summary>
-        private void TryToRealize(IElementTreeNode editableTree)
+        private void TryToRealizeVariation(IElementTreeNode editableTree)
         {
             RealizationResult result = editableTree.Realize();
             switch (result.Outcome)
             {
                 case RealizationOutcome.Success:
-                    Console.WriteLine(result.Realized);
+                    VariationsWindow.Variations.Add(result.Realized);
                     break;
                 default: break;
             }

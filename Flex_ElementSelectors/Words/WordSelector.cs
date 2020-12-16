@@ -9,18 +9,24 @@ namespace Flex.ElementSelectors
     {
         public WordSelector(string word) 
         { 
-            Default = word;
-            Alternates = new List<string>();
+            Default = new WeightedWord(word);
+            Alternates = new List<WeightedWord>();
             Current = Default;
         }
 
-        public string GetWord() => Current;
+        public string GetWord() => Current.Word;
 
-        public string Default { get; private set; }
+        public WeightedWord Default { get; private set; }
 
-        public List<string> Alternates { get; }
+        public List<WeightedWord> Alternates { get; set; }
 
-        private string Current;
+        public void AddAlternates(IEnumerable<string> wordsToAdd) => Alternates.AddRange(wordsToAdd.Select(word => new WeightedWord(word)));
+
+        public void RemoveAlternates(IEnumerable<string> wordsToRemove) => Alternates = Alternates
+            .Where(weightedWord => !wordsToRemove.Contains(weightedWord.Word))
+            .ToList();
+
+        private WeightedWord Current;
 
         IEnumerator<string> IWordSource.EnumerateVariations() => new Variations.Enumerator(this);
 
@@ -46,7 +52,7 @@ namespace Flex.ElementSelectors
 
                 private WordSelector Selector;
 
-                private List<string> AllForms = new List<string>();
+                private List<WeightedWord> AllForms = new List<WeightedWord>();
 
                 private int CurrentIndex;
 
