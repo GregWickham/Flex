@@ -1,4 +1,4 @@
-# Flex - A Controlled Combinatorial Explosion of Language
+![Flex logo](/images/FlexLogo.png)
 
 Flex creates specifications of English grammatical elements, which can be permuted to generate text that expresses an idea in a variety of ways.
 
