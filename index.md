@@ -56,7 +56,7 @@ Each of the syntactic elements containing "movie" also has three alternate forms
 
 That's a bit more interesting; but it's not really a **Combinatorial Explosion of Language**, is it?
 
-Our sentence happens to contain a noun, a verb, and adjective, and an adverb.  What if we assign some alternates to *each* of those words?
+Our sentence happens to contain a noun, a verb, an adjective, and an adverb.  What if we assign some alternates to *each* of those words?
 
 Instead of the verb "saw," we could say "watched" or "caught."  Notice that we specify the lemma form of verbs, and [SimpleNLG](https://github.com/simplenlg/simplenlg) will inflect the verbs to past tense when it does the realization:
 
@@ -77,7 +77,7 @@ Now we have:
 * 3 variations of "good"
 * 4 variations of "movie"
 
-The n-fold Cartesian product of these four sets has 3 * 4 * 3 * 4 = 144 elements, or 144 variations of the sentence "We saw a very good movie.":
+The [n-fold Cartesian product](https://en.wikipedia.org/wiki/Cartesian_product) of these four sets has 3 * 4 * 3 * 4 = 144 elements, or 144 variations of the sentence "We saw a very good movie.":
 
 ![Variations of "we saw a very good movie"](/images/VariationsOfWeSawAVeryGoodMovie.jpg)
 
