@@ -1,4 +1,4 @@
-![Flex logo](/images/Flex_Logo.png)
+![Flex logo](/images/FlexLogo.png)
 
 Flex creates specifications of English grammatical elements, which can be permuted to generate text that expresses an idea in a variety of ways.
 
@@ -26,4 +26,8 @@ Let's look at some examples.  First I'll select the noun "movie" by clicking on 
 
 A new control has appeared on the right side of the window.  This control will allow us to select alternate words that can be swapped in for "movie."
 
-On the far right is a list of words with the header "Actual".  This list is currently empty.
+On the far right is a list of words with the header **Actual**.  This list is currently empty.
+
+To the left of the "Actual" list is another list with the header **Potential**.  This list contains words that are candidates for the **Actual** list.  When a noun, verb, adjective, or adverb is selected, and the "Alternate Word Selection Control" opens, the **Potential** list is initially populated by querying the [Datamuse API](https://www.datamuse.com/api/) for words with similar meaning to the selected word.  Later, we'll see how to bring a wider variety of words into the **Potential** list, but for now let's select a few synonyms for "movie":
+
+![Flex window with movie synonyms selected](/images/MovieSynonymsSelected.jpg)
