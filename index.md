@@ -4,6 +4,8 @@ Flex creates specifications of English grammatical elements, which can be permut
 
 Flex is built on top of [Echo](https://github.com/GregWickham/Echo), so you may want to review the [Echo documentation](https://gregwickham.github.io/Echo/) before proceeding.
 
+Here's the [Flex repository on GitHub.](https://github.com/GregWickham/Flex)
+
 ### Prerequisites
 
 Like Echo, Flex uses the servers for [CoreNLP](https://stanfordnlp.github.io/CoreNLP/) and [SimpleNLG](https://github.com/simplenlg/simplenlg).  The folder called `Server BAT files` contains two Windows batch files that I use to start these servers.  These batch files refer to specific locations in my file system, so you'll need to modify them to reflect the actual locations where you install the distribution `.jar` files.  The SimpleNLG server requires two `.jar` files that are not included in the SimpleNLG distribution -- `hsqldb_6148.jar` and `lexAccess2013dist.jar`.
