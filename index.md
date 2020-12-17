@@ -50,7 +50,7 @@ Each of the syntactic elements containing "movie" also has three alternate forms
 
 ![Flex window with "a very good movie" selected](/images/AVeryGoodMovieSelected.jpg)
 
-...and click on the *Show Variations* button to show the variations of the noun phrase:
+...and click on the *Show Variations* button to show the variations of that noun phrase:
 
 ![Variations of "a very good movie"](/images/VariationsOfAVeryGoodMovie.jpg)
 
