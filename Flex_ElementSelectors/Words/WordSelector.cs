@@ -63,7 +63,11 @@ namespace Flex.ElementSelectors
 
                 public bool MoveNext()
                 {
-                    if (CurrentIndex == AllForms.Count - 1) return false;
+                    if (CurrentIndex == AllForms.Count - 1)
+                    {
+                        Selector.Current = Selector.Default;
+                        return false;
+                    }
                     else
                     {
                         CurrentIndex++;
