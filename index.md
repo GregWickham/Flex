@@ -36,7 +36,7 @@ To the left of the "Actual" list is another list with the header **Potential**. 
 
 ![Flex window with "movie" synonyms selected](/images/MovieSynonymsSelected.jpg)
 
-When something is selected in the **Potential** list, pressing the *Insert* key moves the selection from **Potential** to **Actual**:
+When one or more words are selected in the **Potential** list, pressing the *Insert* key moves the selected words from **Potential** to **Actual**:
 
 ![Flex window with "movie" synonyms moved to actual](/images/MovieSynonymsMovedToActual.jpg)
 
