@@ -70,7 +70,7 @@ Instead of the adjective "good," we could say "great" or "cool":
 
 ![Flex window with alternates for "very"](/images/AlternatesForGood.jpg)
 
-So we have:
+Now we have:
 
 * 3 variations of "saw"
 * 4 variations of "very"
