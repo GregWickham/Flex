@@ -22,7 +22,7 @@ So far it looks almost identical to the Echo window, with the exception of the *
 
 #### Specifying Word Variations
 
-Nouns, verbs, adjectives, and adverbs have a special property not shared by other parts of speech:  They're often surrounded in the lexicon by a rich constellation of other words that can replace them in a given syntactic structure.  If the replacement word is a true synonym the swap has little, if any, effect on overall meaning.  The replacement word can also be similar but not quite synonymous, adding shades to the overall meaning or changing it altogether.
+Nouns, verbs, adjectives, and adverbs have a special property not shared by other parts of speech:  They're often surrounded in the lexicon by a rich constellation of other words that can replace them in a given syntactic structure.  If the replacement word is a true synonym the swap has little -- if any -- effect on overall meaning.  The replacement word can also be similar but not quite synonymous, adding shades to the overall meaning or changing it altogether.
 
 Let's look at some examples.  First I'll select the noun "movie" by clicking on it:
 
