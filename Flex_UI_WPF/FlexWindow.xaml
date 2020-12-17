@@ -5,7 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:CoreNLP_Properties="clr-namespace:Stanford.CoreNLP.Properties;assembly=EnglishParsing"
         xmlns:SimpleNLG_Properties="clr-namespace:SimpleNLG.Properties;assembly=SimpleNLG"    
-        xmlns:WordNet_Properties="clr-namespace:WordNet.Linq.Properties;assembly=WordNet_LINQ"
         xmlns:graphEditor="clr-namespace:FlexibleRealization.UserInterface;assembly=FlexibleRealization_UserInterface_WPF"
         xmlns:local="clr-namespace:Flex.UserInterface"
         mc:Ignorable="d"
