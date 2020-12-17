@@ -20,6 +20,8 @@ The Visual Studio startup project for the user interface is `Flex_UI_WPF`.  Let'
 
 So far it looks almost identical to the Echo window, with the exception of the *Show Variations* button in the lower right.
 
+#### Specifying Word Variations
+
 Nouns, verbs, adjectives, and adverbs have a special property not shared by other parts of speech:  They're often surrounded in the lexicon by a rich and varied constellation of other words that can replace them in a given syntactic structure.  If the replacement word is a true synonym the swap has little, if any, effect on overall meaning.  The replacement word can also be similar but not quite synonymous, adding shades to the overall meaning or changing it altogether.
 
 Let's look at some examples.  First I'll select the noun "movie" by clicking on it:
@@ -52,7 +54,7 @@ Each of the syntactic elements containing "movie" also has three alternate forms
 
 ![Variations of "a very good movie"](/images/VariationsOfAVeryGoodMovie.jpg)
 
-That's a bit more interesting; but it's still not really a **Combinatorial Explosion of Language**.
+That's a bit more interesting; but it's not really a **Combinatorial Explosion of Language**, is it?
 
 Our sentence happens to contain a noun, a verb, and adjective, and an adverb.  What if we assign some alternates to *each* of those words?
 
