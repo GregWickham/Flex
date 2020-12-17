@@ -1,4 +1,4 @@
-![Flex logo](/images/FlexLogo.png)
+![Flex logo](/images/Flex_Logo.png)
 
 Flex creates specifications of English grammatical elements, which can be permuted to generate text that expresses an idea in a variety of ways.
 
