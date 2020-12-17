@@ -38,12 +38,12 @@ namespace WordNet.Linq
     partial void DeleteSense(Sense instance);
     #endregion
 		
-		public WordNetDataContext() : 
-				base("Data Source=38.192.14.25,49170;Initial Catalog=wordnet;Persist Security Info=True" +
-						";User ID=sa;Password=VkF4ga9D4qwmGQ2rpefPsryQ8fUnJfkL", mappingSource)
-		{
-			OnCreated();
-		}
+		//public WordNetDataContext() : 
+		//		base("Data Source=38.192.14.25,49170;Initial Catalog=wordnet;Persist Security Info=True" +
+		//				";User ID=;Password=", mappingSource)
+		//{
+		//	OnCreated();
+		//}
 		
 		public WordNetDataContext(string connection) : 
 				base(connection, mappingSource)

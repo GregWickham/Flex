@@ -152,10 +152,6 @@
       <Project>{843bde60-f30e-4921-a444-11d34c12ee10}</Project>
       <Name>Flex_ElementSelectors</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WordNetLINQ\WordNet_LINQ.csproj">
-      <Project>{2d7454e9-b9a9-4e6a-98bd-0565e12adb7a}</Project>
-      <Name>WordNet_LINQ</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\Chevron_Down.png" />
