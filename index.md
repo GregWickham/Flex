@@ -44,7 +44,7 @@ Now the word "movie" has three alternate forms, in addition to its default form.
 
 ![Variations of "movie"](/images/VariationsOfMovie.jpg)
 
-Since we're only realizing a single word, it's not too interesting yet.
+Since we're only realizing a single word, this list of variations is not very interesting yet.
 
 Each of the syntactic elements containing "movie" also has three alternate forms.  For example, let's select the noun phrase "a very good movie":
 
