@@ -2,12 +2,11 @@
 
 namespace FlexibleRealization.UserInterface.ViewModels
 {
-    internal class PartOfSpeechToTokenEdge : ElementEdge
+    internal class PartOfSpeechToContentEdge : ElementEdge
     {
-        internal PartOfSpeechToTokenEdge(PartOfSpeechVertex posv, TokenVertex tv) : base(posv, tv) { }
+        internal PartOfSpeechToContentEdge(WordPartOfSpeechVertex wposv, WordContentVertex wcv) : base(wposv, wcv) { }
 
         public override string LabelText => "";
         public override EdgeDashStyle ElementDashStyle => EdgeDashStyle.Solid;
-
     }
 }

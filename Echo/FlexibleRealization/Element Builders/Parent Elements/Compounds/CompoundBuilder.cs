@@ -27,7 +27,7 @@ namespace FlexibleRealization
         {
             WordElementBuilder[] componentWords = Children
                 .Cast<WordElementBuilder>()
-                .OrderBy(word => word.Token.Index)
+                .OrderBy(word => word.Index)
                 .ToArray();
             StringBuilder concatenatedComponents = new StringBuilder();
             for (int wordIndex = 0; wordIndex < componentWords.Length - 1; wordIndex++)

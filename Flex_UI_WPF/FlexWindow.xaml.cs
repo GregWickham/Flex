@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Data.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -7,6 +8,8 @@ using SimpleNLG;
 using FlexibleRealization;
 using FlexibleRealization.UserInterface;
 using Flex.UserInterface.ViewModels;
+using Flex.Database;
+using Flex.Database.UserInterface;
 
 namespace Flex.UserInterface
 {
@@ -21,7 +24,6 @@ namespace Flex.UserInterface
             GraphEditor.TextRealized += GraphEditor_TextRealized;
             VariationsWindow.Closing += VariationsWindow_Closing;
         }
-
 
         private void GraphEditor_ElementBuilderSelected(ElementBuilder selectedBuilder)
         {
@@ -106,10 +108,17 @@ namespace Flex.UserInterface
         /// <summary>When the user changes a setting for the SimpleNLG server, save its settings</summary>
         private void SimpleNLG_SettingChanged(object sender, System.Windows.Controls.TextChangedEventArgs e) => SimpleNLG.Properties.Settings.Default.Save();
 
-        /// <summary>When the user changes a setting for the SimpleNLG server, save its settings</summary>
-        //private void WordNet_SettingChanged(object sender, System.Windows.Controls.TextChangedEventArgs e) => WordNet.Linq.Properties.Settings.Default.Save();
+        /// <summary>When the user changes a setting for the WordNet server, save its settings</summary>
+        private void WordNet_SettingChanged(object sender, System.Windows.Controls.TextChangedEventArgs e) => WordNet.Linq.Properties.Settings.Default.Save();
 
-        //private void GraphEditor_ElementBuilderSelected(ElementBuilder selectedBuilder) => RealizeAndDisplay(selectedBuilder);
+        /// <summary>The user wants to browse the Flex Database</summary>
+        private void BrowseDBMenuItem_Click(object sender, RoutedEventArgs e) => new FlexDB_BrowserWindow().Show();
+
+        /// <summary>When the user changes a setting for the WordNet server, save its settings</summary>
+        private void FlexDB_SettingChanged(object sender, System.Windows.Controls.TextChangedEventArgs e) => Flex.Database.Properties.Settings.Default.Save();
+
+        /// <summary>Save the selected ElementBuilder to the Flex database</summary>
+        private void SaveButton_Click(object sender, RoutedEventArgs e) => FlexData.Context.Save(GraphEditor.SelectedBuilder);
 
         /// <summary>If there's text in the inputTextBox, parse it</summary>
         private void parseButton_Click(object sender, RoutedEventArgs e)
@@ -151,6 +160,5 @@ namespace Flex.UserInterface
                 default: break;
             }
         }
-
     }
 }

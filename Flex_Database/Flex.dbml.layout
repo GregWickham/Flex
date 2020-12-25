@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="Flex">
+  <DataContextMoniker Name="/FlexDataContext" />
+  <nestedChildShapes>
+    <classShape Id="d6802b08-ac49-49a4-8e36-68b332007d14" absoluteBounds="2.125, 3.125, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/FlexDataContext/DB_WeightedWord" />
+      <nestedChildShapes>
+        <elementListCompartment Id="280a462f-b0c7-4b1f-bc56-e96c732bda65" absoluteBounds="2.14, 3.585, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="29c3c949-a46a-4425-89e1-52d070096fc5" absoluteBounds="6.125, 3.375, 2, 1.3862939453125">
+      <DataClassMoniker Name="/FlexDataContext/DB_WordBuilder" />
+      <nestedChildShapes>
+        <elementListCompartment Id="fcc269b6-b6ea-4666-a820-ae568abf222e" absoluteBounds="6.14, 3.835, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(6.125 : 4.03929768880208); (4.125 : 4.03929768880208)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/FlexDataContext/DB_WordBuilder/DB_WordBuilder_DB_WeightedWord" />
+      <nodes>
+        <classShapeMoniker Id="29c3c949-a46a-4425-89e1-52d070096fc5" />
+        <classShapeMoniker Id="d6802b08-ac49-49a4-8e36-68b332007d14" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(4.125 : 3.64464884440104); (6.125 : 3.64464884440104)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/FlexDataContext/DB_WeightedWord/DB_WeightedWord_DB_WordBuilder" />
+      <nodes>
+        <classShapeMoniker Id="d6802b08-ac49-49a4-8e36-68b332007d14" />
+        <classShapeMoniker Id="29c3c949-a46a-4425-89e1-52d070096fc5" />
+      </nodes>
+    </associationConnector>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

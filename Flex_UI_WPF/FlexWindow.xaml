@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:CoreNLP_Properties="clr-namespace:Stanford.CoreNLP.Properties;assembly=EnglishParsing"
         xmlns:SimpleNLG_Properties="clr-namespace:SimpleNLG.Properties;assembly=SimpleNLG"    
+        xmlns:WordNet_Properties="clr-namespace:WordNet.Linq.Properties;assembly=WordNet_LINQ"    
+        xmlns:FlexDB_Properties="clr-namespace:Flex.Database.Properties;assembly=Flex_Database"   
         xmlns:graphEditor="clr-namespace:FlexibleRealization.UserInterface;assembly=FlexibleRealization_UserInterface_WPF"
         xmlns:local="clr-namespace:Flex.UserInterface"
         mc:Ignorable="d"
@@ -25,32 +27,50 @@
                 <RowDefinition Height="30"/>
             </Grid.RowDefinitions>
 
-            <Menu Grid.Row="0" FontSize="12" Background="White">
-                <MenuItem Header="CoreNL_P">
-                    <MenuItem Header="_Hostname">
-                        <TextBox Width="100" Text="{Binding Source={x:Static CoreNLP_Properties:Settings.Default}, Path=CoreNLP_ServerHost}" TextChanged="CoreNLP_SettingChanged"/>
+            <StackPanel Grid.Row="0" Orientation="Horizontal" Name="MenuAndToolBar">
+                <Menu FontSize="12" Background="White">
+                    <MenuItem Header="CoreNL_P">
+                        <MenuItem Header="_Hostname">
+                            <TextBox Width="100" Text="{Binding Source={x:Static CoreNLP_Properties:Settings.Default}, Path=CoreNLP_ServerHost}" TextChanged="CoreNLP_SettingChanged"/>
+                        </MenuItem>
+                        <MenuItem Header="_Port">
+                            <TextBox Width="100" Text="{Binding Source={x:Static CoreNLP_Properties:Settings.Default}, Path=CoreNLP_ServerPort}" TextChanged="CoreNLP_SettingChanged"/>
+                        </MenuItem>
                     </MenuItem>
-                    <MenuItem Header="_Port">
-                        <TextBox Width="100" Text="{Binding Source={x:Static CoreNLP_Properties:Settings.Default}, Path=CoreNLP_ServerPort}" TextChanged="CoreNLP_SettingChanged"/>
+                    <MenuItem Header="SimpleNL_G">
+                        <MenuItem Header="_Hostname">
+                            <TextBox Width="100" Text="{Binding Source={x:Static SimpleNLG_Properties:Settings.Default}, Path=SimpleNLG_ServerHost}" TextChanged="SimpleNLG_SettingChanged"/>
+                        </MenuItem>
+                        <MenuItem Header="_Port">
+                            <TextBox Width="100" Text="{Binding Source={x:Static SimpleNLG_Properties:Settings.Default}, Path=SimpleNLG_ServerPort}" TextChanged="SimpleNLG_SettingChanged"/>
+                        </MenuItem>
                     </MenuItem>
-                </MenuItem>
-                <MenuItem Header="SimpleNL_G">
-                    <MenuItem Header="_Hostname">
-                        <TextBox Width="100" Text="{Binding Source={x:Static SimpleNLG_Properties:Settings.Default}, Path=SimpleNLG_ServerHost}" TextChanged="SimpleNLG_SettingChanged"/>
+                    <MenuItem Header="_WordNet">
+                        <MenuItem Header="_Hostname">
+                            <TextBox Width="100" Text="{Binding Source={x:Static WordNet_Properties:Settings.Default}, Path=WordNet_ServerHost}" TextChanged="WordNet_SettingChanged"/>
+                        </MenuItem>
+                        <MenuItem Header="_Port">
+                            <TextBox Width="100" Text="{Binding Source={x:Static WordNet_Properties:Settings.Default}, Path=WordNet_ServerPort}" TextChanged="WordNet_SettingChanged"/>
+                        </MenuItem>
                     </MenuItem>
-                    <MenuItem Header="_Port">
-                        <TextBox Width="100" Text="{Binding Source={x:Static SimpleNLG_Properties:Settings.Default}, Path=SimpleNLG_ServerPort}" TextChanged="SimpleNLG_SettingChanged"/>
+                    <MenuItem Header="Flex _Database">
+                        <MenuItem Header="_Browse" Click="BrowseDBMenuItem_Click"/>
+
+
+                        <MenuItem Header="_Hostname">
+                            <TextBox Width="100" Text="{Binding Source={x:Static FlexDB_Properties:Settings.Default}, Path=FlexDB_ServerHost}" TextChanged="FlexDB_SettingChanged"/>
+                        </MenuItem>
+                        <MenuItem Header="_Port">
+                            <TextBox Width="100" Text="{Binding Source={x:Static FlexDB_Properties:Settings.Default}, Path=FlexDB_ServerPort}" TextChanged="FlexDB_SettingChanged"/>
+                        </MenuItem>
                     </MenuItem>
-                </MenuItem>
-                <!--<MenuItem Header="_WordNet">
-                    <MenuItem Header="_Hostname">
-                        <TextBox Width="100" Text="{Binding Source={x:Static WordNet_Properties:Settings.Default}, Path=WordNet_ServerHost}" TextChanged="WordNet_SettingChanged"/>
-                    </MenuItem>
-                    <MenuItem Header="_Port">
-                        <TextBox Width="100" Text="{Binding Source={x:Static WordNet_Properties:Settings.Default}, Path=WordNet_ServerPort}" TextChanged="WordNet_SettingChanged"/>
-                    </MenuItem>
-                </MenuItem>-->
-            </Menu>
+                </Menu>
+                <ToolBar Background="Transparent">
+                    <Button Name="SaveButton" Width="22" Height="22" Click="SaveButton_Click">
+                        <Image HorizontalAlignment="Center" VerticalAlignment="Center" Source="Resources/Images/Save_16x.png"/>
+                    </Button>
+                </ToolBar>
+            </StackPanel>
 
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>

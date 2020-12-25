@@ -40,6 +40,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -152,6 +153,10 @@
       <Project>{843bde60-f30e-4921-a444-11d34c12ee10}</Project>
       <Name>Flex_ElementSelectors</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WordNetLINQ\WordNet_LINQ.csproj">
+      <Project>{2d7454e9-b9a9-4e6a-98bd-0565e12adb7a}</Project>
+      <Name>WordNet_LINQ</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\Chevron_Down.png" />
@@ -168,6 +173,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\Weight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Save_16x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="SpicNSpan" AfterTargets="Clean">
