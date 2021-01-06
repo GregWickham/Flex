@@ -11,6 +11,12 @@ namespace Flex.ElementSelectors
             Weight = 0x7FFF;
         }
 
+        public WeightedWord(string word, int weight)
+        {
+            Word = word;
+            Weight = weight;
+        }
+
         public string Word { get; set; }
 
         public int Weight { get; set; }

@@ -10,6 +10,7 @@
     <RootNamespace>Flex.Database</RootNamespace>
     <AssemblyName>Flex_Database</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <LangVersion>8.0</LangVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
@@ -52,8 +53,8 @@
       <DependentUpon>Flex.dbml</DependentUpon>
     </Compile>
     <Compile Include="FlexData.cs" />
-    <Compile Include="User Interface\FlexDB_BrowserWindow.xaml.cs">
-      <DependentUpon>FlexDB_BrowserWindow.xaml</DependentUpon>
+    <Compile Include="User Interface\FlexDB_WordBrowserWindow.xaml.cs">
+      <DependentUpon>FlexDB_WordBrowserWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -62,7 +63,15 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="FlexDataContext.cs" />
+    <Compile Include="User Interface\View Models\AdjectiveEditorViewModel.cs" />
+    <Compile Include="User Interface\View Models\AdverbEditorViewModel.cs" />
+    <Compile Include="User Interface\View Models\NounEditorViewModel.cs" />
+    <Compile Include="User Interface\View Models\VerbEditorViewModel.cs" />
     <Compile Include="User Interface\View Models\WordBuildersViewModel.cs" />
+    <Compile Include="User Interface\View Models\WordEditorViewModel.cs" />
+    <Compile Include="User Interface\WordBuilderEditor.xaml.cs">
+      <DependentUpon>WordBuilderEditor.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -80,9 +89,17 @@
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DatamuseClient\Datamuse.csproj">
+      <Project>{de8e55a2-cb22-4ea9-9e77-ae3c7dbfee5d}</Project>
+      <Name>Datamuse</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Echo\FlexibleRealization\FlexibleRealization.csproj">
       <Project>{69a075e7-46b1-4aee-b5e9-8f7da88d773a}</Project>
       <Name>FlexibleRealization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Echo\FlexibleRealization_UserInterface_WPF\FlexibleRealization_UserInterface_WPF.csproj">
+      <Project>{91b58255-572f-46a6-9e18-651845d2e97c}</Project>
+      <Name>FlexibleRealization_UserInterface_WPF</Name>
     </ProjectReference>
     <ProjectReference Include="..\Echo\SimpleNLG\SimpleNLG.csproj">
       <Project>{2df23dcb-99f7-4e02-8e59-8792b9aeeab8}</Project>
@@ -99,7 +116,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="User Interface\FlexDB_BrowserWindow.xaml">
+    <Page Include="User Interface\FlexDB_WordBrowserWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="User Interface\WordBuilderEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -109,6 +130,27 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\NewItem_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Left.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Weight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Columns.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Chevron_Up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Chevron_Down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Save_16x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="SpicNSpan" AfterTargets="Clean">

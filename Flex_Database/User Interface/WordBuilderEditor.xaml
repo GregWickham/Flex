@@ -1,11 +1,11 @@
-﻿<UserControl x:Class="Flex.UserInterface.WordSelectorControl"
+﻿<UserControl x:Class="Flex.Database.UserInterface.WordBuilderEditor"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Flex.UserInterface"
+             xmlns:local="clr-namespace:Flex.Database.UserInterface"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="240" DataContextChanged="WordSelectorControl_DataContextChanged">
+             d:DesignHeight="450" d:DesignWidth="240" DataContextChanged="WordBuilderEditor_DataContextChanged">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -19,7 +19,8 @@
             <TextBlock DockPanel.Dock="Right" Height="20" Text="{Binding Path=Selector.Default.Word}" FontSize="14" FontWeight="Bold"/>
         </DockPanel>
 
-        <ListBox Grid.Row="1" Name="Weights" ItemsSource="{Binding Actual, IsAsync=True}" HorizontalContentAlignment="Stretch" SelectionMode="Single" Visibility="Collapsed">
+        <ListBox Grid.Row="1" Name="Weights" ItemsSource="{Binding Actual, IsAsync=True}" 
+                 HorizontalContentAlignment="Stretch" SelectionMode="Single" Visibility="Collapsed">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="2">
@@ -74,10 +75,10 @@
 
             <ToolBar Grid.Row="1" Height="25" Background="WhiteSmoke">
                 <Button Background="Transparent">
-                    <Image Source="Left.png"/>
+                    <Image Source="../Resources/Images/Left.png"/>
                 </Button>
                 <Button Background="Transparent">
-                    <Image Source="Right.png"/>
+                    <Image Source="../Resources/Images/Right.png"/>
                 </Button>
 
             </ToolBar>

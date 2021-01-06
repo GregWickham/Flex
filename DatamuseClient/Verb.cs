@@ -6,7 +6,7 @@ namespace Datamuse
 {
     public static class Verb
     {
-        public static async Task<IEnumerable<string>> SynonymsFor(string adjective) => (await Client.MeaningLike(adjective))
+        public static async Task<IEnumerable<string>> SynonymsFor(string verb) => (await Client.MeaningLike(verb))
             .Where(word => word.Tags.Contains("v"))
             .OrderByDescending(word => word.Score)
             .Select(word => word.Text);

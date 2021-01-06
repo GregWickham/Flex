@@ -1,22 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Flex" Class="FlexDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
   <Connection Mode="AppSettings" ConnectionString="Data Source=38.192.14.25,49170;Initial Catalog=Flex;Persist Security Info=True;User ID=Flex" SettingsObjectName="Flex.Database.Properties.Settings" SettingsPropertyName="FlexConnectionString" Provider="System.Data.SqlClient" />
-  <Table Name="dbo.DB_WeightedWords" Member="DB_WeightedWords">
-    <Type Name="DB_WeightedWord">
-      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Word" Type="System.String" DbType="VarChar(24) NOT NULL" CanBeNull="false" />
-      <Column Name="Weight" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Builder" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="DB_WeightedWord_DB_WordBuilder" Member="DB_WordBuilders" ThisKey="ID" OtherKey="DefaultForm" Type="DB_WordBuilder" />
-      <Association Name="DB_WordBuilder_DB_WeightedWord" Member="DB_WordBuilder" ThisKey="Builder" OtherKey="ID" Type="DB_WordBuilder" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.DB_WordBuilders" Member="DB_WordBuilders">
     <Type Name="DB_WordBuilder">
       <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Lexical_Category" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
       <Column Name="DefaultForm" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="SingleWord" Type="System.String" DbType="VarChar(24)" CanBeNull="true" />
       <Association Name="DB_WordBuilder_DB_WeightedWord" Member="DB_WeightedWords" ThisKey="ID" OtherKey="Builder" Type="DB_WeightedWord" />
       <Association Name="DB_WeightedWord_DB_WordBuilder" Member="DB_WeightedWord" ThisKey="DefaultForm" OtherKey="ID" Type="DB_WeightedWord" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DB_WeightedWords" Member="DB_WeightedWords">
+    <Type Name="DB_WeightedWord">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Word" Type="System.String" DbType="VarChar(24) NOT NULL" CanBeNull="false" />
+      <Column Name="Weight" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Builder" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="DB_WeightedWord_DB_WordBuilder" Member="DB_WordBuilders" ThisKey="ID" OtherKey="DefaultForm" Type="DB_WordBuilder" />
+      <Association Name="DB_WordBuilder_DB_WeightedWord" Member="DB_WordBuilder" ThisKey="Builder" OtherKey="ID" Type="DB_WordBuilder" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

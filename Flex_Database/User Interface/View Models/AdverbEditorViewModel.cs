@@ -1,11 +1,11 @@
 ﻿using FlexibleRealization;
 using Datamuse;
 
-namespace Flex.UserInterface.ViewModels
+namespace Flex.Database.UserInterface.ViewModels
 {
-    public class AdverbSelectorViewModel : WordSelectorViewModel
+    public class AdverbEditorViewModel : WordEditorViewModel
     {
-        internal AdverbSelectorViewModel(AdverbBuilder builder) : base(builder) { }
+        internal AdverbEditorViewModel(AdverbBuilder builder) : base(builder) { }
 
         private protected override async void GetSynonymsFor(string adverb)
         {

@@ -1,11 +1,11 @@
 ﻿using FlexibleRealization;
 using Datamuse;
 
-namespace Flex.UserInterface.ViewModels
+namespace Flex.Database.UserInterface.ViewModels
 {
-    internal class VerbSelectorViewModel : WordSelectorViewModel
+    internal class VerbEditorViewModel : WordEditorViewModel
     {
-        internal VerbSelectorViewModel(VerbBuilder builder) : base(builder) { }
+        internal VerbEditorViewModel(VerbBuilder builder) : base(builder) { }
 
         private protected override async void GetSynonymsFor(string verb)
         {

@@ -25,11 +25,6 @@ namespace Flex.Database
 
         public static FlexDataContext Context { get; } = new FlexDataContext(ConnectionString);
 
-        internal static class WordElementBuilder
-        {
-            //internal static FlexibleRealization.WordElementBuilder From()
-        }
-
         //internal static class LexicalCategory
         //{
         //    internal static int Mapping(lexicalCategory category) => Mappings[category];

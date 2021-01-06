@@ -7,9 +7,9 @@ using System.Windows.Media;
 using SimpleNLG;
 using FlexibleRealization;
 using FlexibleRealization.UserInterface;
-using Flex.UserInterface.ViewModels;
 using Flex.Database;
 using Flex.Database.UserInterface;
+using Flex.Database.UserInterface.ViewModels;
 
 namespace Flex.UserInterface
 {
@@ -19,21 +19,18 @@ namespace Flex.UserInterface
         public FlexWindow()
         {
             InitializeComponent();
-            GraphEditor.ElementBuilderSelected += GraphEditor_ElementBuilderSelected;
-            GraphEditor.RealizationFailed += GraphEditor_RealizationFailed;
-            GraphEditor.TextRealized += GraphEditor_TextRealized;
             VariationsWindow.Closing += VariationsWindow_Closing;
         }
 
-        private void GraphEditor_ElementBuilderSelected(ElementBuilder selectedBuilder)
+        private void TreeEditor_SelectedBuilderChanged()
         {
-            switch (selectedBuilder)
+            switch (TreeEditor.SelectedBuilder)
             {
                 case WordElementBuilder word:
-                    WordSelectorViewModel viewModel = WordSelectorViewModel.For(word);
+                    WordEditorViewModel viewModel = WordEditorViewModel.For(word);
                     if (viewModel != null)
                     {
-                        WordSelectorConfiguratior.ViewModel = viewModel;
+                        WordEditor.ViewModel = viewModel;
                         ShowWordConfigurator();
                     }
                     else HideConfigurators();
@@ -46,13 +43,13 @@ namespace Flex.UserInterface
             // Adjusting the Window Width prevents the GraphEditor from being re-laid out which can mess up vertex positions
             void HideConfigurators()
             {
-                if (WordSelectorConfiguratior.Visibility == Visibility.Visible)
+                if (WordEditor.Visibility == Visibility.Visible)
                 {
                     // Suspend layout while doing this stuff
                     using (var d = Dispatcher.DisableProcessing())
                     {
-                        Width = Width - WordSelectorConfiguratior.Width;
-                        WordSelectorConfiguratior.Visibility = Visibility.Collapsed;
+                        Width = Width - WordEditor.Width;
+                        WordEditor.Visibility = Visibility.Collapsed;
                     }
                 }
             }
@@ -60,27 +57,27 @@ namespace Flex.UserInterface
             // Adjusting the Window Width prevents the GraphEditor from being re-laid out which can mess up vertex positions
             void ShowWordConfigurator()
             {
-                if (WordSelectorConfiguratior.Visibility == Visibility.Collapsed)
+                if (WordEditor.Visibility == Visibility.Collapsed)
                 {
                     // Suspend layout while doing this stuff
                     using (var d = Dispatcher.DisableProcessing())
                     {
-                        Width = Width + WordSelectorConfiguratior.Width;
-                        WordSelectorConfiguratior.Visibility = Visibility.Visible;
+                        Width = Width + WordEditor.Width;
+                        WordEditor.Visibility = Visibility.Visible;
                     }
                 }
             }
         }
 
-        /// <summary>This event handler is called when the GraphEditor has successfully realized some text</summary>
-        private void GraphEditor_TextRealized(string realizedText)
+        /// <summary>This event handler is called when the TreeEditor has successfully realized some text</summary>
+        private void TreeEditor_TextRealized(string realizedText)
         {
             realizedTextBox.Background = Brushes.WhiteSmoke;
             realizedTextBox.Text = realizedText;
         }
 
-        /// <summary>This event handler is called when the GraphEditor has tried to realize an IElementTreeNode, but failed</summary>
-        private void GraphEditor_RealizationFailed(IElementTreeNode failed)
+        /// <summary>This event handler is called when the TreeEditor has tried to realize an IElementTreeNode, but failed</summary>
+        private void TreeEditor_RealizationFailed(IElementTreeNode failed)
         {
             realizedTextBox.Background = RealizeFailedBrush;
             realizedTextBox.Text = "";
@@ -88,13 +85,6 @@ namespace Flex.UserInterface
 
         /// <summary>A color representing that realization has failed</summary>
         private static Brush RealizeFailedBrush = new SolidColorBrush(Color.FromArgb(100, 254, 0, 0));
-
-        protected override void OnClosing(CancelEventArgs e)
-        {
-            GraphEditor.ElementBuilderSelected -= GraphEditor_ElementBuilderSelected;
-            GraphEditor.RealizationFailed -= GraphEditor_RealizationFailed;
-            GraphEditor.TextRealized -= GraphEditor_TextRealized;
-        }
 
         private readonly VariationsListWindow VariationsWindow = new VariationsListWindow();
 
@@ -111,14 +101,34 @@ namespace Flex.UserInterface
         /// <summary>When the user changes a setting for the WordNet server, save its settings</summary>
         private void WordNet_SettingChanged(object sender, System.Windows.Controls.TextChangedEventArgs e) => WordNet.Linq.Properties.Settings.Default.Save();
 
-        /// <summary>The user wants to browse the Flex Database</summary>
-        private void BrowseDBMenuItem_Click(object sender, RoutedEventArgs e) => new FlexDB_BrowserWindow().Show();
+        /// <summary>The user wants to browse words in the Flex Database</summary>
+        private void BrowseWordsMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            FlexDB_WordBrowserWindow wordBrowserWindow = new FlexDB_WordBrowserWindow();
+            wordBrowserWindow.Closing += WordBrowserWindow_Closing;
+            wordBrowserWindow.ElementDragStarted += TreeEditor.ElementGraphArea.OnElementDragStarted;
+            wordBrowserWindow.ElementDragCancelled += TreeEditor.ElementGraphArea.OnElementDragCancelled;
+            wordBrowserWindow.ElementDropCompleted += TreeEditor.ElementGraphArea.OnElementDropCompleted;
+            wordBrowserWindow.Show();
+        }
+
+        private void WordBrowserWindow_Closing(object sender, CancelEventArgs e)
+        {
+            FlexDB_WordBrowserWindow wordBrowserWindow = (FlexDB_WordBrowserWindow)sender;
+            wordBrowserWindow.Closing -= WordBrowserWindow_Closing;
+            wordBrowserWindow.ElementDragStarted -= TreeEditor.ElementGraphArea.OnElementDragStarted;
+            wordBrowserWindow.ElementDragCancelled -= TreeEditor.ElementGraphArea.OnElementDragCancelled;
+            wordBrowserWindow.ElementDropCompleted -= TreeEditor.ElementGraphArea.OnElementDropCompleted;
+        }
+
+        /// <summary>The user wants to browse words in the Flex Database</summary>
+        private void BrowsePhrasesMenuItem_Click(object sender, RoutedEventArgs e) => new FlexDB_WordBrowserWindow().Show();
 
         /// <summary>When the user changes a setting for the WordNet server, save its settings</summary>
         private void FlexDB_SettingChanged(object sender, System.Windows.Controls.TextChangedEventArgs e) => Flex.Database.Properties.Settings.Default.Save();
 
         /// <summary>Save the selected ElementBuilder to the Flex database</summary>
-        private void SaveButton_Click(object sender, RoutedEventArgs e) => FlexData.Context.Save(GraphEditor.SelectedBuilder);
+        private void SaveButton_Click(object sender, RoutedEventArgs e) => FlexData.Context.Save(TreeEditor.SelectedBuilder);
 
         /// <summary>If there's text in the inputTextBox, parse it</summary>
         private void parseButton_Click(object sender, RoutedEventArgs e)
@@ -127,7 +137,7 @@ namespace Flex.UserInterface
         }
 
         /// <summary>Send <paramref name="text"/> to the GraphEditor</summary>
-        private void HandleTextInput(string text) => GraphEditor.ParseText(text);
+        private void HandleTextInput(string text) => TreeEditor.ParseText(text);
 
         /// <summary>The user has entered some text in the inputTextBox</summary>
         private void inputTextBox_TextInput(object sender, TextCompositionEventArgs e) => HandleTextInput(e.Text);
@@ -142,7 +152,7 @@ namespace Flex.UserInterface
                 VariationsWindow.Show();
                 VariationsWindowIsShowing = true;
             }
-            foreach (IElementTreeNode eachRealizableVariation in GraphEditor.SelectedBuilder.GetRealizableVariations())
+            foreach (IElementTreeNode eachRealizableVariation in TreeEditor.SelectedBuilder.GetRealizableVariations())
             {
                 TryToRealizeVariation(eachRealizableVariation);
             }

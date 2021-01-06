@@ -6,22 +6,22 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using Flex.ElementSelectors;
-using Flex.UserInterface.ViewModels;
+using Flex.Database.UserInterface.ViewModels;
 
-namespace Flex.UserInterface
+namespace Flex.Database.UserInterface
 {
     /// <summary>Interaction logic for WordAlternativesSelector.xaml</summary>
-    public partial class WordSelectorControl : UserControl
+    public partial class WordBuilderEditor : UserControl
     {
-        public WordSelectorControl()
+        public WordBuilderEditor()
         {
             InitializeComponent();
             ExpandCollapsePotentialControlImage.Source = ExpandImage;
             WeightsOrColumnsImage.Source = WeightsImage;
         }
 
-        private WordSelectorViewModel viewModel;
-        internal WordSelectorViewModel ViewModel
+        private WordEditorViewModel viewModel;
+        public WordEditorViewModel ViewModel
         {
             get => viewModel;
             set
@@ -31,9 +31,9 @@ namespace Flex.UserInterface
             }
         }
 
-        private void WordSelectorControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private void WordBuilderEditor_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            ViewModel.Initialize();
+            ViewModel?.Initialize();
         }
 
         private void PotentialList_KeyUp(object sender, KeyEventArgs e)
@@ -59,9 +59,9 @@ namespace Flex.UserInterface
             ViewModel.SetPivot(doubleClickedString);
         }
 
-        private BitmapImage ExpandImage = new BitmapImage(new Uri("/Resources/Images/Chevron_Up.png", UriKind.Relative));
+        private BitmapImage ExpandImage = new BitmapImage(new Uri("../Resources/Images/Chevron_Up.png", UriKind.Relative));
 
-        private BitmapImage CollapseImage = new BitmapImage(new Uri("/Resources/Images/Chevron_Down.png", UriKind.Relative));
+        private BitmapImage CollapseImage = new BitmapImage(new Uri("../Resources/Images/Chevron_Down.png", UriKind.Relative));
 
         private void ExpandCollapsePotentialControlButton_Checked(object sender, RoutedEventArgs e)
         {
@@ -75,9 +75,9 @@ namespace Flex.UserInterface
             PotentialControlPanel.Visibility = Visibility.Collapsed;
         }
 
-        private BitmapImage WeightsImage = new BitmapImage(new Uri("/Resources/Images/Weight.png", UriKind.Relative));
+        private BitmapImage WeightsImage = new BitmapImage(new Uri("../Resources/Images/Weight.png", UriKind.Relative));
 
-        private BitmapImage ColumnsImage = new BitmapImage(new Uri("/Resources/Images/Columns.png", UriKind.Relative));
+        private BitmapImage ColumnsImage = new BitmapImage(new Uri("../Resources/Images/Columns.png", UriKind.Relative));
 
         private void WeightsOrColumnsButton_Checked(object sender, RoutedEventArgs e)
         {
@@ -91,6 +91,11 @@ namespace Flex.UserInterface
             WeightsOrColumnsImage.Source = WeightsImage;
             Weights.Visibility = Visibility.Collapsed;
             Columns.Visibility = Visibility.Visible;
+        }
+
+        private void Weights_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
         }
     }
 }

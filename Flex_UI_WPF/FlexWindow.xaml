@@ -8,9 +8,9 @@
         xmlns:WordNet_Properties="clr-namespace:WordNet.Linq.Properties;assembly=WordNet_LINQ"    
         xmlns:FlexDB_Properties="clr-namespace:Flex.Database.Properties;assembly=Flex_Database"   
         xmlns:graphEditor="clr-namespace:FlexibleRealization.UserInterface;assembly=FlexibleRealization_UserInterface_WPF"
-        xmlns:local="clr-namespace:Flex.UserInterface"
+        xmlns:flexDB="clr-namespace:Flex.Database.UserInterface;assembly=Flex_Database"
         mc:Ignorable="d"
-        Title="Flex Editor for English" Height="600" Width="960" >
+        Title="Flex Editor for English" Height="600" Width="960">
     
     <Grid>
         <Grid.ColumnDefinitions>
@@ -21,7 +21,7 @@
 
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="20"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="30"/>
@@ -54,9 +54,9 @@
                         </MenuItem>
                     </MenuItem>
                     <MenuItem Header="Flex _Database">
-                        <MenuItem Header="_Browse" Click="BrowseDBMenuItem_Click"/>
-
-
+                        <MenuItem Header="Browse _Words" Click="BrowseWordsMenuItem_Click"/>
+                        <MenuItem Header="Browse _Phrases" Click="BrowsePhrasesMenuItem_Click"/>
+                        <Separator/>
                         <MenuItem Header="_Hostname">
                             <TextBox Width="100" Text="{Binding Source={x:Static FlexDB_Properties:Settings.Default}, Path=FlexDB_ServerHost}" TextChanged="FlexDB_SettingChanged"/>
                         </MenuItem>
@@ -84,7 +84,8 @@
                 <Button Grid.Column="1" Name="parseButton" Content="Parse" Margin="0 4 4 4" Padding="8 0 8 0" Click="parseButton_Click"/>
             </Grid>
 
-            <graphEditor:ElementBuilderGraphEditor Grid.Row="2" Name="GraphEditor" />
+            <graphEditor:ElementBuilderTreeEditor Grid.Row="2" Name="TreeEditor" 
+                SelectedBuilderChanged="TreeEditor_SelectedBuilderChanged" RealizationFailed="TreeEditor_RealizationFailed" TextRealized="TreeEditor_TextRealized"/>
 
             <Grid Grid.Row="3">
                 <Grid.ColumnDefinitions>
@@ -101,7 +102,7 @@
 
         <GridSplitter Grid.Column="1" Width="2" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
 
-        <local:WordSelectorControl x:Name="WordSelectorConfiguratior" Grid.Column="2" Height="Auto" Width="240" Visibility="Collapsed"/>
+        <flexDB:WordBuilderEditor x:Name="WordEditor" Grid.Column="2" Height="Auto" Width="240" Visibility="Collapsed"/>
 
     </Grid>
 

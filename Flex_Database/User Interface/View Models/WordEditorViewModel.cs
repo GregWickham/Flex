@@ -7,22 +7,22 @@ using System.Windows.Input;
 using FlexibleRealization;
 using Flex.ElementSelectors;
 
-namespace Flex.UserInterface.ViewModels
+namespace Flex.Database.UserInterface.ViewModels
 {
-    public abstract class WordSelectorViewModel : INotifyPropertyChanged
+    public abstract class WordEditorViewModel : INotifyPropertyChanged
     {
         /// <summary>Return an instance of the appropriate view model for <paramref name="builder"/>, or null if there is no such view model</summary>
-        public static WordSelectorViewModel For(WordElementBuilder builder) => builder switch
+        public static WordEditorViewModel For(WordElementBuilder builder) => builder switch
         {
-            NounBuilder noun => new NounSelectorViewModel(noun),
-            VerbBuilder verb => new VerbSelectorViewModel(verb),
-            AdjectiveBuilder adjective => new AdjectiveSelectorViewModel(adjective), 
-            AdverbBuilder adverb => new AdverbSelectorViewModel(adverb),
+            NounBuilder noun => new NounEditorViewModel(noun),
+            VerbBuilder verb => new VerbEditorViewModel(verb),
+            AdjectiveBuilder adjective => new AdjectiveEditorViewModel(adjective), 
+            AdverbBuilder adverb => new AdverbEditorViewModel(adverb),
             _ => null
         };
 
         /// <summary>Check to see if <paramref name="builder"/> is already configured with a WordSelector as its WordSource.  If not, swap out the existing SingleWordSource for a WordSelector.</summary>
-        private protected WordSelectorViewModel(WordElementBuilder builder)
+        private protected WordEditorViewModel(WordElementBuilder builder)
         {
             switch (builder.WordSource)
             {

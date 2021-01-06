@@ -7,10 +7,19 @@ namespace Flex.ElementSelectors
 {
     public class WordSelector : IWordSource
     {
-        public WordSelector(string word) 
+        public WordSelector(string defaultWord) 
         { 
-            Default = new WeightedWord(word);
+            Default = new WeightedWord(defaultWord);
             Alternates = new List<WeightedWord>();
+            Current = Default;
+        }
+
+        /// <summary>This constructor is used when loading a WordSelector from the database</summary>
+        public WordSelector(WeightedWord defaultWeightedWord, IEnumerable<WeightedWord> alternates)
+        {
+            Default = defaultWeightedWord;
+            Alternates = new List<WeightedWord>();
+            Alternates.AddRange(alternates);
             Current = Default;
         }
 

@@ -1,11 +1,11 @@
 ﻿using FlexibleRealization;
 using Datamuse;
 
-namespace Flex.UserInterface.ViewModels
+namespace Flex.Database.UserInterface.ViewModels
 {
-    internal class AdjectiveSelectorViewModel : WordSelectorViewModel
+    internal class AdjectiveEditorViewModel : WordEditorViewModel
     {
-        internal AdjectiveSelectorViewModel(AdjectiveBuilder builder) : base(builder) { }
+        internal AdjectiveEditorViewModel(AdjectiveBuilder builder) : base(builder) { }
 
         private protected override async void GetSynonymsFor(string adjective)
         {

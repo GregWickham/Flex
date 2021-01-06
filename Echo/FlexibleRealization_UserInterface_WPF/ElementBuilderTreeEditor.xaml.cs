@@ -4,33 +4,27 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Xml.Linq;
-using GraphX.Controls;using GraphX.Controls.Models;
-using SimpleNLG;
+using GraphX.Controls;
 using FlexibleRealization.UserInterface.ViewModels;
 
 namespace FlexibleRealization.UserInterface
 {
-    public delegate void ElementBuilderSelected_EventHandler(ElementBuilder selectedBuilder);
-
     public delegate void RealizationFailed_EventHandler(IElementTreeNode failedBuilder);
 
     public delegate void TextRealized_EventHandler(string realizedText);
 
     /// <summary>Interaction logic for ElementBuilderGraphEditor.xaml</summary>
-    public partial class ElementBuilderGraphEditor : UserControl, INotifyPropertyChanged
+    public partial class ElementBuilderTreeEditor : UserControl, INotifyPropertyChanged
     {
-        public ElementBuilderGraphEditor()
+        public ElementBuilderTreeEditor()
         {
             InitializeComponent();
             ZoomControl.SetViewFinderVisibility(ZoomCtrl, Visibility.Hidden);
-            ElementGraphArea.VertexSelected += GraphArea_VertexSelected;
-            Loaded += ElementBuilderGraphEditor_Loaded;
         }
 
         /// <summary>Hook a handler to the containing <see cref="Window"/>'s Closing event</summary>
-        private void ElementBuilderGraphEditor_Loaded(object sender, RoutedEventArgs e)
+        private void ElementBuilderTreeEditor_Loaded(object sender, RoutedEventArgs e)
         {
             if (!DesignerProperties.GetIsInDesignMode(this))
             {
@@ -45,8 +39,7 @@ namespace FlexibleRealization.UserInterface
         /// <summary>Tear down this ElementBuilderGraphEditor</summary>
         private void Window_Closing(object sender, CancelEventArgs e)
         {
-            ElementGraphArea.VertexSelected -= GraphArea_VertexSelected;
-            Loaded -= ElementBuilderGraphEditor_Loaded;
+            Loaded -= ElementBuilderTreeEditor_Loaded;
             Window.GetWindow(this).Closing -= Window_Closing;
         }
 
@@ -65,13 +58,21 @@ namespace FlexibleRealization.UserInterface
             ElementBuilderGraph graph = ElementBuilderGraphFactory.GraphOf(elementBuilderTree);
             ElementGraphArea.LogicCore = new ElementBuilderLogicCore(graph);
             ElementGraphArea.GenerateGraph(true, true);
-            ElementDescription.DataContext = ElementGraphArea;
-            Properties.DataContext = ElementGraphArea;
+            ElementDescription.DataContext = this;
+            Properties.DataContext = this;
             XmlLabel.DataContext = this;
+            // I think the animation looks cool when we put a new tree in the GraphArea, but we don't want to trigger that animation every
+            // time the selected vertex changes.
             ZoomCtrl.IsAnimationEnabled = true;
             ZoomCtrl.ZoomToFill();
             ZoomCtrl.IsAnimationEnabled = false;
         }
+
+        /// <summary>Monitored by the ElementDescription TextBlock to display the description of the selected vertex's element</summary>
+        public string SelectedElementDescription => SelectedElementProperties?.Description ?? "";
+
+        /// <summary>Monitored by the PropertyGrid control to decide which element's properties to display</summary>
+        public ElementProperties SelectedElementProperties { get; private set; }
 
         /// <summary>The tree is notifying us that its structure has changed</summary>
         private void ElementBuilderTree_TreeStructureChanged(RootNode root) => SetModel(root.Tree);
@@ -144,86 +145,25 @@ namespace FlexibleRealization.UserInterface
             TryToRealize(node);
         }
 
-        public ElementBuilder SelectedBuilder { get; private set; }
+        /// <summary>SelectedBuilder is controlled by the ElementGraphArea</summary>
+        public ElementBuilder SelectedBuilder => ElementGraphArea.SelectedBuilder;
 
-        /// <summary>If the selected ElementVertex has an associated ElementBuilder, notify listeners of the selection</summary>
-        private void GraphArea_VertexSelected(object sender, VertexSelectedEventArgs args)
+        private void GraphArea_SelectedBuilderChanged()
         {
-            ElementVertex selectedVertex = (ElementVertex)args.VertexControl.Vertex;
-            switch (selectedVertex)
-            {
-                case ParentElementVertex pev:
-                    SelectedBuilder = pev.Builder;
-                    OnElementBuilderSelected(pev.Builder);
-                    break;
-                case WordPartOfSpeechVertex wpsv:
-                    SelectedBuilder = wpsv.Builder;
-                    OnElementBuilderSelected(wpsv.Builder);
-                    break;
-                default: break;
-            }
-            if (args.MouseArgs.RightButton == MouseButtonState.Pressed)
-            {
-                if (SelectedBuilder != null)
-                {
-                    SetDropTargetsFor(SelectedBuilder);
-                    DragDrop.DoDragDrop(args.VertexControl, SelectedBuilder, DragDropEffects.Move);
-                }
-            }
-
-            // Configure the appropriate vertexes to be drop targets for the supplied ElementBuilder
-            void SetDropTargetsFor(ElementBuilder builder)
-            {
-                foreach (KeyValuePair<ElementVertex, VertexControl> eachKVP in ElementGraphArea.VertexList)
-                {
-                    eachKVP.Value.PreviewDrop -= VertexControl_PreviewDrop;
-                    if (eachKVP.Key is ParentElementVertex pev && pev.Model.CanAddChild(builder))
-                    {
-                        eachKVP.Value.AllowDrop = true;
-                        eachKVP.Value.PreviewDrop += VertexControl_PreviewDrop;
-                    }
-                    else eachKVP.Value.AllowDrop = false;
-                }
-            }
+            SetSelectedElementProperties(ElementProperties.For(SelectedBuilder));
+            TryToRealize(SelectedBuilder);
+            SelectedBuilderChanged?.Invoke();
         }
 
-        /// <summary>Configure all vertexes to NOT be drop targets</summary>
-        private void ClearDropTargets()
+        private void SetSelectedElementProperties(ElementProperties properties)
         {
-            foreach (KeyValuePair<ElementVertex, VertexControl> eachKVP in ElementGraphArea.VertexList)
-            {
-                eachKVP.Value.PreviewDrop -= VertexControl_PreviewDrop;
-                eachKVP.Value.AllowDrop = false;
-            }
-        }
-
-        /// <summary>A vertex drag has ended with a drop</summary>
-        private void VertexControl_PreviewDrop(object sender, DragEventArgs e)
-        {
-            ClearDropTargets();
-            VertexControl dropTarget = (VertexControl)sender;
-            ElementVertex targetVertex = (ElementVertex)dropTarget.Vertex;
-            string[] formats = e.Data.GetFormats();
-            string droppedBuilderFormat = formats[0];
-            if (e.Data.GetDataPresent(droppedBuilderFormat))
-            {
-                IElementTreeNode dropped = (IElementTreeNode)e.Data.GetData(droppedBuilderFormat);
-                if (targetVertex is ParentElementVertex parentVertex)
-                {
-                    ParentElementBuilder target = parentVertex.Model;
-                    dropped.MoveTo(target);
-                    SelectNode(target);
-                }
-            }
+            SelectedElementProperties = properties;
+            OnPropertyChanged("SelectedElementProperties");
+            OnPropertyChanged("SelectedElementDescription");
         }
 
         /// <summary>Register for this event to be notified when an ElementBuilder is selected in the graph</summary>
-        public event ElementBuilderSelected_EventHandler ElementBuilderSelected;
-        private void OnElementBuilderSelected(ElementBuilder builder)
-        {
-            ElementBuilderSelected?.Invoke(builder);
-            TryToRealize(builder);
-        }
+        public event SelectedBuilderChanged_EventHandler SelectedBuilderChanged;
 
         /// <summary>Notify listeners that this ElementBuilderGraphEditor has failed to realize text for an ElementBuilder</summary>
         public event RealizationFailed_EventHandler RealizationFailed;
@@ -232,7 +172,6 @@ namespace FlexibleRealization.UserInterface
         /// <summary>Notify listeners that this ElementBuilderGraphEditor has successfully realized some text</summary>
         public event TextRealized_EventHandler TextRealized;
         private void OnTextRealized(string realizedText) => TextRealized?.Invoke(realizedText);
-
 
         #region Standard implementation of INotifyPropertyChanged
 
