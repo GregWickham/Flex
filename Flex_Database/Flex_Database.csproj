@@ -10,7 +10,7 @@
     <RootNamespace>Flex.Database</RootNamespace>
     <AssemblyName>Flex_Database</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>9.0</LangVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
@@ -53,7 +53,14 @@
       <DependentUpon>Flex.dbml</DependentUpon>
     </Compile>
     <Compile Include="FlexData.cs" />
-    <Compile Include="User Interface\FlexDB_WordBrowserWindow.xaml.cs">
+    <Compile Include="FlexDataContext_Parents.cs" />
+    <Compile Include="FlexDataContext_Words.cs" />
+    <Compile Include="User Interface\Parents\FlexDB_ParentBrowserWindow.xaml.cs">
+      <DependentUpon>FlexDB_ParentBrowserWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="User Interface\Parents\View Models\ParentBuildersViewModel.cs" />
+    <Compile Include="User Interface\Parents\View Models\ParentViewModel.cs" />
+    <Compile Include="User Interface\Words\FlexDB_WordBrowserWindow.xaml.cs">
       <DependentUpon>FlexDB_WordBrowserWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -63,13 +70,13 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="FlexDataContext.cs" />
-    <Compile Include="User Interface\View Models\AdjectiveEditorViewModel.cs" />
-    <Compile Include="User Interface\View Models\AdverbEditorViewModel.cs" />
-    <Compile Include="User Interface\View Models\NounEditorViewModel.cs" />
-    <Compile Include="User Interface\View Models\VerbEditorViewModel.cs" />
-    <Compile Include="User Interface\View Models\WordBuildersViewModel.cs" />
-    <Compile Include="User Interface\View Models\WordEditorViewModel.cs" />
-    <Compile Include="User Interface\WordBuilderEditor.xaml.cs">
+    <Compile Include="User Interface\Words\View Models\AdjectiveEditorViewModel.cs" />
+    <Compile Include="User Interface\Words\View Models\AdverbEditorViewModel.cs" />
+    <Compile Include="User Interface\Words\View Models\NounEditorViewModel.cs" />
+    <Compile Include="User Interface\Words\View Models\VerbEditorViewModel.cs" />
+    <Compile Include="User Interface\Words\View Models\WordBuildersViewModel.cs" />
+    <Compile Include="User Interface\Words\View Models\WordEditorViewModel.cs" />
+    <Compile Include="User Interface\Words\WordBuilderEditor.xaml.cs">
       <DependentUpon>WordBuilderEditor.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -111,16 +118,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Flex.dbml.layout">
-      <DependentUpon>Flex.dbml</DependentUpon>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="User Interface\FlexDB_WordBrowserWindow.xaml">
+    <Page Include="User Interface\Parents\FlexDB_ParentBrowserWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="User Interface\WordBuilderEditor.xaml">
+    <Page Include="User Interface\Words\FlexDB_WordBrowserWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="User Interface\Words\WordBuilderEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -151,6 +157,14 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\Save_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Flex.dbml.layout">
+      <DependentUpon>Flex.dbml</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Database Elements\Parents\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="SpicNSpan" AfterTargets="Clean">

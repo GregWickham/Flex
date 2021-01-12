@@ -1,11 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using SimpleNLG;
+using FlexibleRealization;
 
 namespace Flex.Database
 {
-    public static class FlexData
+    public static partial class FlexData
     {
         private static string ConnectionString
         {
@@ -25,28 +27,106 @@ namespace Flex.Database
 
         public static FlexDataContext Context { get; } = new FlexDataContext(ConnectionString);
 
-        //internal static class LexicalCategory
-        //{
-        //    internal static int Mapping(lexicalCategory category) => Mappings[category];
+        internal enum ElementType
+        {
+            None = 0,
+            DB_Element = 1,
+            DB_WordElement = 2,
+            DB_ParentElement = 3
+        }
 
-        //    internal static lexicalCategory FromMapping(int mapping) => Mappings.FirstOrDefault(kvp => kvp.Value == mapping).Key;
+        internal static class Word
+        {
+            internal static byte TypeOf(WordElementBuilder word) => word switch
+            {
 
-        //    private static readonly Dictionary<lexicalCategory, int> Mappings = new Dictionary<lexicalCategory, int>
-        //    {
-        //        { lexicalCategory.ANY, 1 },
-        //        { lexicalCategory.SYMBOL, 2 },
-        //        { lexicalCategory.NOUN, 3 },
-        //        { lexicalCategory.ADJECTIVE, 4 },
-        //        { lexicalCategory.ADVERB, 5 },
-        //        { lexicalCategory.VERB, 6 },
-        //        { lexicalCategory.DETERMINER, 7 },
-        //        { lexicalCategory.PRONOUN, 8 },
-        //        { lexicalCategory.CONJUNCTION, 9 },
-        //        { lexicalCategory.PREPOSITION, 10 },
-        //        { lexicalCategory.COMPLEMENTISER, 11 },
-        //        { lexicalCategory.MODAL, 12 },
-        //        { lexicalCategory.AUXILIARY, 13 }
-        //    };
-        //}
+                WhAdverbBuilder => 1,
+                WhDeterminerBuilder => 2,
+
+                AdjectiveBuilder => 17,
+                AdverbBuilder => 18,
+                ConjunctionBuilder => 19,
+                DeterminerBuilder => 20,
+                ModalBuilder => 21,
+                NounBuilder => 22,
+                ParticleBuilder => 23,
+                PrepositionBuilder => 24,
+                PronounBuilder => 25,
+                VerbBuilder => 26,
+
+                _ => throw new InvalidOperationException("Unrecognized WordElementBuilder type")
+            };
+
+            internal static WordElementBuilder ElementOfType(byte wordType) => wordType switch
+            {
+                1 => new WhAdverbBuilder(),
+                2 => new WhDeterminerBuilder(),
+
+                17 => new AdjectiveBuilder(),
+                18 => new AdverbBuilder(),
+                19 => new ConjunctionBuilder(),
+                20 => new DeterminerBuilder(),
+                21 => new ModalBuilder(),
+                22 => new NounBuilder(),
+                23 => new ParticleBuilder(),
+                24 => new PrepositionBuilder(),
+                25 => new PronounBuilder(),
+                26 => new VerbBuilder(),
+
+                _ => throw new InvalidOperationException("Unrecognized WordElementBuilder type")
+            };
+
+            internal static Dictionary<int, WordElementBuilder> Cache = new Dictionary<int, WordElementBuilder>();
+        }
+
+        internal static class Parent
+        {
+            internal static byte TypeOf(ParentElementBuilder parent) => parent switch
+            {
+                // Clauses
+                IndependentClauseBuilder => 1,
+                SubordinateClauseBuilder => 2,
+
+                // Phrases
+                NounPhraseBuilder => 17,
+                VerbPhraseBuilder => 18,
+                AdjectivePhraseBuilder => 19,
+                AdverbPhraseBuilder => 20,
+                PrepositionalPhraseBuilder => 21,
+
+                _ => throw new InvalidOperationException("Unrecognized ParentElementBuilder type")
+            };
+
+            internal static ParentElementBuilder ElementOfType(byte parentType) => parentType switch
+            {
+                1 => new IndependentClauseBuilder(),
+                2 => new SubordinateClauseBuilder(),
+
+                17 => new NounPhraseBuilder(),
+                18 => new VerbPhraseBuilder(),
+                19 => new AdjectivePhraseBuilder(),
+                20 => new AdverbPhraseBuilder(),
+                21 => new PrepositionalPhraseBuilder(),
+
+                _ => throw new InvalidOperationException("Unrecognized ParentElementBuilder type")
+            };
+
+            internal static string TypeDescriptionFor(ParentElementBuilder parent) => parent switch
+            {
+                // Clauses
+                IndependentClauseBuilder => "Independent Clause",
+                SubordinateClauseBuilder => "Subordinate Clause",
+
+                // Phrases
+                NounPhraseBuilder => "Noun Phrase",
+                VerbPhraseBuilder => "Verb Phrase",
+                AdjectivePhraseBuilder => "Adjective Phrase",
+                AdverbPhraseBuilder => "Adverb Phrase",
+                PrepositionalPhraseBuilder => "Prepositional Phrase",
+
+                _ => throw new InvalidOperationException("No type description for this ParentElementBuilder")
+            };
+        }
+
     }
 }

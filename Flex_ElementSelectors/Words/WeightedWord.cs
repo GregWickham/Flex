@@ -2,22 +2,22 @@
 
 namespace Flex.ElementSelectors
 {
-    [DebuggerDisplay("{Word}")]
+    [DebuggerDisplay("{Text}")]
     public class WeightedWord
     {
         public WeightedWord(string word)
         {
-            Word = word;
+            Text = word;
             Weight = 0x7FFF;
         }
 
         public WeightedWord(string word, int weight)
         {
-            Word = word;
+            Text = word;
             Weight = weight;
         }
 
-        public string Word { get; set; }
+        public string Text { get; set; }
 
         public int Weight { get; set; }
 

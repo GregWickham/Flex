@@ -16,7 +16,7 @@ namespace Flex.Database.UserInterface.ViewModels
 
         private async void LoadWords()
         {
-            VisibleWords = await FlexData.Context.LoadAllWordBuilders();
+            VisibleWords = await FlexData.Context.LoadAllWordsAsync();
             OnPropertyChanged("VisibleWords");
         }
 

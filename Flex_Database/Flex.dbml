@@ -1,23 +1,62 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Flex" Class="FlexDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
   <Connection Mode="AppSettings" ConnectionString="Data Source=38.192.14.25,49170;Initial Catalog=Flex;Persist Security Info=True;User ID=Flex" SettingsObjectName="Flex.Database.Properties.Settings" SettingsPropertyName="FlexConnectionString" Provider="System.Data.SqlClient" />
-  <Table Name="dbo.DB_WordBuilders" Member="DB_WordBuilders">
-    <Type Name="DB_WordBuilder">
+  <Table Name="dbo.DB_Elements" Member="DB_Elements">
+    <Type Name="DB_Element" InheritanceCode="1" IsInheritanceDefault="true">
       <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Lexical_Category" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
-      <Column Name="DefaultForm" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="SingleWord" Type="System.String" DbType="VarChar(24)" CanBeNull="true" />
-      <Association Name="DB_WordBuilder_DB_WeightedWord" Member="DB_WeightedWords" ThisKey="ID" OtherKey="Builder" Type="DB_WeightedWord" />
-      <Association Name="DB_WeightedWord_DB_WordBuilder" Member="DB_WeightedWord" ThisKey="DefaultForm" OtherKey="ID" Type="DB_WeightedWord" IsForeignKey="true" />
+      <Column Name="ElementType" Type="System.Byte" DbType="TinyInt" CanBeNull="true" IsDiscriminator="true" />
+      <Association Name="DB_Element_DB_WeightedWord" Member="DB_WeightedWords" ThisKey="ID" OtherKey="WordElement" Type="DB_WeightedWord" />
+      <Association Name="DB_Element_DB_ParentChildRelation" Member="DB_ParentChildRelations" ThisKey="ID" OtherKey="Child" Type="DB_ParentChildRelation" />
+      <Association Name="DB_Element_DB_ParentChildRelation1" Member="DB_ParentChildRelations1" ThisKey="ID" OtherKey="Parent" Type="DB_ParentChildRelation" />
+      <Type Name="DB_WordElement" InheritanceCode="2">
+        <Column Name="WordType" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+        <Column Name="DefaultWeightedWord" Type="System.Int32" DbType="Int" CanBeNull="true" />
+        <Column Name="SingleWord" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      </Type>
+      <Type Name="DB_ParentElement" InheritanceCode="3">
+        <Column Name="ParentType" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+        <Column Name="ParentDefaultRealization" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+        <Column Name="DiscourseFunction" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+        <Column Name="Appositive" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+        <Column Name="AdjectiveOrdering" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+        <Column Name="AggregateAuxiliary" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+        <Column Name="Complementizer" Type="System.String" DbType="VarChar(24)" CanBeNull="true" />
+        <Column Name="Elided" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+        <Column Name="Form" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+        <Column Name="Gender" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+        <Column Name="InterrogativeType" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+        <Column Name="IsComparative" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+        <Column Name="IsSuperlative" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+        <Column Name="Number" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+        <Column Name="Possessive" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+        <Column Name="Pronominal" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+        <Column Name="Modal" Type="System.String" DbType="VarChar(24)" CanBeNull="true" />
+        <Column Name="Negated" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+        <Column Name="Passive" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+        <Column Name="Perfect" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+        <Column Name="Person" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+        <Column Name="Progressive" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+        <Column Name="SuppressGenitiveInGerund" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+        <Column Name="SuppressedComplementizer" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+        <Column Name="Tense" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      </Type>
     </Type>
   </Table>
   <Table Name="dbo.DB_WeightedWords" Member="DB_WeightedWords">
     <Type Name="DB_WeightedWord">
       <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Word" Type="System.String" DbType="VarChar(24) NOT NULL" CanBeNull="false" />
+      <Column Name="WordText" Type="System.String" DbType="VarChar(24) NOT NULL" CanBeNull="false" />
       <Column Name="Weight" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Builder" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="DB_WeightedWord_DB_WordBuilder" Member="DB_WordBuilders" ThisKey="ID" OtherKey="DefaultForm" Type="DB_WordBuilder" />
-      <Association Name="DB_WordBuilder_DB_WeightedWord" Member="DB_WordBuilder" ThisKey="Builder" OtherKey="ID" Type="DB_WordBuilder" IsForeignKey="true" />
+      <Column Name="WordElement" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="DB_Element_DB_WeightedWord" Member="DB_Element" ThisKey="WordElement" OtherKey="ID" Type="DB_Element" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DB_ParentChildRelations" Member="DB_ParentChildRelations">
+    <Type Name="DB_ParentChildRelation">
+      <Column Name="Parent" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Child" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Role" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Association Name="DB_Element_DB_ParentChildRelation" Member="DB_Element" ThisKey="Child" OtherKey="ID" Type="DB_Element" IsForeignKey="true" />
+      <Association Name="DB_Element_DB_ParentChildRelation1" Member="DB_Element1" ThisKey="Parent" OtherKey="ID" Type="DB_Element" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

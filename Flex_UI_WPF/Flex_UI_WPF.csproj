@@ -153,6 +153,9 @@
   <ItemGroup>
     <Folder Include="View Models\" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Delete.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="SpicNSpan" AfterTargets="Clean">
     <!-- bin -->

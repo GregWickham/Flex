@@ -1,12 +1,8 @@
-﻿using System;
-using System.ComponentModel;
-using System.Data.Linq;
+﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using SimpleNLG;
 using FlexibleRealization;
-using FlexibleRealization.UserInterface;
 using Flex.Database;
 using Flex.Database.UserInterface;
 using Flex.Database.UserInterface.ViewModels;
@@ -106,9 +102,9 @@ namespace Flex.UserInterface
         {
             FlexDB_WordBrowserWindow wordBrowserWindow = new FlexDB_WordBrowserWindow();
             wordBrowserWindow.Closing += WordBrowserWindow_Closing;
-            wordBrowserWindow.ElementDragStarted += TreeEditor.ElementGraphArea.OnElementDragStarted;
-            wordBrowserWindow.ElementDragCancelled += TreeEditor.ElementGraphArea.OnElementDragCancelled;
-            wordBrowserWindow.ElementDropCompleted += TreeEditor.ElementGraphArea.OnElementDropCompleted;
+            wordBrowserWindow.ElementDragStarted += TreeEditor.OnElementDragStarted;
+            wordBrowserWindow.ElementDragCancelled += TreeEditor.OnElementDragCancelled;
+            wordBrowserWindow.ElementDropCompleted += TreeEditor.OnElementDropCompleted;
             wordBrowserWindow.Show();
         }
 
@@ -116,19 +112,46 @@ namespace Flex.UserInterface
         {
             FlexDB_WordBrowserWindow wordBrowserWindow = (FlexDB_WordBrowserWindow)sender;
             wordBrowserWindow.Closing -= WordBrowserWindow_Closing;
-            wordBrowserWindow.ElementDragStarted -= TreeEditor.ElementGraphArea.OnElementDragStarted;
-            wordBrowserWindow.ElementDragCancelled -= TreeEditor.ElementGraphArea.OnElementDragCancelled;
-            wordBrowserWindow.ElementDropCompleted -= TreeEditor.ElementGraphArea.OnElementDropCompleted;
+            wordBrowserWindow.ElementDragStarted -= TreeEditor.OnElementDragStarted;
+            wordBrowserWindow.ElementDragCancelled -= TreeEditor.OnElementDragCancelled;
+            wordBrowserWindow.ElementDropCompleted -= TreeEditor.OnElementDropCompleted;
         }
 
         /// <summary>The user wants to browse words in the Flex Database</summary>
-        private void BrowsePhrasesMenuItem_Click(object sender, RoutedEventArgs e) => new FlexDB_WordBrowserWindow().Show();
+        private void BrowseParentsMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            FlexDB_ParentBrowserWindow parentBrowserWindow = new FlexDB_ParentBrowserWindow();
+            parentBrowserWindow.Closing += ParentBrowserWindow_Closing;
+            parentBrowserWindow.ElementDragStarted += TreeEditor.OnElementDragStarted;
+            parentBrowserWindow.ElementDragCancelled += TreeEditor.OnElementDragCancelled;
+            parentBrowserWindow.ElementDropCompleted += TreeEditor.OnElementDropCompleted;
+            parentBrowserWindow.Show();
+        }
+
+        private void ParentBrowserWindow_Closing(object sender, CancelEventArgs e)
+        {
+            FlexDB_ParentBrowserWindow parentBrowserWindow = (FlexDB_ParentBrowserWindow)sender;
+            parentBrowserWindow.Closing -= ParentBrowserWindow_Closing;
+            parentBrowserWindow.ElementDragStarted -= TreeEditor.OnElementDragStarted;
+            parentBrowserWindow.ElementDragCancelled -= TreeEditor.OnElementDragCancelled;
+            parentBrowserWindow.ElementDropCompleted -= TreeEditor.OnElementDropCompleted;
+        }
 
         /// <summary>When the user changes a setting for the WordNet server, save its settings</summary>
         private void FlexDB_SettingChanged(object sender, System.Windows.Controls.TextChangedEventArgs e) => Flex.Database.Properties.Settings.Default.Save();
 
+        /// <summary>Delete the selected ElementBuilder from the ElementBuilderGraphArea</summary>
+        private void DeleteButton_Click(object sender, RoutedEventArgs e) => TreeEditor.ClearModel();
+
         /// <summary>Save the selected ElementBuilder to the Flex database</summary>
-        private void SaveButton_Click(object sender, RoutedEventArgs e) => FlexData.Context.Save(TreeEditor.SelectedBuilder);
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            RealizationResult result = TreeEditor.Model.Realize();
+            if (result.Outcome == RealizationOutcome.Success)
+            {
+                FlexData.Context.SaveAsync(TreeEditor.Model);
+            }           
+        }
 
         /// <summary>If there's text in the inputTextBox, parse it</summary>
         private void parseButton_Click(object sender, RoutedEventArgs e)
@@ -165,7 +188,7 @@ namespace Flex.UserInterface
             switch (result.Outcome)
             {
                 case RealizationOutcome.Success:
-                    VariationsWindow.Variations.Add(result.Realized);
+                    VariationsWindow.Variations.Add(result.Text);
                     break;
                 default: break;
             }

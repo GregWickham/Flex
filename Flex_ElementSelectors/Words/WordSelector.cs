@@ -23,16 +23,16 @@ namespace Flex.ElementSelectors
             Current = Default;
         }
 
-        public string GetWord() => Current.Word;
+        public string GetWord() => Current.Text;
 
-        public string DefaultWord => Default.Word;
+        public string DefaultWord => Default.Text;
 
         public WeightedWord Default { get; private set; }
 
         public List<WeightedWord> Alternates { get; set; }
 
         public int WeightOf(string wordVariation) => GetWeightedWordVariations()
-            .Where(weightedWord => weightedWord.Word.Equals(wordVariation))
+            .Where(weightedWord => weightedWord.Text.Equals(wordVariation))
             .Single()
             .Weight;
 
@@ -112,7 +112,7 @@ namespace Flex.ElementSelectors
             public class StringEnumerator : Enumerator, IEnumerator<string>
             {
                 internal StringEnumerator(WordSelector selector) : base(selector) { }
-                public string Current => Selector.Current.Word;
+                public string Current => Selector.Current.Text;
                 object IEnumerator.Current => Current;
             }
         }

@@ -40,7 +40,7 @@ namespace Flex.Database.UserInterface.ViewModels
         /// <summary>Called after this has been set as DataContext for the view</summary>
         internal void Initialize()
         {
-            PivotWord = Selector.Default.Word;
+            PivotWord = Selector.Default.Text;
             OnPropertyChanged("DefaultWord");
             GetSynonymsFor(PivotWord);
         }
@@ -57,7 +57,7 @@ namespace Flex.Database.UserInterface.ViewModels
             GetSynonymsFor(PivotWord);
         }
 
-        public string DefaultWord => Selector.Default.Word;
+        public string DefaultWord => Selector.Default.Text;
 
         /// <summary>A list of options presented to the user.  The user can select from this list to configure the Selector's actual list of Alternates</summary>
         public List<string> Potential { get; private set; } = new List<string>();
@@ -97,7 +97,7 @@ namespace Flex.Database.UserInterface.ViewModels
         {
             Selector.RemoveAlternates(wordsToMove);
             OnPropertyChanged("Actual");
-            Potential.AddRange(wordsToMove.Select(weightedWord => weightedWord.Word));
+            Potential.AddRange(wordsToMove.Select(weightedWord => weightedWord.Text));
             OnPropertyChanged("Potential");
         }
 

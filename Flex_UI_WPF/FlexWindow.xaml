@@ -55,7 +55,7 @@
                     </MenuItem>
                     <MenuItem Header="Flex _Database">
                         <MenuItem Header="Browse _Words" Click="BrowseWordsMenuItem_Click"/>
-                        <MenuItem Header="Browse _Phrases" Click="BrowsePhrasesMenuItem_Click"/>
+                        <MenuItem Header="Browse _Parents" Click="BrowseParentsMenuItem_Click"/>
                         <Separator/>
                         <MenuItem Header="_Hostname">
                             <TextBox Width="100" Text="{Binding Source={x:Static FlexDB_Properties:Settings.Default}, Path=FlexDB_ServerHost}" TextChanged="FlexDB_SettingChanged"/>
@@ -66,6 +66,9 @@
                     </MenuItem>
                 </Menu>
                 <ToolBar Background="Transparent">
+                    <Button Name="DeleteButton" Width="22" Height="22" Click="DeleteButton_Click">
+                        <Image HorizontalAlignment="Center" VerticalAlignment="Center" Source="Resources/Images/Delete.png"/>
+                    </Button>
                     <Button Name="SaveButton" Width="22" Height="22" Click="SaveButton_Click">
                         <Image HorizontalAlignment="Center" VerticalAlignment="Center" Source="Resources/Images/Save_16x.png"/>
                     </Button>

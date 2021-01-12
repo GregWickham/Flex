@@ -27,8 +27,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleNLG_Tests", "Echo\Sim
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParseAndRealize_Tests", "Echo\EnglishParsing_Tests\ParseAndRealize_Tests.csproj", "{8E2DF3A6-BFF7-49AD-8505-AA43BB6F9332}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShowcaseApp.WPF", "..\GraphX\Examples\ShowcaseApp.WPF\ShowcaseApp.WPF.csproj", "{C054C423-7284-46A6-9738-B82E2237E9C7}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,10 +77,6 @@ Global
 		{8E2DF3A6-BFF7-49AD-8505-AA43BB6F9332}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E2DF3A6-BFF7-49AD-8505-AA43BB6F9332}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E2DF3A6-BFF7-49AD-8505-AA43BB6F9332}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C054C423-7284-46A6-9738-B82E2237E9C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C054C423-7284-46A6-9738-B82E2237E9C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C054C423-7284-46A6-9738-B82E2237E9C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C054C423-7284-46A6-9738-B82E2237E9C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
