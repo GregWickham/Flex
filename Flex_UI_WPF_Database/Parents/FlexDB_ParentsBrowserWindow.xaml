@@ -1,0 +1,66 @@
+﻿<Window x:Class="Flex.Database.UserInterface.FlexDB_ParentsBrowserWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Flex.Database.UserInterface"
+        mc:Ignorable="d"
+        Title="Flex Parents Browser" Height="420" Width="600" Loaded="Window_Loaded" Closing="Window_Closing">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Name="MenuAndToolBar">
+            <ToolBar Background="Transparent">
+                <Button Name="DeleteButton" Width="22" Height="22" Click="DeleteButton_Click">
+                    <Image HorizontalAlignment="Center" VerticalAlignment="Center" Source="../Resources/Images/DeleteListItem_16x.png"/>
+                </Button>
+            </ToolBar>
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" BorderBrush="Gray" BorderThickness="1" Width="Auto">
+                <StackPanel>
+                    <RadioButton GroupName="parentType" Margin="4 4 3 4" FontWeight="DemiBold" Checked="AllButton_Checked"  IsChecked="True">ALL</RadioButton>
+                    <Label FontWeight="Bold" Margin="0 0 0 2">Clauses</Label>
+                    <RadioButton GroupName="parentType" Margin="4 0 4 2" Checked="IndependentClauseButton_Checked">Independent</RadioButton>
+                    <RadioButton GroupName="parentType" Margin="4 0 4 5" Checked="SubordinateClauseButton_Checked">Subordinate</RadioButton>
+                    <Label FontWeight="Bold" Margin="0 0 0 2">Phrases</Label>
+                    <RadioButton GroupName="parentType" Margin="4 0 4 2" Checked="NounPhraseButton_Checked">Noun</RadioButton>
+                    <RadioButton GroupName="parentType" Margin="4 0 4 2" Checked="VerbPhraseButton_Checked">Verb</RadioButton>
+                    <RadioButton GroupName="parentType" Margin="4 0 4 2" Checked="AdjectivePhraseButton_Checked">Adjective</RadioButton>
+                    <RadioButton GroupName="parentType" Margin="4 0 4 2" Checked="AdverbPhraseButton_Checked">Adverb</RadioButton>
+                    <RadioButton GroupName="parentType" Margin="4 0 4 2" Checked="PrepositionalPhraseButton_Checked">Prepositional</RadioButton>
+                    <Label FontWeight="Bold" Margin="0 0 0 2">Wh-Phrases</Label>
+                    <RadioButton GroupName="parentType" Margin="4 0 4 2" Checked="WhNounPhraseButton_Checked">Wh-Noun</RadioButton>
+                    <RadioButton GroupName="parentType" Margin="4 0 4 2" Checked="WhAdverbPhraseButton_Checked">Wh-Adverb</RadioButton>
+                    <Label FontWeight="Bold" Margin="0 0 0 2">Compounds</Label>
+                    <RadioButton GroupName="parentType" Margin="4 0 4 2" Checked="CompoundNounButton_Checked">Noun</RadioButton>
+                    <Label FontWeight="Bold" Margin="0 0 0 2">Other</Label>
+                    <RadioButton GroupName="parentType" Margin="4 0 4 2" Checked="NominalModifierButton_Checked">Nominal Modifier</RadioButton>
+                </StackPanel>
+            </Border>
+
+            <DataGrid Grid.Column="1" Name="ParentsGrid" ItemsSource="{Binding Path=VisibleParents, IsAsync=True}" Background="WhiteSmoke" 
+                HorizontalGridLinesBrush="LightGray" VerticalGridLinesBrush="LightGray"
+                SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False" 
+                HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"
+                MouseDown="ParentsGrid_MouseDown" MouseMove="ParentsGrid_MouseMove">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Default Form" Binding="{Binding Path=DefaultRealization, IsAsync=True}" Width="*"/>
+                        <DataGridTextColumn Header="Forms" Binding="{Binding Path=Forms, IsAsync=True}" Width="48"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+        </Grid>
+
+
+    </Grid>
+</Window>

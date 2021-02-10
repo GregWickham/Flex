@@ -52,4 +52,10 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+	<Target Name="SpicNSpan" AfterTargets="Clean">
+		<!-- bin -->
+		<RemoveDir Directories="$(TargetDir)" />
+		<!-- obj -->
+		<RemoveDir Directories="$(ProjectDir)$(BaseIntermediateOutputPath)" />
+	</Target>
 </Project>

@@ -1,0 +1,107 @@
+﻿<Window x:Class="Flex.Database.UserInterface.FlexDB_WordsBrowserWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:uiCommon="clr-namespace:Flex.UserInterface;assembly=Flex_UI_WPF_Common"
+        xmlns:local="clr-namespace:Flex.Database.UserInterface"
+        mc:Ignorable="d"
+        Title="Flex Words Browser" Height="620" Width="520" Loaded="Window_Loaded" Closing="Window_Closing">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Name="MenuAndToolBar">
+            <ToolBar Background="Transparent">
+                <Button Name="NewButton" Width="22" Height="22" Click="NewButton_Click">
+                    <Image HorizontalAlignment="Center" VerticalAlignment="Center" Source="../Resources/Images/NewItem_16x.png"/>
+                </Button>
+                <Button Name="DeleteButton" Width="22" Height="22" Click="DeleteButton_Click">
+                    <Image HorizontalAlignment="Center" VerticalAlignment="Center" Source="../Resources/Images/DeleteListItem_16x.png"/>
+                </Button>
+                <Button Name="SaveButton" Width="22" Height="22" Click="SaveButton_Click">
+                    <Image HorizontalAlignment="Center" VerticalAlignment="Center" Source="../Resources/Images/Save_16x.png"/>
+                </Button>
+            </ToolBar>
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" BorderBrush="Gray" BorderThickness="1" Width="Auto">
+                <StackPanel>
+                    <RadioButton GroupName="partOfSpeech" Margin="1 2 3 6" FontWeight="DemiBold" Checked="AllWordTypesButton_Checked" IsChecked="True">ALL</RadioButton>
+                    <Label FontWeight="Bold" Margin="2 0 0 0">Variable</Label>
+                    <RadioButton GroupName="partOfSpeech" Margin="4 0 4 2" Checked="NounButton_Checked">Nouns</RadioButton>
+                    <RadioButton GroupName="partOfSpeech" Margin="4 0 4 2" Checked="VerbButton_Checked">Verbs</RadioButton>
+                    <RadioButton GroupName="partOfSpeech" Margin="4 0 4 2" Checked="AdjectiveButton_Checked">Adjectives</RadioButton>
+                    <RadioButton GroupName="partOfSpeech" Margin="4 0 4 2" Checked="AdverbButton_Checked">Adverbs</RadioButton>
+                    <Label FontWeight="Bold" Margin="2 0 0 0">Fixed</Label>
+                    <RadioButton GroupName="partOfSpeech" Margin="4 0 4 2" Checked="PronounButton_Checked">Pronouns</RadioButton>
+                    <RadioButton GroupName="partOfSpeech" Margin="4 0 4 2" Checked="PrepositionButton_Checked">Prepositions</RadioButton>
+                    <RadioButton GroupName="partOfSpeech" Margin="4 0 4 2" Checked="ConjunctionButton_Checked">Conjunctions</RadioButton>
+                    <RadioButton GroupName="partOfSpeech" Margin="4 0 4 2" Checked="DeterminerButton_Checked">Determiners</RadioButton>
+                    <RadioButton GroupName="partOfSpeech" Margin="4 0 4 2" Checked="ModalButton_Checked">Modals</RadioButton>
+                    <RadioButton GroupName="partOfSpeech" Margin="4 0 4 2" Checked="ParticleButton_Checked">Particles</RadioButton>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="1" BorderBrush="Gray" BorderThickness="1" Width="Auto">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="0">
+                        <RadioButton GroupName="letter" Margin="1 2 3 6" Checked="AllLetters_Button_Checked" IsChecked="True" FontWeight="DemiBold">ALL</RadioButton>
+                        <RadioButton GroupName="letter" Margin="4 0 0 2" Checked="A_Button_Checked">A</RadioButton>
+                        <RadioButton GroupName="letter" Margin="4 0 0 2" Checked="B_Button_Checked">B</RadioButton>
+                        <RadioButton GroupName="letter" Margin="4 0 0 2" Checked="C_Button_Checked">C</RadioButton>
+                        <RadioButton GroupName="letter" Margin="4 0 0 2" Checked="D_Button_Checked">D</RadioButton>
+                        <RadioButton GroupName="letter" Margin="4 0 0 2" Checked="E_Button_Checked">E</RadioButton>
+                        <RadioButton GroupName="letter" Margin="4 0 0 2" Checked="F_Button_Checked">F</RadioButton>
+                        <RadioButton GroupName="letter" Margin="4 0 0 2" Checked="G_Button_Checked">G</RadioButton>
+                        <RadioButton GroupName="letter" Margin="4 0 0 2" Checked="H_Button_Checked">H</RadioButton>
+                        <RadioButton GroupName="letter" Margin="4 0 0 2" Checked="I_Button_Checked">I</RadioButton>
+                        <RadioButton GroupName="letter" Margin="4 0 0 2" Checked="J_Button_Checked">J</RadioButton>
+                        <RadioButton GroupName="letter" Margin="4 0 0 2" Checked="K_Button_Checked">K</RadioButton>
+                        <RadioButton GroupName="letter" Margin="4 0 0 2" Checked="L_Button_Checked">L</RadioButton>
+                        <RadioButton GroupName="letter" Margin="4 0 0 2" Checked="M_Button_Checked">M</RadioButton>
+                        <RadioButton GroupName="letter" Margin="4 0 0 2" Checked="N_Button_Checked">N</RadioButton>
+                        <RadioButton GroupName="letter" Margin="4 0 0 2" Checked="O_Button_Checked">O</RadioButton>
+                        <RadioButton GroupName="letter" Margin="4 0 0 2" Checked="P_Button_Checked">P</RadioButton>
+                        <RadioButton GroupName="letter" Margin="4 0 0 2" Checked="Q_Button_Checked">Q</RadioButton>
+                        <RadioButton GroupName="letter" Margin="4 0 0 2" Checked="R_Button_Checked">R</RadioButton>
+                        <RadioButton GroupName="letter" Margin="4 0 0 2" Checked="S_Button_Checked">S</RadioButton>
+                        <RadioButton GroupName="letter" Margin="4 0 0 2" Checked="T_Button_Checked">T</RadioButton>
+                        <RadioButton GroupName="letter" Margin="4 0 0 2" Checked="U_Button_Checked">U</RadioButton>
+                        <RadioButton GroupName="letter" Margin="4 0 0 2" Checked="V_Button_Checked">V</RadioButton>
+                        <RadioButton GroupName="letter" Margin="4 0 0 2" Checked="W_Button_Checked">W</RadioButton>
+                        <RadioButton GroupName="letter" Margin="4 0 0 2" Checked="X_Button_Checked">X</RadioButton>
+                        <RadioButton GroupName="letter" Margin="4 0 0 2" Checked="Y_Button_Checked">Y</RadioButton>
+                        <RadioButton GroupName="letter" Margin="4 0 0 2" Checked="Z_Button_Checked">Z</RadioButton>
+                    </StackPanel>
+                </ScrollViewer>
+
+            </Border>
+            
+            <ListBox Grid.Column="2" Name="WordsListBox" ItemsSource="{Binding VisibleWords, IsAsync=True}" 
+                     SelectionMode="Single" SelectionChanged="WordsListBox_SelectionChanged"
+                     MouseDown="WordsListBox_MouseDown" MouseMove="WordsListBox_MouseMove">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Path=DefaultWord, IsAsync=True}" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <GridSplitter Grid.Column="3" Width="2" />
+            <uiCommon:FlexibleWordEditor Grid.Column="4" Width="240" x:Name="WordEditor" />
+
+        </Grid>
+
+    </Grid>
+</Window>

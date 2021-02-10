@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D5C0E679-A33F-4703-9602-83EF01B12179}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Flex.UserInterface</RootNamespace>
+    <AssemblyName>Flex_UI_WPF_Main</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <LangVersion>8.0</LangVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="GraphX.WPF.Controls, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null" />
+    <Reference Include="PresentationFramework.Aero" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="VariationsListWindow.xaml.cs">
+      <DependentUpon>VariationsListWindow.xaml</DependentUpon>
+    </Compile>
+    <Page Include="FlexWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FlexWindow.xaml.cs">
+      <DependentUpon>FlexWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Resources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="VariationsListWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DatamuseClient\Datamuse.csproj">
+      <Project>{de8e55a2-cb22-4ea9-9e77-ae3c7dbfee5d}</Project>
+      <Name>Datamuse</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Echo\EnglishParsing\EnglishParsing.csproj">
+      <Project>{8e991b2f-4626-4715-b7ed-54498526aa19}</Project>
+      <Name>EnglishParsing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Echo\FlexibleRealization\FlexibleRealization.csproj">
+      <Project>{69a075e7-46b1-4aee-b5e9-8f7da88d773a}</Project>
+      <Name>FlexibleRealization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Echo\FlexibleRealization_UserInterface_WPF\FlexibleRealization_UserInterface_WPF.csproj">
+      <Project>{91b58255-572f-46a6-9e18-651845d2e97c}</Project>
+      <Name>FlexibleRealization_UserInterface_WPF</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Echo\SimpleNLG\SimpleNLG.csproj">
+      <Project>{2df23dcb-99f7-4e02-8e59-8792b9aeeab8}</Project>
+      <Name>SimpleNLG</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Flex_Database\Flex_Database.csproj">
+      <Project>{a7a76754-de7a-4c19-a027-c3b419a55a92}</Project>
+      <Name>Flex_Database</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Flex_ElementSelectors\Flex_ElementSelectors.csproj">
+      <Project>{843bde60-f30e-4921-a444-11d34c12ee10}</Project>
+      <Name>Flex_ElementSelectors</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Flex_UI_WPF_Common\Flex_UI_WPF_Common.csproj">
+      <Project>{ab3fa907-b965-4688-b16b-5c6a7cc8dcdb}</Project>
+      <Name>Flex_UI_WPF_Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Flex_UI_WPF_Database\Flex_UI_WPF_Database.csproj">
+      <Project>{c95a237a-507e-4566-9461-80c5b56f304c}</Project>
+      <Name>Flex_UI_WPF_Database</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WordNetLINQ\WordNet_LINQ.csproj">
+      <Project>{2d7454e9-b9a9-4e6a-98bd-0565e12adb7a}</Project>
+      <Name>WordNet_LINQ</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Save_16x.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\Images\Delete.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="SpicNSpan" AfterTargets="Clean">
+    <!-- bin -->
+    <RemoveDir Directories="$(TargetDir)" />
+    <!-- obj -->
+    <RemoveDir Directories="$(ProjectDir)$(BaseIntermediateOutputPath)" />
+  </Target>
+</Project>

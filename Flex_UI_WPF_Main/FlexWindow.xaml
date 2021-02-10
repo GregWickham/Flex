@@ -1,0 +1,123 @@
+﻿<Window x:Class="Flex.UserInterface.FlexWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:CoreNLP_Properties="clr-namespace:Stanford.CoreNLP.Properties;assembly=EnglishParsing"
+        xmlns:SimpleNLG_Properties="clr-namespace:SimpleNLG.Properties;assembly=SimpleNLG"    
+        xmlns:WordNet_Properties="clr-namespace:WordNet.Linq.Properties;assembly=WordNet_LINQ"    
+        xmlns:FlexDB_Properties="clr-namespace:Flex.Database.Properties;assembly=Flex_Database"   
+        xmlns:graphEditor="clr-namespace:FlexibleRealization.UserInterface;assembly=FlexibleRealization_UserInterface_WPF"
+        xmlns:uiCommon="clr-namespace:Flex.UserInterface;assembly=Flex_UI_WPF_Common"
+        xmlns:local="clr-namespace:Flex.UserInterface"
+        mc:Ignorable="d"
+        Title="Flex Editor for English" Height="600" Width="960">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="6*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Name="MenuAndToolBar">
+                    <Menu FontSize="12" Background="White">
+                        <MenuItem Header="CoreNL_P">
+                            <MenuItem Header="_Hostname">
+                                <TextBox Width="100" Text="{Binding Source={x:Static CoreNLP_Properties:Settings.Default}, Path=CoreNLP_ServerHost}" TextChanged="CoreNLP_SettingChanged"/>
+                            </MenuItem>
+                            <MenuItem Header="_Port">
+                                <TextBox Width="100" Text="{Binding Source={x:Static CoreNLP_Properties:Settings.Default}, Path=CoreNLP_ServerPort}" TextChanged="CoreNLP_SettingChanged"/>
+                            </MenuItem>
+                        </MenuItem>
+                        <MenuItem Header="SimpleNL_G">
+                            <MenuItem Header="_Hostname">
+                                <TextBox Width="100" Text="{Binding Source={x:Static SimpleNLG_Properties:Settings.Default}, Path=SimpleNLG_ServerHost}" TextChanged="SimpleNLG_SettingChanged"/>
+                            </MenuItem>
+                            <MenuItem Header="_Port">
+                                <TextBox Width="100" Text="{Binding Source={x:Static SimpleNLG_Properties:Settings.Default}, Path=SimpleNLG_ServerPort}" TextChanged="SimpleNLG_SettingChanged"/>
+                            </MenuItem>
+                        </MenuItem>
+                        <MenuItem Header="_WordNet">
+                            <MenuItem Header="_Hostname">
+                                <TextBox Width="100" Text="{Binding Source={x:Static WordNet_Properties:Settings.Default}, Path=WordNet_ServerHost}" TextChanged="WordNet_SettingChanged"/>
+                            </MenuItem>
+                            <MenuItem Header="_Port">
+                                <TextBox Width="100" Text="{Binding Source={x:Static WordNet_Properties:Settings.Default}, Path=WordNet_ServerPort}" TextChanged="WordNet_SettingChanged"/>
+                            </MenuItem>
+                        </MenuItem>
+                        <MenuItem Header="Flex _Database">
+                            <MenuItem Header="Browse _Words" Click="BrowseWordsMenuItem_Click"/>
+                            <MenuItem Header="Browse _Parents" Click="BrowseParentsMenuItem_Click"/>
+                            <Separator/>
+                            <MenuItem Header="_Hostname">
+                                <TextBox Width="100" Text="{Binding Source={x:Static FlexDB_Properties:Settings.Default}, Path=FlexDB_ServerHost}" TextChanged="FlexDB_SettingChanged"/>
+                            </MenuItem>
+                            <MenuItem Header="_Port">
+                                <TextBox Width="100" Text="{Binding Source={x:Static FlexDB_Properties:Settings.Default}, Path=FlexDB_ServerPort}" TextChanged="FlexDB_SettingChanged"/>
+                            </MenuItem>
+                        </MenuItem>
+                    </Menu>
+                    <ToolBar Background="Transparent">
+                        <Button Name="DeleteButton" Width="22" Height="22" Click="DeleteButton_Click">
+                            <Image HorizontalAlignment="Center" VerticalAlignment="Center" Source="Resources/Images/Delete.png"/>
+                        </Button>
+                        <Button Name="SaveButton" Width="22" Height="22" Click="SaveButton_Click">
+                            <Image HorizontalAlignment="Center" VerticalAlignment="Center" Source="Resources/Images/Save_16x.png"/>
+                        </Button>
+                    </ToolBar>
+                </StackPanel>
+
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox x:Name="inputTextBox" Grid.Column="0" Margin="4"
+                     HorizontalAlignment="Stretch" VerticalContentAlignment="Center" 
+                     TextWrapping="NoWrap" TextInput="inputTextBox_TextInput" />
+                    <Button Grid.Column="1" Name="parseButton" Content="Parse" Margin="0 4 4 4" Padding="8 0 8 0" Click="parseButton_Click"/>
+                </Grid>
+
+                <graphEditor:ElementBuilderTreeEditor Grid.Row="2" Name="TreeEditor" 
+                    SelectedNodeChanged="TreeEditor_SelectedNodeChanged" RealizationFailed="TreeEditor_RealizationFailed" TextRealized="TreeEditor_TextRealized"/>
+
+                <Grid Grid.Row="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox x:Name="realizedTextBox" Margin="4"
+                     HorizontalAlignment="Stretch" VerticalContentAlignment="Center"
+                     TextWrapping="NoWrap" />
+                    <Button Grid.Column="1" Name="showVariationsButton" Content="Show Variations" Margin="0 4 4 4" Padding="8 0 8 0" Click="showVariationsButton_Click"/>
+                </Grid>
+            </Grid>
+            <GridSplitter Grid.Column="1" Width="2" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
+            <uiCommon:FlexibleWordEditor x:Name="WordEditor" Grid.Column="2" Height="Auto" Width="240" Visibility="Collapsed"/>
+        </Grid>
+
+        <GridSplitter Grid.Row="1" Height="2" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+
+        <uiCommon:SynsetSelector x:Name="SynsetsControl" Grid.Row="2" Height="Auto" Width="Auto"/>
+
+    </Grid>
+
+
+</Window>

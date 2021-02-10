@@ -1,8 +1,9 @@
 ﻿using System.Data.SqlClient;
+using FlexibleRealization;
 
 namespace WordNet.Linq
 {
-    internal static class WordNetData
+    public static class WordNetData
     {
         private static string ConnectionString
         {
@@ -21,5 +22,13 @@ namespace WordNet.Linq
         }
 
         internal static WordNetDataContext Context { get; } = new WordNetDataContext(ConnectionString);
+
+        public static char PartOfSpeechFor(WordElementBuilder builder) => builder switch
+        {
+            NounBuilder nb => 'n',
+            VerbBuilder vb => 'v',
+            AdjectiveBuilder adjb => 'a',
+            AdverbBuilder advb => 'r'
+        };
     }
 }

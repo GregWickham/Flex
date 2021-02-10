@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Datamuse
 {
-    public class Word
+    public class Word : IComparable<Word>
     {
         public string word { get; set; }
 
@@ -15,7 +12,7 @@ namespace Datamuse
         public int Score { get; set; }
 
         public IList<string> Tags { get; set; }
+
+        public int CompareTo(Word anotherWord) => Score.CompareTo(anotherWord.Score);
     }
-
-
 }

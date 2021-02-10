@@ -30,15 +30,51 @@ namespace Flex.Database
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
-    partial void InsertDB_Element(DB_Element instance);
-    partial void UpdateDB_Element(DB_Element instance);
-    partial void DeleteDB_Element(DB_Element instance);
-    partial void InsertDB_WeightedWord(DB_WeightedWord instance);
-    partial void UpdateDB_WeightedWord(DB_WeightedWord instance);
-    partial void DeleteDB_WeightedWord(DB_WeightedWord instance);
+    partial void InsertDB_ChildOrdering(DB_ChildOrdering instance);
+    partial void UpdateDB_ChildOrdering(DB_ChildOrdering instance);
+    partial void DeleteDB_ChildOrdering(DB_ChildOrdering instance);
     partial void InsertDB_ParentChildRelation(DB_ParentChildRelation instance);
     partial void UpdateDB_ParentChildRelation(DB_ParentChildRelation instance);
     partial void DeleteDB_ParentChildRelation(DB_ParentChildRelation instance);
+    partial void InsertDB_WeightedWord(DB_WeightedWord instance);
+    partial void UpdateDB_WeightedWord(DB_WeightedWord instance);
+    partial void DeleteDB_WeightedWord(DB_WeightedWord instance);
+    partial void InsertDB_Element(DB_Element instance);
+    partial void UpdateDB_Element(DB_Element instance);
+    partial void DeleteDB_Element(DB_Element instance);
+    partial void InsertDB_Word(DB_Word instance);
+    partial void UpdateDB_Word(DB_Word instance);
+    partial void DeleteDB_Word(DB_Word instance);
+    partial void InsertDB_Parent(DB_Parent instance);
+    partial void UpdateDB_Parent(DB_Parent instance);
+    partial void DeleteDB_Parent(DB_Parent instance);
+    partial void InsertLayerWord(LayerWord instance);
+    partial void UpdateLayerWord(LayerWord instance);
+    partial void DeleteLayerWord(LayerWord instance);
+    partial void InsertLayerParent(LayerParent instance);
+    partial void UpdateLayerParent(LayerParent instance);
+    partial void DeleteLayerParent(LayerParent instance);
+    partial void InsertLayerPhrase(LayerPhrase instance);
+    partial void UpdateLayerPhrase(LayerPhrase instance);
+    partial void DeleteLayerPhrase(LayerPhrase instance);
+    partial void InsertLayerNounPhrase(LayerNounPhrase instance);
+    partial void UpdateLayerNounPhrase(LayerNounPhrase instance);
+    partial void DeleteLayerNounPhrase(LayerNounPhrase instance);
+    partial void InsertLayerAdjectivePhrase(LayerAdjectivePhrase instance);
+    partial void UpdateLayerAdjectivePhrase(LayerAdjectivePhrase instance);
+    partial void DeleteLayerAdjectivePhrase(LayerAdjectivePhrase instance);
+    partial void InsertLayerAdverbPhrase(LayerAdverbPhrase instance);
+    partial void UpdateLayerAdverbPhrase(LayerAdverbPhrase instance);
+    partial void DeleteLayerAdverbPhrase(LayerAdverbPhrase instance);
+    partial void InsertLayerPronoun(LayerPronoun instance);
+    partial void UpdateLayerPronoun(LayerPronoun instance);
+    partial void DeleteLayerPronoun(LayerPronoun instance);
+    partial void InsertLayerVerbPhrase(LayerVerbPhrase instance);
+    partial void UpdateLayerVerbPhrase(LayerVerbPhrase instance);
+    partial void DeleteLayerVerbPhrase(LayerVerbPhrase instance);
+    partial void InsertLayerClause(LayerClause instance);
+    partial void UpdateLayerClause(LayerClause instance);
+    partial void DeleteLayerClause(LayerClause instance);
     #endregion
 		
 		public FlexDataContext() : 
@@ -71,11 +107,43 @@ namespace Flex.Database
 			OnCreated();
 		}
 		
-		public System.Data.Linq.Table<DB_Element> DB_Elements
+		public System.Data.Linq.Table<DB_ChildOrdering> DB_ChildOrderings
 		{
 			get
 			{
-				return this.GetTable<DB_Element>();
+				return this.GetTable<DB_ChildOrdering>();
+			}
+		}
+		
+		public System.Data.Linq.Table<DB_ParentChildRelation> DB_ParentChildRelations
+		{
+			get
+			{
+				return this.GetTable<DB_ParentChildRelation>();
+			}
+		}
+		
+		public System.Data.Linq.Table<DB_NounPhrase> DB_NounPhrases
+		{
+			get
+			{
+				return this.GetTable<DB_NounPhrase>();
+			}
+		}
+		
+		public System.Data.Linq.Table<DB_AdjectivePhrase> DB_AdjectivePhrases
+		{
+			get
+			{
+				return this.GetTable<DB_AdjectivePhrase>();
+			}
+		}
+		
+		public System.Data.Linq.Table<DB_AdverbPhrase> DB_AdverbPhrases
+		{
+			get
+			{
+				return this.GetTable<DB_AdverbPhrase>();
 			}
 		}
 		
@@ -87,33 +155,835 @@ namespace Flex.Database
 			}
 		}
 		
-		public System.Data.Linq.Table<DB_ParentChildRelation> DB_ParentChildRelations
+		public System.Data.Linq.Table<DB_PrepositionalPhrase> DB_PrepositionalPhrases
 		{
 			get
 			{
-				return this.GetTable<DB_ParentChildRelation>();
+				return this.GetTable<DB_PrepositionalPhrase>();
+			}
+		}
+		
+		public System.Data.Linq.Table<DB_Noun> DB_Nouns
+		{
+			get
+			{
+				return this.GetTable<DB_Noun>();
+			}
+		}
+		
+		public System.Data.Linq.Table<DB_Verb> DB_Verbs
+		{
+			get
+			{
+				return this.GetTable<DB_Verb>();
+			}
+		}
+		
+		public System.Data.Linq.Table<DB_Adjective> DB_Adjectives
+		{
+			get
+			{
+				return this.GetTable<DB_Adjective>();
+			}
+		}
+		
+		public System.Data.Linq.Table<DB_Adverb> DB_Adverbs
+		{
+			get
+			{
+				return this.GetTable<DB_Adverb>();
+			}
+		}
+		
+		public System.Data.Linq.Table<DB_Preposition> DB_Prepositions
+		{
+			get
+			{
+				return this.GetTable<DB_Preposition>();
+			}
+		}
+		
+		public System.Data.Linq.Table<DB_Conjunction> DB_Conjunctions
+		{
+			get
+			{
+				return this.GetTable<DB_Conjunction>();
+			}
+		}
+		
+		public System.Data.Linq.Table<DB_Determiner> DB_Determiners
+		{
+			get
+			{
+				return this.GetTable<DB_Determiner>();
+			}
+		}
+		
+		public System.Data.Linq.Table<DB_CardinalNumber> DB_CardinalNumbers
+		{
+			get
+			{
+				return this.GetTable<DB_CardinalNumber>();
+			}
+		}
+		
+		public System.Data.Linq.Table<DB_Modal> DB_Modals
+		{
+			get
+			{
+				return this.GetTable<DB_Modal>();
+			}
+		}
+		
+		public System.Data.Linq.Table<DB_Particle> DB_Particles
+		{
+			get
+			{
+				return this.GetTable<DB_Particle>();
+			}
+		}
+		
+		public System.Data.Linq.Table<DB_Pronoun> DB_Pronouns
+		{
+			get
+			{
+				return this.GetTable<DB_Pronoun>();
+			}
+		}
+		
+		public System.Data.Linq.Table<DB_Element> DB_Elements
+		{
+			get
+			{
+				return this.GetTable<DB_Element>();
+			}
+		}
+		
+		public System.Data.Linq.Table<DB_Word> DB_Words
+		{
+			get
+			{
+				return this.GetTable<DB_Word>();
+			}
+		}
+		
+		public System.Data.Linq.Table<DB_Parent> DB_Parents
+		{
+			get
+			{
+				return this.GetTable<DB_Parent>();
+			}
+		}
+		
+		public System.Data.Linq.Table<LayerWord> LayerWords
+		{
+			get
+			{
+				return this.GetTable<LayerWord>();
+			}
+		}
+		
+		public System.Data.Linq.Table<LayerParent> LayerParents
+		{
+			get
+			{
+				return this.GetTable<LayerParent>();
+			}
+		}
+		
+		public System.Data.Linq.Table<LayerPhrase> LayerPhrases
+		{
+			get
+			{
+				return this.GetTable<LayerPhrase>();
+			}
+		}
+		
+		public System.Data.Linq.Table<LayerNounPhrase> LayerNounPhrases
+		{
+			get
+			{
+				return this.GetTable<LayerNounPhrase>();
+			}
+		}
+		
+		public System.Data.Linq.Table<LayerAdjectivePhrase> LayerAdjectivePhrases
+		{
+			get
+			{
+				return this.GetTable<LayerAdjectivePhrase>();
+			}
+		}
+		
+		public System.Data.Linq.Table<LayerAdverbPhrase> LayerAdverbPhrases
+		{
+			get
+			{
+				return this.GetTable<LayerAdverbPhrase>();
+			}
+		}
+		
+		public System.Data.Linq.Table<LayerPronoun> LayerPronouns
+		{
+			get
+			{
+				return this.GetTable<LayerPronoun>();
+			}
+		}
+		
+		public System.Data.Linq.Table<LayerVerbPhrase> LayerVerbPhrases
+		{
+			get
+			{
+				return this.GetTable<LayerVerbPhrase>();
+			}
+		}
+		
+		public System.Data.Linq.Table<LayerClause> LayerClauses
+		{
+			get
+			{
+				return this.GetTable<LayerClause>();
+			}
+		}
+		
+		public System.Data.Linq.Table<DB_Clause> DB_Clauses
+		{
+			get
+			{
+				return this.GetTable<DB_Clause>();
+			}
+		}
+		
+		public System.Data.Linq.Table<DB_VerbPhrase> DB_VerbPhrases
+		{
+			get
+			{
+				return this.GetTable<DB_VerbPhrase>();
 			}
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DB_Elements")]
-	[global::System.Data.Linq.Mapping.InheritanceMappingAttribute(Code="1", Type=typeof(DB_Element), IsDefault=true)]
-	[global::System.Data.Linq.Mapping.InheritanceMappingAttribute(Code="2", Type=typeof(DB_WordElement))]
-	[global::System.Data.Linq.Mapping.InheritanceMappingAttribute(Code="3", Type=typeof(DB_ParentElement))]
-	public partial class DB_Element : INotifyPropertyChanging, INotifyPropertyChanged
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DB_ChildOrderings")]
+	public partial class DB_ChildOrdering : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Parent;
+		
+		private int _Child_Before;
+		
+		private int _Child_After;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnParentChanging(int value);
+    partial void OnParentChanged();
+    partial void OnChild_BeforeChanging(int value);
+    partial void OnChild_BeforeChanged();
+    partial void OnChild_AfterChanging(int value);
+    partial void OnChild_AfterChanged();
+    #endregion
+		
+		public DB_ChildOrdering()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Parent", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int Parent
+		{
+			get
+			{
+				return this._Parent;
+			}
+			set
+			{
+				if ((this._Parent != value))
+				{
+					this.OnParentChanging(value);
+					this.SendPropertyChanging();
+					this._Parent = value;
+					this.SendPropertyChanged("Parent");
+					this.OnParentChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Child_Before", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int Child_Before
+		{
+			get
+			{
+				return this._Child_Before;
+			}
+			set
+			{
+				if ((this._Child_Before != value))
+				{
+					this.OnChild_BeforeChanging(value);
+					this.SendPropertyChanging();
+					this._Child_Before = value;
+					this.SendPropertyChanged("Child_Before");
+					this.OnChild_BeforeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Child_After", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int Child_After
+		{
+			get
+			{
+				return this._Child_After;
+			}
+			set
+			{
+				if ((this._Child_After != value))
+				{
+					this.OnChild_AfterChanging(value);
+					this.SendPropertyChanging();
+					this._Child_After = value;
+					this.SendPropertyChanged("Child_After");
+					this.OnChild_AfterChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DB_ParentChildRelations")]
+	public partial class DB_ParentChildRelation : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Parent;
+		
+		private int _Child;
+		
+		private byte _Role;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnParentChanging(int value);
+    partial void OnParentChanged();
+    partial void OnChildChanging(int value);
+    partial void OnChildChanged();
+    partial void OnRoleChanging(byte value);
+    partial void OnRoleChanged();
+    #endregion
+		
+		public DB_ParentChildRelation()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Parent", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int Parent
+		{
+			get
+			{
+				return this._Parent;
+			}
+			set
+			{
+				if ((this._Parent != value))
+				{
+					this.OnParentChanging(value);
+					this.SendPropertyChanging();
+					this._Parent = value;
+					this.SendPropertyChanged("Parent");
+					this.OnParentChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Child", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int Child
+		{
+			get
+			{
+				return this._Child;
+			}
+			set
+			{
+				if ((this._Child != value))
+				{
+					this.OnChildChanging(value);
+					this.SendPropertyChanging();
+					this._Child = value;
+					this.SendPropertyChanged("Child");
+					this.OnChildChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Role", DbType="TinyInt NOT NULL")]
+		public byte Role
+		{
+			get
+			{
+				return this._Role;
+			}
+			set
+			{
+				if ((this._Role != value))
+				{
+					this.OnRoleChanging(value);
+					this.SendPropertyChanging();
+					this._Role = value;
+					this.SendPropertyChanged("Role");
+					this.OnRoleChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DB_NounPhrases")]
+	public partial class DB_NounPhrase
+	{
+		
+		private int _ID;
+		
+		private System.Nullable<byte> _DiscourseFunction;
+		
+		private System.Nullable<bool> _Appositive;
+		
+		private System.Nullable<bool> _AdjectiveOrdering;
+		
+		private System.Nullable<bool> _Elided;
+		
+		private System.Nullable<byte> _Number;
+		
+		private System.Nullable<byte> _Gender;
+		
+		private System.Nullable<byte> _Person;
+		
+		private System.Nullable<bool> _Possessive;
+		
+		private System.Nullable<bool> _Pronominal;
+		
+		public DB_NounPhrase()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", DbType="Int NOT NULL")]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this._ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DiscourseFunction", DbType="TinyInt")]
+		public System.Nullable<byte> DiscourseFunction
+		{
+			get
+			{
+				return this._DiscourseFunction;
+			}
+			set
+			{
+				if ((this._DiscourseFunction != value))
+				{
+					this._DiscourseFunction = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Appositive", DbType="Bit")]
+		public System.Nullable<bool> Appositive
+		{
+			get
+			{
+				return this._Appositive;
+			}
+			set
+			{
+				if ((this._Appositive != value))
+				{
+					this._Appositive = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AdjectiveOrdering", DbType="Bit")]
+		public System.Nullable<bool> AdjectiveOrdering
+		{
+			get
+			{
+				return this._AdjectiveOrdering;
+			}
+			set
+			{
+				if ((this._AdjectiveOrdering != value))
+				{
+					this._AdjectiveOrdering = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Elided", DbType="Bit")]
+		public System.Nullable<bool> Elided
+		{
+			get
+			{
+				return this._Elided;
+			}
+			set
+			{
+				if ((this._Elided != value))
+				{
+					this._Elided = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Number", DbType="TinyInt")]
+		public System.Nullable<byte> Number
+		{
+			get
+			{
+				return this._Number;
+			}
+			set
+			{
+				if ((this._Number != value))
+				{
+					this._Number = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Gender", DbType="TinyInt")]
+		public System.Nullable<byte> Gender
+		{
+			get
+			{
+				return this._Gender;
+			}
+			set
+			{
+				if ((this._Gender != value))
+				{
+					this._Gender = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Person", DbType="TinyInt")]
+		public System.Nullable<byte> Person
+		{
+			get
+			{
+				return this._Person;
+			}
+			set
+			{
+				if ((this._Person != value))
+				{
+					this._Person = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Possessive", DbType="Bit")]
+		public System.Nullable<bool> Possessive
+		{
+			get
+			{
+				return this._Possessive;
+			}
+			set
+			{
+				if ((this._Possessive != value))
+				{
+					this._Possessive = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Pronominal", DbType="Bit")]
+		public System.Nullable<bool> Pronominal
+		{
+			get
+			{
+				return this._Pronominal;
+			}
+			set
+			{
+				if ((this._Pronominal != value))
+				{
+					this._Pronominal = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DB_AdjectivePhrases")]
+	public partial class DB_AdjectivePhrase
+	{
+		
+		private int _ID;
+		
+		private System.Nullable<byte> _DiscourseFunction;
+		
+		private System.Nullable<bool> _Appositive;
+		
+		private System.Nullable<bool> _Comparative;
+		
+		private System.Nullable<bool> _Superlative;
+		
+		public DB_AdjectivePhrase()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", DbType="Int NOT NULL")]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this._ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DiscourseFunction", DbType="TinyInt")]
+		public System.Nullable<byte> DiscourseFunction
+		{
+			get
+			{
+				return this._DiscourseFunction;
+			}
+			set
+			{
+				if ((this._DiscourseFunction != value))
+				{
+					this._DiscourseFunction = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Appositive", DbType="Bit")]
+		public System.Nullable<bool> Appositive
+		{
+			get
+			{
+				return this._Appositive;
+			}
+			set
+			{
+				if ((this._Appositive != value))
+				{
+					this._Appositive = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Comparative", DbType="Bit")]
+		public System.Nullable<bool> Comparative
+		{
+			get
+			{
+				return this._Comparative;
+			}
+			set
+			{
+				if ((this._Comparative != value))
+				{
+					this._Comparative = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Superlative", DbType="Bit")]
+		public System.Nullable<bool> Superlative
+		{
+			get
+			{
+				return this._Superlative;
+			}
+			set
+			{
+				if ((this._Superlative != value))
+				{
+					this._Superlative = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DB_AdverbPhrases")]
+	public partial class DB_AdverbPhrase
+	{
+		
+		private int _ID;
+		
+		private System.Nullable<byte> _DiscourseFunction;
+		
+		private System.Nullable<bool> _Appositive;
+		
+		private System.Nullable<bool> _Comparative;
+		
+		private System.Nullable<bool> _Superlative;
+		
+		public DB_AdverbPhrase()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", DbType="Int NOT NULL")]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this._ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DiscourseFunction", DbType="TinyInt")]
+		public System.Nullable<byte> DiscourseFunction
+		{
+			get
+			{
+				return this._DiscourseFunction;
+			}
+			set
+			{
+				if ((this._DiscourseFunction != value))
+				{
+					this._DiscourseFunction = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Appositive", DbType="Bit")]
+		public System.Nullable<bool> Appositive
+		{
+			get
+			{
+				return this._Appositive;
+			}
+			set
+			{
+				if ((this._Appositive != value))
+				{
+					this._Appositive = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Comparative", DbType="Bit")]
+		public System.Nullable<bool> Comparative
+		{
+			get
+			{
+				return this._Comparative;
+			}
+			set
+			{
+				if ((this._Comparative != value))
+				{
+					this._Comparative = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Superlative", DbType="Bit")]
+		public System.Nullable<bool> Superlative
+		{
+			get
+			{
+				return this._Superlative;
+			}
+			set
+			{
+				if ((this._Superlative != value))
+				{
+					this._Superlative = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DB_WeightedWords")]
+	public partial class DB_WeightedWord : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
 		private int _ID;
 		
-		private System.Nullable<byte> _ElementType;
+		private string _Text;
 		
-		private EntitySet<DB_WeightedWord> _DB_WeightedWords;
+		private int _Weight;
 		
-		private EntitySet<DB_ParentChildRelation> _DB_ParentChildRelations;
-		
-		private EntitySet<DB_ParentChildRelation> _DB_ParentChildRelations1;
+		private int _WordElement;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -121,15 +991,16 @@ namespace Flex.Database
     partial void OnCreated();
     partial void OnIDChanging(int value);
     partial void OnIDChanged();
-    partial void OnElementTypeChanging(System.Nullable<byte> value);
-    partial void OnElementTypeChanged();
+    partial void OnTextChanging(string value);
+    partial void OnTextChanged();
+    partial void OnWeightChanging(int value);
+    partial void OnWeightChanged();
+    partial void OnWordElementChanging(int value);
+    partial void OnWordElementChanged();
     #endregion
 		
-		public DB_Element()
+		public DB_WeightedWord()
 		{
-			this._DB_WeightedWords = new EntitySet<DB_WeightedWord>(new Action<DB_WeightedWord>(this.attach_DB_WeightedWords), new Action<DB_WeightedWord>(this.detach_DB_WeightedWords));
-			this._DB_ParentChildRelations = new EntitySet<DB_ParentChildRelation>(new Action<DB_ParentChildRelation>(this.attach_DB_ParentChildRelations), new Action<DB_ParentChildRelation>(this.detach_DB_ParentChildRelations));
-			this._DB_ParentChildRelations1 = new EntitySet<DB_ParentChildRelation>(new Action<DB_ParentChildRelation>(this.attach_DB_ParentChildRelations1), new Action<DB_ParentChildRelation>(this.detach_DB_ParentChildRelations1));
 			OnCreated();
 		}
 		
@@ -153,62 +1024,63 @@ namespace Flex.Database
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ElementType", DbType="TinyInt", IsDiscriminator=true)]
-		public System.Nullable<byte> ElementType
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Text", DbType="VarChar(24) NOT NULL", CanBeNull=false)]
+		public string Text
 		{
 			get
 			{
-				return this._ElementType;
+				return this._Text;
 			}
 			set
 			{
-				if ((this._ElementType != value))
+				if ((this._Text != value))
 				{
-					this.OnElementTypeChanging(value);
+					this.OnTextChanging(value);
 					this.SendPropertyChanging();
-					this._ElementType = value;
-					this.SendPropertyChanged("ElementType");
-					this.OnElementTypeChanged();
+					this._Text = value;
+					this.SendPropertyChanged("Text");
+					this.OnTextChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DB_Element_DB_WeightedWord", Storage="_DB_WeightedWords", ThisKey="ID", OtherKey="WordElement")]
-		public EntitySet<DB_WeightedWord> DB_WeightedWords
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Weight", DbType="Int NOT NULL")]
+		public int Weight
 		{
 			get
 			{
-				return this._DB_WeightedWords;
+				return this._Weight;
 			}
 			set
 			{
-				this._DB_WeightedWords.Assign(value);
+				if ((this._Weight != value))
+				{
+					this.OnWeightChanging(value);
+					this.SendPropertyChanging();
+					this._Weight = value;
+					this.SendPropertyChanged("Weight");
+					this.OnWeightChanged();
+				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DB_Element_DB_ParentChildRelation", Storage="_DB_ParentChildRelations", ThisKey="ID", OtherKey="Child")]
-		public EntitySet<DB_ParentChildRelation> DB_ParentChildRelations
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WordElement", DbType="Int NOT NULL")]
+		public int WordElement
 		{
 			get
 			{
-				return this._DB_ParentChildRelations;
+				return this._WordElement;
 			}
 			set
 			{
-				this._DB_ParentChildRelations.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DB_Element_DB_ParentChildRelation1", Storage="_DB_ParentChildRelations1", ThisKey="ID", OtherKey="Parent")]
-		public EntitySet<DB_ParentChildRelation> DB_ParentChildRelations1
-		{
-			get
-			{
-				return this._DB_ParentChildRelations1;
-			}
-			set
-			{
-				this._DB_ParentChildRelations1.Assign(value);
+				if ((this._WordElement != value))
+				{
+					this.OnWordElementChanging(value);
+					this.SendPropertyChanging();
+					this._WordElement = value;
+					this.SendPropertyChanged("WordElement");
+					this.OnWordElementChanged();
+				}
 			}
 		}
 		
@@ -231,72 +1103,1797 @@ namespace Flex.Database
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DB_PrepositionalPhrases")]
+	public partial class DB_PrepositionalPhrase
+	{
 		
-		private void attach_DB_WeightedWords(DB_WeightedWord entity)
+		private int _ID;
+		
+		private System.Nullable<byte> _DiscourseFunction;
+		
+		private System.Nullable<bool> _Appositive;
+		
+		public DB_PrepositionalPhrase()
 		{
-			this.SendPropertyChanging();
-			entity.DB_Element = this;
 		}
 		
-		private void detach_DB_WeightedWords(DB_WeightedWord entity)
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", DbType="Int NOT NULL")]
+		public int ID
 		{
-			this.SendPropertyChanging();
-			entity.DB_Element = null;
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this._ID = value;
+				}
+			}
 		}
 		
-		private void attach_DB_ParentChildRelations(DB_ParentChildRelation entity)
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DiscourseFunction", DbType="TinyInt")]
+		public System.Nullable<byte> DiscourseFunction
 		{
-			this.SendPropertyChanging();
-			entity.DB_Element = this;
+			get
+			{
+				return this._DiscourseFunction;
+			}
+			set
+			{
+				if ((this._DiscourseFunction != value))
+				{
+					this._DiscourseFunction = value;
+				}
+			}
 		}
 		
-		private void detach_DB_ParentChildRelations(DB_ParentChildRelation entity)
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Appositive", DbType="Bit")]
+		public System.Nullable<bool> Appositive
 		{
-			this.SendPropertyChanging();
-			entity.DB_Element = null;
-		}
-		
-		private void attach_DB_ParentChildRelations1(DB_ParentChildRelation entity)
-		{
-			this.SendPropertyChanging();
-			entity.DB_Element1 = this;
-		}
-		
-		private void detach_DB_ParentChildRelations1(DB_ParentChildRelation entity)
-		{
-			this.SendPropertyChanging();
-			entity.DB_Element1 = null;
+			get
+			{
+				return this._Appositive;
+			}
+			set
+			{
+				if ((this._Appositive != value))
+				{
+					this._Appositive = value;
+				}
+			}
 		}
 	}
 	
-	public partial class DB_WordElement : DB_Element
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DB_Nouns")]
+	public partial class DB_Noun
 	{
 		
-		private System.Nullable<byte> _WordType;
+		private int _ID;
 		
-		private System.Nullable<int> _DefaultWeightedWord;
+		private System.Nullable<bool> _ExpletiveSubject;
 		
-		private string _SingleWord;
+		private System.Nullable<bool> _Proper;
+		
+		private System.Nullable<byte> _Inflection;
+		
+		private System.Nullable<bool> _Canned;
+		
+		public DB_Noun()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", DbType="Int NOT NULL")]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this._ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExpletiveSubject", DbType="Bit")]
+		public System.Nullable<bool> ExpletiveSubject
+		{
+			get
+			{
+				return this._ExpletiveSubject;
+			}
+			set
+			{
+				if ((this._ExpletiveSubject != value))
+				{
+					this._ExpletiveSubject = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Proper", DbType="Bit")]
+		public System.Nullable<bool> Proper
+		{
+			get
+			{
+				return this._Proper;
+			}
+			set
+			{
+				if ((this._Proper != value))
+				{
+					this._Proper = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Inflection", DbType="TinyInt")]
+		public System.Nullable<byte> Inflection
+		{
+			get
+			{
+				return this._Inflection;
+			}
+			set
+			{
+				if ((this._Inflection != value))
+				{
+					this._Inflection = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Canned", DbType="Bit")]
+		public System.Nullable<bool> Canned
+		{
+			get
+			{
+				return this._Canned;
+			}
+			set
+			{
+				if ((this._Canned != value))
+				{
+					this._Canned = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DB_Verbs")]
+	public partial class DB_Verb
+	{
+		
+		private int _ID;
+		
+		private System.Nullable<bool> _ExpletiveSubject;
+		
+		private System.Nullable<bool> _Proper;
+		
+		private System.Nullable<byte> _Inflection;
+		
+		private System.Nullable<bool> _Canned;
+		
+		public DB_Verb()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", DbType="Int NOT NULL")]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this._ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExpletiveSubject", DbType="Bit")]
+		public System.Nullable<bool> ExpletiveSubject
+		{
+			get
+			{
+				return this._ExpletiveSubject;
+			}
+			set
+			{
+				if ((this._ExpletiveSubject != value))
+				{
+					this._ExpletiveSubject = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Proper", DbType="Bit")]
+		public System.Nullable<bool> Proper
+		{
+			get
+			{
+				return this._Proper;
+			}
+			set
+			{
+				if ((this._Proper != value))
+				{
+					this._Proper = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Inflection", DbType="TinyInt")]
+		public System.Nullable<byte> Inflection
+		{
+			get
+			{
+				return this._Inflection;
+			}
+			set
+			{
+				if ((this._Inflection != value))
+				{
+					this._Inflection = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Canned", DbType="Bit")]
+		public System.Nullable<bool> Canned
+		{
+			get
+			{
+				return this._Canned;
+			}
+			set
+			{
+				if ((this._Canned != value))
+				{
+					this._Canned = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DB_Adjectives")]
+	public partial class DB_Adjective
+	{
+		
+		private int _ID;
+		
+		private System.Nullable<bool> _ExpletiveSubject;
+		
+		private System.Nullable<bool> _Proper;
+		
+		private System.Nullable<byte> _Inflection;
+		
+		private System.Nullable<bool> _Canned;
+		
+		public DB_Adjective()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", DbType="Int NOT NULL")]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this._ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExpletiveSubject", DbType="Bit")]
+		public System.Nullable<bool> ExpletiveSubject
+		{
+			get
+			{
+				return this._ExpletiveSubject;
+			}
+			set
+			{
+				if ((this._ExpletiveSubject != value))
+				{
+					this._ExpletiveSubject = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Proper", DbType="Bit")]
+		public System.Nullable<bool> Proper
+		{
+			get
+			{
+				return this._Proper;
+			}
+			set
+			{
+				if ((this._Proper != value))
+				{
+					this._Proper = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Inflection", DbType="TinyInt")]
+		public System.Nullable<byte> Inflection
+		{
+			get
+			{
+				return this._Inflection;
+			}
+			set
+			{
+				if ((this._Inflection != value))
+				{
+					this._Inflection = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Canned", DbType="Bit")]
+		public System.Nullable<bool> Canned
+		{
+			get
+			{
+				return this._Canned;
+			}
+			set
+			{
+				if ((this._Canned != value))
+				{
+					this._Canned = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DB_Adverbs")]
+	public partial class DB_Adverb
+	{
+		
+		private int _ID;
+		
+		private System.Nullable<bool> _ExpletiveSubject;
+		
+		private System.Nullable<bool> _Proper;
+		
+		private System.Nullable<byte> _Inflection;
+		
+		private System.Nullable<bool> _Canned;
+		
+		public DB_Adverb()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", DbType="Int NOT NULL")]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this._ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExpletiveSubject", DbType="Bit")]
+		public System.Nullable<bool> ExpletiveSubject
+		{
+			get
+			{
+				return this._ExpletiveSubject;
+			}
+			set
+			{
+				if ((this._ExpletiveSubject != value))
+				{
+					this._ExpletiveSubject = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Proper", DbType="Bit")]
+		public System.Nullable<bool> Proper
+		{
+			get
+			{
+				return this._Proper;
+			}
+			set
+			{
+				if ((this._Proper != value))
+				{
+					this._Proper = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Inflection", DbType="TinyInt")]
+		public System.Nullable<byte> Inflection
+		{
+			get
+			{
+				return this._Inflection;
+			}
+			set
+			{
+				if ((this._Inflection != value))
+				{
+					this._Inflection = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Canned", DbType="Bit")]
+		public System.Nullable<bool> Canned
+		{
+			get
+			{
+				return this._Canned;
+			}
+			set
+			{
+				if ((this._Canned != value))
+				{
+					this._Canned = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DB_Prepositions")]
+	public partial class DB_Preposition
+	{
+		
+		private int _ID;
+		
+		private System.Nullable<bool> _ExpletiveSubject;
+		
+		private System.Nullable<bool> _Proper;
+		
+		private System.Nullable<byte> _Inflection;
+		
+		private System.Nullable<bool> _Canned;
+		
+		public DB_Preposition()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", DbType="Int NOT NULL")]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this._ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExpletiveSubject", DbType="Bit")]
+		public System.Nullable<bool> ExpletiveSubject
+		{
+			get
+			{
+				return this._ExpletiveSubject;
+			}
+			set
+			{
+				if ((this._ExpletiveSubject != value))
+				{
+					this._ExpletiveSubject = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Proper", DbType="Bit")]
+		public System.Nullable<bool> Proper
+		{
+			get
+			{
+				return this._Proper;
+			}
+			set
+			{
+				if ((this._Proper != value))
+				{
+					this._Proper = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Inflection", DbType="TinyInt")]
+		public System.Nullable<byte> Inflection
+		{
+			get
+			{
+				return this._Inflection;
+			}
+			set
+			{
+				if ((this._Inflection != value))
+				{
+					this._Inflection = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Canned", DbType="Bit")]
+		public System.Nullable<bool> Canned
+		{
+			get
+			{
+				return this._Canned;
+			}
+			set
+			{
+				if ((this._Canned != value))
+				{
+					this._Canned = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DB_Conjunctions")]
+	public partial class DB_Conjunction
+	{
+		
+		private int _ID;
+		
+		private System.Nullable<bool> _ExpletiveSubject;
+		
+		private System.Nullable<bool> _Proper;
+		
+		private System.Nullable<byte> _Inflection;
+		
+		private System.Nullable<bool> _Canned;
+		
+		public DB_Conjunction()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", DbType="Int NOT NULL")]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this._ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExpletiveSubject", DbType="Bit")]
+		public System.Nullable<bool> ExpletiveSubject
+		{
+			get
+			{
+				return this._ExpletiveSubject;
+			}
+			set
+			{
+				if ((this._ExpletiveSubject != value))
+				{
+					this._ExpletiveSubject = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Proper", DbType="Bit")]
+		public System.Nullable<bool> Proper
+		{
+			get
+			{
+				return this._Proper;
+			}
+			set
+			{
+				if ((this._Proper != value))
+				{
+					this._Proper = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Inflection", DbType="TinyInt")]
+		public System.Nullable<byte> Inflection
+		{
+			get
+			{
+				return this._Inflection;
+			}
+			set
+			{
+				if ((this._Inflection != value))
+				{
+					this._Inflection = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Canned", DbType="Bit")]
+		public System.Nullable<bool> Canned
+		{
+			get
+			{
+				return this._Canned;
+			}
+			set
+			{
+				if ((this._Canned != value))
+				{
+					this._Canned = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DB_Determiners")]
+	public partial class DB_Determiner
+	{
+		
+		private int _ID;
+		
+		private System.Nullable<bool> _ExpletiveSubject;
+		
+		private System.Nullable<bool> _Proper;
+		
+		private System.Nullable<byte> _Inflection;
+		
+		private System.Nullable<bool> _Canned;
+		
+		public DB_Determiner()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", DbType="Int NOT NULL")]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this._ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExpletiveSubject", DbType="Bit")]
+		public System.Nullable<bool> ExpletiveSubject
+		{
+			get
+			{
+				return this._ExpletiveSubject;
+			}
+			set
+			{
+				if ((this._ExpletiveSubject != value))
+				{
+					this._ExpletiveSubject = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Proper", DbType="Bit")]
+		public System.Nullable<bool> Proper
+		{
+			get
+			{
+				return this._Proper;
+			}
+			set
+			{
+				if ((this._Proper != value))
+				{
+					this._Proper = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Inflection", DbType="TinyInt")]
+		public System.Nullable<byte> Inflection
+		{
+			get
+			{
+				return this._Inflection;
+			}
+			set
+			{
+				if ((this._Inflection != value))
+				{
+					this._Inflection = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Canned", DbType="Bit")]
+		public System.Nullable<bool> Canned
+		{
+			get
+			{
+				return this._Canned;
+			}
+			set
+			{
+				if ((this._Canned != value))
+				{
+					this._Canned = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DB_CardinalNumbers")]
+	public partial class DB_CardinalNumber
+	{
+		
+		private int _ID;
+		
+		private System.Nullable<bool> _ExpletiveSubject;
+		
+		private System.Nullable<bool> _Proper;
+		
+		private System.Nullable<byte> _Inflection;
+		
+		private System.Nullable<bool> _Canned;
+		
+		public DB_CardinalNumber()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", DbType="Int NOT NULL")]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this._ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExpletiveSubject", DbType="Bit")]
+		public System.Nullable<bool> ExpletiveSubject
+		{
+			get
+			{
+				return this._ExpletiveSubject;
+			}
+			set
+			{
+				if ((this._ExpletiveSubject != value))
+				{
+					this._ExpletiveSubject = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Proper", DbType="Bit")]
+		public System.Nullable<bool> Proper
+		{
+			get
+			{
+				return this._Proper;
+			}
+			set
+			{
+				if ((this._Proper != value))
+				{
+					this._Proper = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Inflection", DbType="TinyInt")]
+		public System.Nullable<byte> Inflection
+		{
+			get
+			{
+				return this._Inflection;
+			}
+			set
+			{
+				if ((this._Inflection != value))
+				{
+					this._Inflection = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Canned", DbType="Bit")]
+		public System.Nullable<bool> Canned
+		{
+			get
+			{
+				return this._Canned;
+			}
+			set
+			{
+				if ((this._Canned != value))
+				{
+					this._Canned = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DB_Modals")]
+	public partial class DB_Modal
+	{
+		
+		private int _ID;
+		
+		private System.Nullable<bool> _ExpletiveSubject;
+		
+		private System.Nullable<bool> _Proper;
+		
+		private System.Nullable<byte> _Inflection;
+		
+		private System.Nullable<bool> _Canned;
+		
+		public DB_Modal()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", DbType="Int NOT NULL")]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this._ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExpletiveSubject", DbType="Bit")]
+		public System.Nullable<bool> ExpletiveSubject
+		{
+			get
+			{
+				return this._ExpletiveSubject;
+			}
+			set
+			{
+				if ((this._ExpletiveSubject != value))
+				{
+					this._ExpletiveSubject = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Proper", DbType="Bit")]
+		public System.Nullable<bool> Proper
+		{
+			get
+			{
+				return this._Proper;
+			}
+			set
+			{
+				if ((this._Proper != value))
+				{
+					this._Proper = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Inflection", DbType="TinyInt")]
+		public System.Nullable<byte> Inflection
+		{
+			get
+			{
+				return this._Inflection;
+			}
+			set
+			{
+				if ((this._Inflection != value))
+				{
+					this._Inflection = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Canned", DbType="Bit")]
+		public System.Nullable<bool> Canned
+		{
+			get
+			{
+				return this._Canned;
+			}
+			set
+			{
+				if ((this._Canned != value))
+				{
+					this._Canned = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DB_Particles")]
+	public partial class DB_Particle
+	{
+		
+		private int _ID;
+		
+		private System.Nullable<bool> _ExpletiveSubject;
+		
+		private System.Nullable<bool> _Proper;
+		
+		private System.Nullable<byte> _Inflection;
+		
+		private System.Nullable<bool> _Canned;
+		
+		public DB_Particle()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", DbType="Int NOT NULL")]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this._ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExpletiveSubject", DbType="Bit")]
+		public System.Nullable<bool> ExpletiveSubject
+		{
+			get
+			{
+				return this._ExpletiveSubject;
+			}
+			set
+			{
+				if ((this._ExpletiveSubject != value))
+				{
+					this._ExpletiveSubject = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Proper", DbType="Bit")]
+		public System.Nullable<bool> Proper
+		{
+			get
+			{
+				return this._Proper;
+			}
+			set
+			{
+				if ((this._Proper != value))
+				{
+					this._Proper = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Inflection", DbType="TinyInt")]
+		public System.Nullable<byte> Inflection
+		{
+			get
+			{
+				return this._Inflection;
+			}
+			set
+			{
+				if ((this._Inflection != value))
+				{
+					this._Inflection = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Canned", DbType="Bit")]
+		public System.Nullable<bool> Canned
+		{
+			get
+			{
+				return this._Canned;
+			}
+			set
+			{
+				if ((this._Canned != value))
+				{
+					this._Canned = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DB_Pronouns")]
+	public partial class DB_Pronoun
+	{
+		
+		private int _ID;
+		
+		private System.Nullable<bool> _ExpletiveSubject;
+		
+		private System.Nullable<bool> _Proper;
+		
+		private System.Nullable<byte> _Inflection;
+		
+		private System.Nullable<bool> _Canned;
+		
+		private System.Nullable<byte> _PronounCase;
+		
+		private System.Nullable<byte> _Person;
+		
+		private System.Nullable<byte> _Number;
+		
+		private System.Nullable<byte> _Gender;
+		
+		public DB_Pronoun()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", DbType="Int NOT NULL")]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this._ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExpletiveSubject", DbType="Bit")]
+		public System.Nullable<bool> ExpletiveSubject
+		{
+			get
+			{
+				return this._ExpletiveSubject;
+			}
+			set
+			{
+				if ((this._ExpletiveSubject != value))
+				{
+					this._ExpletiveSubject = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Proper", DbType="Bit")]
+		public System.Nullable<bool> Proper
+		{
+			get
+			{
+				return this._Proper;
+			}
+			set
+			{
+				if ((this._Proper != value))
+				{
+					this._Proper = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Inflection", DbType="TinyInt")]
+		public System.Nullable<byte> Inflection
+		{
+			get
+			{
+				return this._Inflection;
+			}
+			set
+			{
+				if ((this._Inflection != value))
+				{
+					this._Inflection = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Canned", DbType="Bit")]
+		public System.Nullable<bool> Canned
+		{
+			get
+			{
+				return this._Canned;
+			}
+			set
+			{
+				if ((this._Canned != value))
+				{
+					this._Canned = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PronounCase", DbType="TinyInt")]
+		public System.Nullable<byte> PronounCase
+		{
+			get
+			{
+				return this._PronounCase;
+			}
+			set
+			{
+				if ((this._PronounCase != value))
+				{
+					this._PronounCase = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Person", DbType="TinyInt")]
+		public System.Nullable<byte> Person
+		{
+			get
+			{
+				return this._Person;
+			}
+			set
+			{
+				if ((this._Person != value))
+				{
+					this._Person = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Number", DbType="TinyInt")]
+		public System.Nullable<byte> Number
+		{
+			get
+			{
+				return this._Number;
+			}
+			set
+			{
+				if ((this._Number != value))
+				{
+					this._Number = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Gender", DbType="TinyInt")]
+		public System.Nullable<byte> Gender
+		{
+			get
+			{
+				return this._Gender;
+			}
+			set
+			{
+				if ((this._Gender != value))
+				{
+					this._Gender = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DB_Elements")]
+	public partial class DB_Element : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private byte _ElementType;
+		
+		private int _FormsCount;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnWordTypeChanging(System.Nullable<byte> value);
-    partial void OnWordTypeChanged();
-    partial void OnDefaultWeightedWordChanging(System.Nullable<int> value);
-    partial void OnDefaultWeightedWordChanged();
-    partial void OnSingleWordChanging(string value);
-    partial void OnSingleWordChanged();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnElementTypeChanging(byte value);
+    partial void OnElementTypeChanged();
+    partial void OnFormsCountChanging(int value);
+    partial void OnFormsCountChanged();
     #endregion
 		
-		public DB_WordElement()
+		public DB_Element()
 		{
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WordType", DbType="TinyInt")]
-		public System.Nullable<byte> WordType
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ElementType", DbType="TinyInt NOT NULL")]
+		public byte ElementType
+		{
+			get
+			{
+				return this._ElementType;
+			}
+			set
+			{
+				if ((this._ElementType != value))
+				{
+					this.OnElementTypeChanging(value);
+					this.SendPropertyChanging();
+					this._ElementType = value;
+					this.SendPropertyChanged("ElementType");
+					this.OnElementTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FormsCount", DbType="Int NOT NULL")]
+		public int FormsCount
+		{
+			get
+			{
+				return this._FormsCount;
+			}
+			set
+			{
+				if ((this._FormsCount != value))
+				{
+					this.OnFormsCountChanging(value);
+					this.SendPropertyChanging();
+					this._FormsCount = value;
+					this.SendPropertyChanged("FormsCount");
+					this.OnFormsCountChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DB_Words")]
+	public partial class DB_Word : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private int _DefaultWeightedWord;
+		
+		private byte _WordType;
+		
+		private string _DefaultForm;
+		
+		private int _FormsCount;
+		
+		private System.Nullable<bool> _ExpletiveSubject;
+		
+		private System.Nullable<bool> _Proper;
+		
+		private System.Nullable<byte> _Inflection;
+		
+		private System.Nullable<bool> _Canned;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnDefaultWeightedWordChanging(int value);
+    partial void OnDefaultWeightedWordChanged();
+    partial void OnWordTypeChanging(byte value);
+    partial void OnWordTypeChanged();
+    partial void OnDefaultFormChanging(string value);
+    partial void OnDefaultFormChanged();
+    partial void OnFormsCountChanging(int value);
+    partial void OnFormsCountChanged();
+    partial void OnExpletiveSubjectChanging(System.Nullable<bool> value);
+    partial void OnExpletiveSubjectChanged();
+    partial void OnProperChanging(System.Nullable<bool> value);
+    partial void OnProperChanged();
+    partial void OnInflectionChanging(System.Nullable<byte> value);
+    partial void OnInflectionChanged();
+    partial void OnCannedChanging(System.Nullable<bool> value);
+    partial void OnCannedChanged();
+    #endregion
+		
+		public DB_Word()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DefaultWeightedWord", DbType="Int NOT NULL")]
+		public int DefaultWeightedWord
+		{
+			get
+			{
+				return this._DefaultWeightedWord;
+			}
+			set
+			{
+				if ((this._DefaultWeightedWord != value))
+				{
+					this.OnDefaultWeightedWordChanging(value);
+					this.SendPropertyChanging();
+					this._DefaultWeightedWord = value;
+					this.SendPropertyChanged("DefaultWeightedWord");
+					this.OnDefaultWeightedWordChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WordType", DbType="TinyInt NOT NULL")]
+		public byte WordType
+		{
+			get
+			{
+				return this._WordType;
+			}
+			set
+			{
+				if ((this._WordType != value))
+				{
+					this.OnWordTypeChanging(value);
+					this.SendPropertyChanging();
+					this._WordType = value;
+					this.SendPropertyChanged("WordType");
+					this.OnWordTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DefaultForm", DbType="VarChar(24) NOT NULL", CanBeNull=false)]
+		public string DefaultForm
+		{
+			get
+			{
+				return this._DefaultForm;
+			}
+			set
+			{
+				if ((this._DefaultForm != value))
+				{
+					this.OnDefaultFormChanging(value);
+					this.SendPropertyChanging();
+					this._DefaultForm = value;
+					this.SendPropertyChanged("DefaultForm");
+					this.OnDefaultFormChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FormsCount", DbType="Int NOT NULL")]
+		public int FormsCount
+		{
+			get
+			{
+				return this._FormsCount;
+			}
+			set
+			{
+				if ((this._FormsCount != value))
+				{
+					this.OnFormsCountChanging(value);
+					this.SendPropertyChanging();
+					this._FormsCount = value;
+					this.SendPropertyChanged("FormsCount");
+					this.OnFormsCountChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExpletiveSubject", DbType="Bit")]
+		public System.Nullable<bool> ExpletiveSubject
+		{
+			get
+			{
+				return this._ExpletiveSubject;
+			}
+			set
+			{
+				if ((this._ExpletiveSubject != value))
+				{
+					this.OnExpletiveSubjectChanging(value);
+					this.SendPropertyChanging();
+					this._ExpletiveSubject = value;
+					this.SendPropertyChanged("ExpletiveSubject");
+					this.OnExpletiveSubjectChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Proper", DbType="Bit")]
+		public System.Nullable<bool> Proper
+		{
+			get
+			{
+				return this._Proper;
+			}
+			set
+			{
+				if ((this._Proper != value))
+				{
+					this.OnProperChanging(value);
+					this.SendPropertyChanging();
+					this._Proper = value;
+					this.SendPropertyChanged("Proper");
+					this.OnProperChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Inflection", DbType="TinyInt")]
+		public System.Nullable<byte> Inflection
+		{
+			get
+			{
+				return this._Inflection;
+			}
+			set
+			{
+				if ((this._Inflection != value))
+				{
+					this.OnInflectionChanging(value);
+					this.SendPropertyChanging();
+					this._Inflection = value;
+					this.SendPropertyChanged("Inflection");
+					this.OnInflectionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Canned", DbType="Bit")]
+		public System.Nullable<bool> Canned
+		{
+			get
+			{
+				return this._Canned;
+			}
+			set
+			{
+				if ((this._Canned != value))
+				{
+					this.OnCannedChanging(value);
+					this.SendPropertyChanging();
+					this._Canned = value;
+					this.SendPropertyChanged("Canned");
+					this.OnCannedChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DB_Parents")]
+	public partial class DB_Parent : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private byte _ParentType;
+		
+		private string _DefaultRealization;
+		
+		private int _FormsCount;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnParentTypeChanging(byte value);
+    partial void OnParentTypeChanged();
+    partial void OnDefaultRealizationChanging(string value);
+    partial void OnDefaultRealizationChanged();
+    partial void OnFormsCountChanging(int value);
+    partial void OnFormsCountChanged();
+    #endregion
+		
+		public DB_Parent()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParentType", DbType="TinyInt NOT NULL")]
+		public byte ParentType
+		{
+			get
+			{
+				return this._ParentType;
+			}
+			set
+			{
+				if ((this._ParentType != value))
+				{
+					this.OnParentTypeChanging(value);
+					this.SendPropertyChanging();
+					this._ParentType = value;
+					this.SendPropertyChanged("ParentType");
+					this.OnParentTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DefaultRealization", DbType="VarChar(MAX)")]
+		public string DefaultRealization
+		{
+			get
+			{
+				return this._DefaultRealization;
+			}
+			set
+			{
+				if ((this._DefaultRealization != value))
+				{
+					this.OnDefaultRealizationChanging(value);
+					this.SendPropertyChanging();
+					this._DefaultRealization = value;
+					this.SendPropertyChanged("DefaultRealization");
+					this.OnDefaultRealizationChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FormsCount", DbType="Int NOT NULL")]
+		public int FormsCount
+		{
+			get
+			{
+				return this._FormsCount;
+			}
+			set
+			{
+				if ((this._FormsCount != value))
+				{
+					this.OnFormsCountChanging(value);
+					this.SendPropertyChanging();
+					this._FormsCount = value;
+					this.SendPropertyChanged("FormsCount");
+					this.OnFormsCountChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.LayerWords")]
+	public partial class LayerWord : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private byte _WordType;
+		
+		private System.Nullable<int> _DefaultWeightedWord;
+		
+		private System.Nullable<bool> _ExpletiveSubject;
+		
+		private System.Nullable<bool> _Proper;
+		
+		private System.Nullable<byte> _Inflection;
+		
+		private System.Nullable<bool> _Canned;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnWordTypeChanging(byte value);
+    partial void OnWordTypeChanged();
+    partial void OnDefaultWeightedWordChanging(System.Nullable<int> value);
+    partial void OnDefaultWeightedWordChanged();
+    partial void OnExpletiveSubjectChanging(System.Nullable<bool> value);
+    partial void OnExpletiveSubjectChanged();
+    partial void OnProperChanging(System.Nullable<bool> value);
+    partial void OnProperChanged();
+    partial void OnInflectionChanging(System.Nullable<byte> value);
+    partial void OnInflectionChanged();
+    partial void OnCannedChanging(System.Nullable<bool> value);
+    partial void OnCannedChanged();
+    #endregion
+		
+		public LayerWord()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WordType", DbType="TinyInt NOT NULL")]
+		public byte WordType
 		{
 			get
 			{
@@ -335,143 +2932,158 @@ namespace Flex.Database
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SingleWord", DbType="VarChar(50)")]
-		public string SingleWord
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExpletiveSubject", DbType="Bit")]
+		public System.Nullable<bool> ExpletiveSubject
 		{
 			get
 			{
-				return this._SingleWord;
+				return this._ExpletiveSubject;
 			}
 			set
 			{
-				if ((this._SingleWord != value))
+				if ((this._ExpletiveSubject != value))
 				{
-					this.OnSingleWordChanging(value);
+					this.OnExpletiveSubjectChanging(value);
 					this.SendPropertyChanging();
-					this._SingleWord = value;
-					this.SendPropertyChanged("SingleWord");
-					this.OnSingleWordChanged();
+					this._ExpletiveSubject = value;
+					this.SendPropertyChanged("ExpletiveSubject");
+					this.OnExpletiveSubjectChanged();
 				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Proper", DbType="Bit")]
+		public System.Nullable<bool> Proper
+		{
+			get
+			{
+				return this._Proper;
+			}
+			set
+			{
+				if ((this._Proper != value))
+				{
+					this.OnProperChanging(value);
+					this.SendPropertyChanging();
+					this._Proper = value;
+					this.SendPropertyChanged("Proper");
+					this.OnProperChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Inflection", DbType="TinyInt")]
+		public System.Nullable<byte> Inflection
+		{
+			get
+			{
+				return this._Inflection;
+			}
+			set
+			{
+				if ((this._Inflection != value))
+				{
+					this.OnInflectionChanging(value);
+					this.SendPropertyChanging();
+					this._Inflection = value;
+					this.SendPropertyChanged("Inflection");
+					this.OnInflectionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Canned", DbType="Bit")]
+		public System.Nullable<bool> Canned
+		{
+			get
+			{
+				return this._Canned;
+			}
+			set
+			{
+				if ((this._Canned != value))
+				{
+					this.OnCannedChanging(value);
+					this.SendPropertyChanging();
+					this._Canned = value;
+					this.SendPropertyChanged("Canned");
+					this.OnCannedChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
 	}
 	
-	public partial class DB_ParentElement : DB_Element
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.LayerParents")]
+	public partial class LayerParent : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
-		private System.Nullable<byte> _ParentType;
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private string _ParentDefaultRealization;
+		private int _ID;
 		
-		private System.Nullable<byte> _DiscourseFunction;
+		private byte _ParentType;
 		
-		private System.Nullable<bool> _Appositive;
-		
-		private System.Nullable<bool> _AdjectiveOrdering;
-		
-		private System.Nullable<bool> _AggregateAuxiliary;
-		
-		private string _Complementizer;
-		
-		private System.Nullable<bool> _Elided;
-		
-		private System.Nullable<byte> _Form;
-		
-		private System.Nullable<byte> _Gender;
-		
-		private System.Nullable<byte> _InterrogativeType;
-		
-		private System.Nullable<bool> _IsComparative;
-		
-		private System.Nullable<bool> _IsSuperlative;
-		
-		private System.Nullable<byte> _Number;
-		
-		private System.Nullable<bool> _Possessive;
-		
-		private System.Nullable<bool> _Pronominal;
-		
-		private string _Modal;
-		
-		private System.Nullable<bool> _Negated;
-		
-		private System.Nullable<bool> _Passive;
-		
-		private System.Nullable<bool> _Perfect;
-		
-		private System.Nullable<byte> _Person;
-		
-		private System.Nullable<bool> _Progressive;
-		
-		private System.Nullable<bool> _SuppressGenitiveInGerund;
-		
-		private System.Nullable<bool> _SuppressedComplementizer;
-		
-		private System.Nullable<byte> _Tense;
+		private string _DefaultRealization;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnParentTypeChanging(System.Nullable<byte> value);
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnParentTypeChanging(byte value);
     partial void OnParentTypeChanged();
-    partial void OnParentDefaultRealizationChanging(string value);
-    partial void OnParentDefaultRealizationChanged();
-    partial void OnDiscourseFunctionChanging(System.Nullable<byte> value);
-    partial void OnDiscourseFunctionChanged();
-    partial void OnAppositiveChanging(System.Nullable<bool> value);
-    partial void OnAppositiveChanged();
-    partial void OnAdjectiveOrderingChanging(System.Nullable<bool> value);
-    partial void OnAdjectiveOrderingChanged();
-    partial void OnAggregateAuxiliaryChanging(System.Nullable<bool> value);
-    partial void OnAggregateAuxiliaryChanged();
-    partial void OnComplementizerChanging(string value);
-    partial void OnComplementizerChanged();
-    partial void OnElidedChanging(System.Nullable<bool> value);
-    partial void OnElidedChanged();
-    partial void OnFormChanging(System.Nullable<byte> value);
-    partial void OnFormChanged();
-    partial void OnGenderChanging(System.Nullable<byte> value);
-    partial void OnGenderChanged();
-    partial void OnInterrogativeTypeChanging(System.Nullable<byte> value);
-    partial void OnInterrogativeTypeChanged();
-    partial void OnIsComparativeChanging(System.Nullable<bool> value);
-    partial void OnIsComparativeChanged();
-    partial void OnIsSuperlativeChanging(System.Nullable<bool> value);
-    partial void OnIsSuperlativeChanged();
-    partial void OnNumberChanging(System.Nullable<byte> value);
-    partial void OnNumberChanged();
-    partial void OnPossessiveChanging(System.Nullable<bool> value);
-    partial void OnPossessiveChanged();
-    partial void OnPronominalChanging(System.Nullable<bool> value);
-    partial void OnPronominalChanged();
-    partial void OnModalChanging(string value);
-    partial void OnModalChanged();
-    partial void OnNegatedChanging(System.Nullable<bool> value);
-    partial void OnNegatedChanged();
-    partial void OnPassiveChanging(System.Nullable<bool> value);
-    partial void OnPassiveChanged();
-    partial void OnPerfectChanging(System.Nullable<bool> value);
-    partial void OnPerfectChanged();
-    partial void OnPersonChanging(System.Nullable<byte> value);
-    partial void OnPersonChanged();
-    partial void OnProgressiveChanging(System.Nullable<bool> value);
-    partial void OnProgressiveChanged();
-    partial void OnSuppressGenitiveInGerundChanging(System.Nullable<bool> value);
-    partial void OnSuppressGenitiveInGerundChanged();
-    partial void OnSuppressedComplementizerChanging(System.Nullable<bool> value);
-    partial void OnSuppressedComplementizerChanged();
-    partial void OnTenseChanging(System.Nullable<byte> value);
-    partial void OnTenseChanged();
+    partial void OnDefaultRealizationChanging(string value);
+    partial void OnDefaultRealizationChanged();
     #endregion
 		
-		public DB_ParentElement()
+		public LayerParent()
 		{
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParentType", DbType="TinyInt")]
-		public System.Nullable<byte> ParentType
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParentType", DbType="TinyInt NOT NULL")]
+		public byte ParentType
 		{
 			get
 			{
@@ -490,22 +3102,92 @@ namespace Flex.Database
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParentDefaultRealization", DbType="VarChar(MAX)")]
-		public string ParentDefaultRealization
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DefaultRealization", DbType="VarChar(MAX)")]
+		public string DefaultRealization
 		{
 			get
 			{
-				return this._ParentDefaultRealization;
+				return this._DefaultRealization;
 			}
 			set
 			{
-				if ((this._ParentDefaultRealization != value))
+				if ((this._DefaultRealization != value))
 				{
-					this.OnParentDefaultRealizationChanging(value);
+					this.OnDefaultRealizationChanging(value);
 					this.SendPropertyChanging();
-					this._ParentDefaultRealization = value;
-					this.SendPropertyChanged("ParentDefaultRealization");
-					this.OnParentDefaultRealizationChanged();
+					this._DefaultRealization = value;
+					this.SendPropertyChanged("DefaultRealization");
+					this.OnDefaultRealizationChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.LayerPhrases")]
+	public partial class LayerPhrase : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private System.Nullable<byte> _DiscourseFunction;
+		
+		private System.Nullable<bool> _Appositive;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnDiscourseFunctionChanging(System.Nullable<byte> value);
+    partial void OnDiscourseFunctionChanged();
+    partial void OnAppositiveChanging(System.Nullable<bool> value);
+    partial void OnAppositiveChanged();
+    #endregion
+		
+		public LayerPhrase()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
 				}
 			}
 		}
@@ -550,6 +3232,96 @@ namespace Flex.Database
 			}
 		}
 		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.LayerNounPhrases")]
+	public partial class LayerNounPhrase : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private System.Nullable<bool> _AdjectiveOrdering;
+		
+		private System.Nullable<bool> _Elided;
+		
+		private System.Nullable<byte> _Number;
+		
+		private System.Nullable<byte> _Gender;
+		
+		private System.Nullable<byte> _Person;
+		
+		private System.Nullable<bool> _Possessive;
+		
+		private System.Nullable<bool> _Pronominal;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnAdjectiveOrderingChanging(System.Nullable<bool> value);
+    partial void OnAdjectiveOrderingChanged();
+    partial void OnElidedChanging(System.Nullable<bool> value);
+    partial void OnElidedChanged();
+    partial void OnNumberChanging(System.Nullable<byte> value);
+    partial void OnNumberChanged();
+    partial void OnGenderChanging(System.Nullable<byte> value);
+    partial void OnGenderChanged();
+    partial void OnPersonChanging(System.Nullable<byte> value);
+    partial void OnPersonChanged();
+    partial void OnPossessiveChanging(System.Nullable<bool> value);
+    partial void OnPossessiveChanged();
+    partial void OnPronominalChanging(System.Nullable<bool> value);
+    partial void OnPronominalChanged();
+    #endregion
+		
+		public LayerNounPhrase()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AdjectiveOrdering", DbType="Bit")]
 		public System.Nullable<bool> AdjectiveOrdering
 		{
@@ -566,46 +3338,6 @@ namespace Flex.Database
 					this._AdjectiveOrdering = value;
 					this.SendPropertyChanged("AdjectiveOrdering");
 					this.OnAdjectiveOrderingChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AggregateAuxiliary", DbType="Bit")]
-		public System.Nullable<bool> AggregateAuxiliary
-		{
-			get
-			{
-				return this._AggregateAuxiliary;
-			}
-			set
-			{
-				if ((this._AggregateAuxiliary != value))
-				{
-					this.OnAggregateAuxiliaryChanging(value);
-					this.SendPropertyChanging();
-					this._AggregateAuxiliary = value;
-					this.SendPropertyChanged("AggregateAuxiliary");
-					this.OnAggregateAuxiliaryChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Complementizer", DbType="VarChar(24)")]
-		public string Complementizer
-		{
-			get
-			{
-				return this._Complementizer;
-			}
-			set
-			{
-				if ((this._Complementizer != value))
-				{
-					this.OnComplementizerChanging(value);
-					this.SendPropertyChanging();
-					this._Complementizer = value;
-					this.SendPropertyChanged("Complementizer");
-					this.OnComplementizerChanged();
 				}
 			}
 		}
@@ -630,22 +3362,22 @@ namespace Flex.Database
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Form", DbType="TinyInt")]
-		public System.Nullable<byte> Form
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Number", DbType="TinyInt")]
+		public System.Nullable<byte> Number
 		{
 			get
 			{
-				return this._Form;
+				return this._Number;
 			}
 			set
 			{
-				if ((this._Form != value))
+				if ((this._Number != value))
 				{
-					this.OnFormChanging(value);
+					this.OnNumberChanging(value);
 					this.SendPropertyChanging();
-					this._Form = value;
-					this.SendPropertyChanged("Form");
-					this.OnFormChanged();
+					this._Number = value;
+					this.SendPropertyChanged("Number");
+					this.OnNumberChanged();
 				}
 			}
 		}
@@ -670,82 +3402,22 @@ namespace Flex.Database
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_InterrogativeType", DbType="TinyInt")]
-		public System.Nullable<byte> InterrogativeType
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Person", DbType="TinyInt")]
+		public System.Nullable<byte> Person
 		{
 			get
 			{
-				return this._InterrogativeType;
+				return this._Person;
 			}
 			set
 			{
-				if ((this._InterrogativeType != value))
+				if ((this._Person != value))
 				{
-					this.OnInterrogativeTypeChanging(value);
+					this.OnPersonChanging(value);
 					this.SendPropertyChanging();
-					this._InterrogativeType = value;
-					this.SendPropertyChanged("InterrogativeType");
-					this.OnInterrogativeTypeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsComparative", DbType="Bit")]
-		public System.Nullable<bool> IsComparative
-		{
-			get
-			{
-				return this._IsComparative;
-			}
-			set
-			{
-				if ((this._IsComparative != value))
-				{
-					this.OnIsComparativeChanging(value);
-					this.SendPropertyChanging();
-					this._IsComparative = value;
-					this.SendPropertyChanged("IsComparative");
-					this.OnIsComparativeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsSuperlative", DbType="Bit")]
-		public System.Nullable<bool> IsSuperlative
-		{
-			get
-			{
-				return this._IsSuperlative;
-			}
-			set
-			{
-				if ((this._IsSuperlative != value))
-				{
-					this.OnIsSuperlativeChanging(value);
-					this.SendPropertyChanging();
-					this._IsSuperlative = value;
-					this.SendPropertyChanged("IsSuperlative");
-					this.OnIsSuperlativeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Number", DbType="TinyInt")]
-		public System.Nullable<byte> Number
-		{
-			get
-			{
-				return this._Number;
-			}
-			set
-			{
-				if ((this._Number != value))
-				{
-					this.OnNumberChanging(value);
-					this.SendPropertyChanging();
-					this._Number = value;
-					this.SendPropertyChanged("Number");
-					this.OnNumberChanged();
+					this._Person = value;
+					this.SendPropertyChanged("Person");
+					this.OnPersonChanged();
 				}
 			}
 		}
@@ -786,6 +3458,530 @@ namespace Flex.Database
 					this._Pronominal = value;
 					this.SendPropertyChanged("Pronominal");
 					this.OnPronominalChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.LayerAdjectivePhrases")]
+	public partial class LayerAdjectivePhrase : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private System.Nullable<bool> _Comparative;
+		
+		private System.Nullable<bool> _Superlative;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnComparativeChanging(System.Nullable<bool> value);
+    partial void OnComparativeChanged();
+    partial void OnSuperlativeChanging(System.Nullable<bool> value);
+    partial void OnSuperlativeChanged();
+    #endregion
+		
+		public LayerAdjectivePhrase()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Comparative", DbType="Bit")]
+		public System.Nullable<bool> Comparative
+		{
+			get
+			{
+				return this._Comparative;
+			}
+			set
+			{
+				if ((this._Comparative != value))
+				{
+					this.OnComparativeChanging(value);
+					this.SendPropertyChanging();
+					this._Comparative = value;
+					this.SendPropertyChanged("Comparative");
+					this.OnComparativeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Superlative", DbType="Bit")]
+		public System.Nullable<bool> Superlative
+		{
+			get
+			{
+				return this._Superlative;
+			}
+			set
+			{
+				if ((this._Superlative != value))
+				{
+					this.OnSuperlativeChanging(value);
+					this.SendPropertyChanging();
+					this._Superlative = value;
+					this.SendPropertyChanged("Superlative");
+					this.OnSuperlativeChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.LayerAdverbPhrases")]
+	public partial class LayerAdverbPhrase : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private System.Nullable<bool> _Comparative;
+		
+		private System.Nullable<bool> _Superlative;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnComparativeChanging(System.Nullable<bool> value);
+    partial void OnComparativeChanged();
+    partial void OnSuperlativeChanging(System.Nullable<bool> value);
+    partial void OnSuperlativeChanged();
+    #endregion
+		
+		public LayerAdverbPhrase()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Comparative", DbType="Bit")]
+		public System.Nullable<bool> Comparative
+		{
+			get
+			{
+				return this._Comparative;
+			}
+			set
+			{
+				if ((this._Comparative != value))
+				{
+					this.OnComparativeChanging(value);
+					this.SendPropertyChanging();
+					this._Comparative = value;
+					this.SendPropertyChanged("Comparative");
+					this.OnComparativeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Superlative", DbType="Bit")]
+		public System.Nullable<bool> Superlative
+		{
+			get
+			{
+				return this._Superlative;
+			}
+			set
+			{
+				if ((this._Superlative != value))
+				{
+					this.OnSuperlativeChanging(value);
+					this.SendPropertyChanging();
+					this._Superlative = value;
+					this.SendPropertyChanged("Superlative");
+					this.OnSuperlativeChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.LayerPronouns")]
+	public partial class LayerPronoun : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private System.Nullable<byte> _PronounCase;
+		
+		private System.Nullable<byte> _Person;
+		
+		private System.Nullable<byte> _Number;
+		
+		private System.Nullable<byte> _Gender;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnPronounCaseChanging(System.Nullable<byte> value);
+    partial void OnPronounCaseChanged();
+    partial void OnPersonChanging(System.Nullable<byte> value);
+    partial void OnPersonChanged();
+    partial void OnNumberChanging(System.Nullable<byte> value);
+    partial void OnNumberChanged();
+    partial void OnGenderChanging(System.Nullable<byte> value);
+    partial void OnGenderChanged();
+    #endregion
+		
+		public LayerPronoun()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PronounCase", DbType="TinyInt")]
+		public System.Nullable<byte> PronounCase
+		{
+			get
+			{
+				return this._PronounCase;
+			}
+			set
+			{
+				if ((this._PronounCase != value))
+				{
+					this.OnPronounCaseChanging(value);
+					this.SendPropertyChanging();
+					this._PronounCase = value;
+					this.SendPropertyChanged("PronounCase");
+					this.OnPronounCaseChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Person", DbType="TinyInt")]
+		public System.Nullable<byte> Person
+		{
+			get
+			{
+				return this._Person;
+			}
+			set
+			{
+				if ((this._Person != value))
+				{
+					this.OnPersonChanging(value);
+					this.SendPropertyChanging();
+					this._Person = value;
+					this.SendPropertyChanged("Person");
+					this.OnPersonChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Number", DbType="TinyInt")]
+		public System.Nullable<byte> Number
+		{
+			get
+			{
+				return this._Number;
+			}
+			set
+			{
+				if ((this._Number != value))
+				{
+					this.OnNumberChanging(value);
+					this.SendPropertyChanging();
+					this._Number = value;
+					this.SendPropertyChanged("Number");
+					this.OnNumberChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Gender", DbType="TinyInt")]
+		public System.Nullable<byte> Gender
+		{
+			get
+			{
+				return this._Gender;
+			}
+			set
+			{
+				if ((this._Gender != value))
+				{
+					this.OnGenderChanging(value);
+					this.SendPropertyChanging();
+					this._Gender = value;
+					this.SendPropertyChanged("Gender");
+					this.OnGenderChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.LayerVerbPhrases")]
+	public partial class LayerVerbPhrase : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private System.Nullable<bool> _AggregateAuxiliary;
+		
+		private System.Nullable<byte> _Form;
+		
+		private string _Modal;
+		
+		private System.Nullable<bool> _Negated;
+		
+		private System.Nullable<bool> _Passive;
+		
+		private System.Nullable<bool> _Perfect;
+		
+		private System.Nullable<byte> _Person;
+		
+		private System.Nullable<bool> _Progressive;
+		
+		private System.Nullable<bool> _SuppressGenitiveInGerund;
+		
+		private System.Nullable<bool> _SuppressedComplementizer;
+		
+		private System.Nullable<byte> _Tense;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnAggregateAuxiliaryChanging(System.Nullable<bool> value);
+    partial void OnAggregateAuxiliaryChanged();
+    partial void OnFormChanging(System.Nullable<byte> value);
+    partial void OnFormChanged();
+    partial void OnModalChanging(string value);
+    partial void OnModalChanged();
+    partial void OnNegatedChanging(System.Nullable<bool> value);
+    partial void OnNegatedChanged();
+    partial void OnPassiveChanging(System.Nullable<bool> value);
+    partial void OnPassiveChanged();
+    partial void OnPerfectChanging(System.Nullable<bool> value);
+    partial void OnPerfectChanged();
+    partial void OnPersonChanging(System.Nullable<byte> value);
+    partial void OnPersonChanged();
+    partial void OnProgressiveChanging(System.Nullable<bool> value);
+    partial void OnProgressiveChanged();
+    partial void OnSuppressGenitiveInGerundChanging(System.Nullable<bool> value);
+    partial void OnSuppressGenitiveInGerundChanged();
+    partial void OnSuppressedComplementizerChanging(System.Nullable<bool> value);
+    partial void OnSuppressedComplementizerChanged();
+    partial void OnTenseChanging(System.Nullable<byte> value);
+    partial void OnTenseChanged();
+    #endregion
+		
+		public LayerVerbPhrase()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AggregateAuxiliary", DbType="Bit")]
+		public System.Nullable<bool> AggregateAuxiliary
+		{
+			get
+			{
+				return this._AggregateAuxiliary;
+			}
+			set
+			{
+				if ((this._AggregateAuxiliary != value))
+				{
+					this.OnAggregateAuxiliaryChanging(value);
+					this.SendPropertyChanging();
+					this._AggregateAuxiliary = value;
+					this.SendPropertyChanged("AggregateAuxiliary");
+					this.OnAggregateAuxiliaryChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Form", DbType="TinyInt")]
+		public System.Nullable<byte> Form
+		{
+			get
+			{
+				return this._Form;
+			}
+			set
+			{
+				if ((this._Form != value))
+				{
+					this.OnFormChanging(value);
+					this.SendPropertyChanging();
+					this._Form = value;
+					this.SendPropertyChanged("Form");
+					this.OnFormChanged();
 				}
 			}
 		}
@@ -969,23 +4165,61 @@ namespace Flex.Database
 				}
 			}
 		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DB_WeightedWords")]
-	public partial class DB_WeightedWord : INotifyPropertyChanging, INotifyPropertyChanged
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.LayerClauses")]
+	public partial class LayerClause : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
 		private int _ID;
 		
-		private string _WordText;
+		private System.Nullable<bool> _AggregateAuxiliary;
 		
-		private int _Weight;
+		private string _Complementizer;
 		
-		private int _WordElement;
+		private System.Nullable<int> _Form;
 		
-		private EntityRef<DB_Element> _DB_Element;
+		private System.Nullable<byte> _InterrogativeType;
+		
+		private string _Modal;
+		
+		private System.Nullable<bool> _Negated;
+		
+		private System.Nullable<bool> _Passive;
+		
+		private System.Nullable<bool> _Perfect;
+		
+		private System.Nullable<byte> _Person;
+		
+		private System.Nullable<bool> _Progressive;
+		
+		private System.Nullable<bool> _SuppressGenitiveInGerund;
+		
+		private System.Nullable<bool> _SuppressedComplementizer;
+		
+		private System.Nullable<byte> _Tense;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -993,21 +4227,40 @@ namespace Flex.Database
     partial void OnCreated();
     partial void OnIDChanging(int value);
     partial void OnIDChanged();
-    partial void OnWordTextChanging(string value);
-    partial void OnWordTextChanged();
-    partial void OnWeightChanging(int value);
-    partial void OnWeightChanged();
-    partial void OnWordElementChanging(int value);
-    partial void OnWordElementChanged();
+    partial void OnAggregateAuxiliaryChanging(System.Nullable<bool> value);
+    partial void OnAggregateAuxiliaryChanged();
+    partial void OnComplementizerChanging(string value);
+    partial void OnComplementizerChanged();
+    partial void OnFormChanging(System.Nullable<int> value);
+    partial void OnFormChanged();
+    partial void OnInterrogativeTypeChanging(System.Nullable<byte> value);
+    partial void OnInterrogativeTypeChanged();
+    partial void OnModalChanging(string value);
+    partial void OnModalChanged();
+    partial void OnNegatedChanging(System.Nullable<bool> value);
+    partial void OnNegatedChanged();
+    partial void OnPassiveChanging(System.Nullable<bool> value);
+    partial void OnPassiveChanged();
+    partial void OnPerfectChanging(System.Nullable<bool> value);
+    partial void OnPerfectChanged();
+    partial void OnPersonChanging(System.Nullable<byte> value);
+    partial void OnPersonChanged();
+    partial void OnProgressiveChanging(System.Nullable<bool> value);
+    partial void OnProgressiveChanged();
+    partial void OnSuppressGenitiveInGerundChanging(System.Nullable<bool> value);
+    partial void OnSuppressGenitiveInGerundChanged();
+    partial void OnSuppressedComplementizerChanging(System.Nullable<bool> value);
+    partial void OnSuppressedComplementizerChanged();
+    partial void OnTenseChanging(System.Nullable<byte> value);
+    partial void OnTenseChanged();
     #endregion
 		
-		public DB_WeightedWord()
+		public LayerClause()
 		{
-			this._DB_Element = default(EntityRef<DB_Element>);
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", DbType="Int NOT NULL", IsPrimaryKey=true)]
 		public int ID
 		{
 			get
@@ -1027,100 +4280,262 @@ namespace Flex.Database
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WordText", DbType="VarChar(24) NOT NULL", CanBeNull=false)]
-		public string WordText
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AggregateAuxiliary", DbType="Bit")]
+		public System.Nullable<bool> AggregateAuxiliary
 		{
 			get
 			{
-				return this._WordText;
+				return this._AggregateAuxiliary;
 			}
 			set
 			{
-				if ((this._WordText != value))
+				if ((this._AggregateAuxiliary != value))
 				{
-					this.OnWordTextChanging(value);
+					this.OnAggregateAuxiliaryChanging(value);
 					this.SendPropertyChanging();
-					this._WordText = value;
-					this.SendPropertyChanged("WordText");
-					this.OnWordTextChanged();
+					this._AggregateAuxiliary = value;
+					this.SendPropertyChanged("AggregateAuxiliary");
+					this.OnAggregateAuxiliaryChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Weight", DbType="Int NOT NULL")]
-		public int Weight
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Complementizer", DbType="VarChar(24)")]
+		public string Complementizer
 		{
 			get
 			{
-				return this._Weight;
+				return this._Complementizer;
 			}
 			set
 			{
-				if ((this._Weight != value))
+				if ((this._Complementizer != value))
 				{
-					this.OnWeightChanging(value);
+					this.OnComplementizerChanging(value);
 					this.SendPropertyChanging();
-					this._Weight = value;
-					this.SendPropertyChanged("Weight");
-					this.OnWeightChanged();
+					this._Complementizer = value;
+					this.SendPropertyChanged("Complementizer");
+					this.OnComplementizerChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WordElement", DbType="Int NOT NULL")]
-		public int WordElement
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Form", DbType="Int")]
+		public System.Nullable<int> Form
 		{
 			get
 			{
-				return this._WordElement;
+				return this._Form;
 			}
 			set
 			{
-				if ((this._WordElement != value))
+				if ((this._Form != value))
 				{
-					if (this._DB_Element.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnWordElementChanging(value);
+					this.OnFormChanging(value);
 					this.SendPropertyChanging();
-					this._WordElement = value;
-					this.SendPropertyChanged("WordElement");
-					this.OnWordElementChanged();
+					this._Form = value;
+					this.SendPropertyChanged("Form");
+					this.OnFormChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DB_Element_DB_WeightedWord", Storage="_DB_Element", ThisKey="WordElement", OtherKey="ID", IsForeignKey=true)]
-		public DB_Element DB_Element
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_InterrogativeType", DbType="TinyInt")]
+		public System.Nullable<byte> InterrogativeType
 		{
 			get
 			{
-				return this._DB_Element.Entity;
+				return this._InterrogativeType;
 			}
 			set
 			{
-				DB_Element previousValue = this._DB_Element.Entity;
-				if (((previousValue != value) 
-							|| (this._DB_Element.HasLoadedOrAssignedValue == false)))
+				if ((this._InterrogativeType != value))
 				{
+					this.OnInterrogativeTypeChanging(value);
 					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._DB_Element.Entity = null;
-						previousValue.DB_WeightedWords.Remove(this);
-					}
-					this._DB_Element.Entity = value;
-					if ((value != null))
-					{
-						value.DB_WeightedWords.Add(this);
-						this._WordElement = value.ID;
-					}
-					else
-					{
-						this._WordElement = default(int);
-					}
-					this.SendPropertyChanged("DB_Element");
+					this._InterrogativeType = value;
+					this.SendPropertyChanged("InterrogativeType");
+					this.OnInterrogativeTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Modal", DbType="VarChar(24)")]
+		public string Modal
+		{
+			get
+			{
+				return this._Modal;
+			}
+			set
+			{
+				if ((this._Modal != value))
+				{
+					this.OnModalChanging(value);
+					this.SendPropertyChanging();
+					this._Modal = value;
+					this.SendPropertyChanged("Modal");
+					this.OnModalChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Negated", DbType="Bit")]
+		public System.Nullable<bool> Negated
+		{
+			get
+			{
+				return this._Negated;
+			}
+			set
+			{
+				if ((this._Negated != value))
+				{
+					this.OnNegatedChanging(value);
+					this.SendPropertyChanging();
+					this._Negated = value;
+					this.SendPropertyChanged("Negated");
+					this.OnNegatedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Passive", DbType="Bit")]
+		public System.Nullable<bool> Passive
+		{
+			get
+			{
+				return this._Passive;
+			}
+			set
+			{
+				if ((this._Passive != value))
+				{
+					this.OnPassiveChanging(value);
+					this.SendPropertyChanging();
+					this._Passive = value;
+					this.SendPropertyChanged("Passive");
+					this.OnPassiveChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Perfect", DbType="Bit")]
+		public System.Nullable<bool> Perfect
+		{
+			get
+			{
+				return this._Perfect;
+			}
+			set
+			{
+				if ((this._Perfect != value))
+				{
+					this.OnPerfectChanging(value);
+					this.SendPropertyChanging();
+					this._Perfect = value;
+					this.SendPropertyChanged("Perfect");
+					this.OnPerfectChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Person", DbType="TinyInt")]
+		public System.Nullable<byte> Person
+		{
+			get
+			{
+				return this._Person;
+			}
+			set
+			{
+				if ((this._Person != value))
+				{
+					this.OnPersonChanging(value);
+					this.SendPropertyChanging();
+					this._Person = value;
+					this.SendPropertyChanged("Person");
+					this.OnPersonChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Progressive", DbType="Bit")]
+		public System.Nullable<bool> Progressive
+		{
+			get
+			{
+				return this._Progressive;
+			}
+			set
+			{
+				if ((this._Progressive != value))
+				{
+					this.OnProgressiveChanging(value);
+					this.SendPropertyChanging();
+					this._Progressive = value;
+					this.SendPropertyChanged("Progressive");
+					this.OnProgressiveChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SuppressGenitiveInGerund", DbType="Bit")]
+		public System.Nullable<bool> SuppressGenitiveInGerund
+		{
+			get
+			{
+				return this._SuppressGenitiveInGerund;
+			}
+			set
+			{
+				if ((this._SuppressGenitiveInGerund != value))
+				{
+					this.OnSuppressGenitiveInGerundChanging(value);
+					this.SendPropertyChanging();
+					this._SuppressGenitiveInGerund = value;
+					this.SendPropertyChanged("SuppressGenitiveInGerund");
+					this.OnSuppressGenitiveInGerundChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SuppressedComplementizer", DbType="Bit")]
+		public System.Nullable<bool> SuppressedComplementizer
+		{
+			get
+			{
+				return this._SuppressedComplementizer;
+			}
+			set
+			{
+				if ((this._SuppressedComplementizer != value))
+				{
+					this.OnSuppressedComplementizerChanging(value);
+					this.SendPropertyChanging();
+					this._SuppressedComplementizer = value;
+					this.SendPropertyChanged("SuppressedComplementizer");
+					this.OnSuppressedComplementizerChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Tense", DbType="TinyInt")]
+		public System.Nullable<byte> Tense
+		{
+			get
+			{
+				return this._Tense;
+			}
+			set
+			{
+				if ((this._Tense != value))
+				{
+					this.OnTenseChanging(value);
+					this.SendPropertyChanging();
+					this._Tense = value;
+					this.SendPropertyChanged("Tense");
+					this.OnTenseChanged();
 				}
 			}
 		}
@@ -1146,194 +4561,560 @@ namespace Flex.Database
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DB_ParentChildRelations")]
-	public partial class DB_ParentChildRelation : INotifyPropertyChanging, INotifyPropertyChanged
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DB_Clauses")]
+	public partial class DB_Clause
 	{
 		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		private int _ID;
 		
-		private int _Parent;
+		private System.Nullable<byte> _DiscourseFunction;
 		
-		private int _Child;
+		private System.Nullable<bool> _Appositive;
 		
-		private byte _Role;
+		private System.Nullable<bool> _AggregateAuxiliary;
 		
-		private EntityRef<DB_Element> _DB_Element;
+		private string _Complementizer;
 		
-		private EntityRef<DB_Element> _DB_Element1;
+		private System.Nullable<int> _Form;
 		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnParentChanging(int value);
-    partial void OnParentChanged();
-    partial void OnChildChanging(int value);
-    partial void OnChildChanged();
-    partial void OnRoleChanging(byte value);
-    partial void OnRoleChanged();
-    #endregion
+		private System.Nullable<byte> _InterrogativeType;
 		
-		public DB_ParentChildRelation()
+		private string _Modal;
+		
+		private System.Nullable<bool> _Negated;
+		
+		private System.Nullable<bool> _Passive;
+		
+		private System.Nullable<bool> _Perfect;
+		
+		private System.Nullable<byte> _Person;
+		
+		private System.Nullable<bool> _Progressive;
+		
+		private System.Nullable<bool> _SuppressGenitiveInGerund;
+		
+		private System.Nullable<bool> _SuppressedComplementizer;
+		
+		private System.Nullable<byte> _Tense;
+		
+		public DB_Clause()
 		{
-			this._DB_Element = default(EntityRef<DB_Element>);
-			this._DB_Element1 = default(EntityRef<DB_Element>);
-			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Parent", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int Parent
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", DbType="Int NOT NULL")]
+		public int ID
 		{
 			get
 			{
-				return this._Parent;
+				return this._ID;
 			}
 			set
 			{
-				if ((this._Parent != value))
+				if ((this._ID != value))
 				{
-					if (this._DB_Element1.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnParentChanging(value);
-					this.SendPropertyChanging();
-					this._Parent = value;
-					this.SendPropertyChanged("Parent");
-					this.OnParentChanged();
+					this._ID = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Child", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int Child
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DiscourseFunction", DbType="TinyInt")]
+		public System.Nullable<byte> DiscourseFunction
 		{
 			get
 			{
-				return this._Child;
+				return this._DiscourseFunction;
 			}
 			set
 			{
-				if ((this._Child != value))
+				if ((this._DiscourseFunction != value))
 				{
-					if (this._DB_Element.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnChildChanging(value);
-					this.SendPropertyChanging();
-					this._Child = value;
-					this.SendPropertyChanged("Child");
-					this.OnChildChanged();
+					this._DiscourseFunction = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Role", DbType="TinyInt NOT NULL")]
-		public byte Role
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Appositive", DbType="Bit")]
+		public System.Nullable<bool> Appositive
 		{
 			get
 			{
-				return this._Role;
+				return this._Appositive;
 			}
 			set
 			{
-				if ((this._Role != value))
+				if ((this._Appositive != value))
 				{
-					this.OnRoleChanging(value);
-					this.SendPropertyChanging();
-					this._Role = value;
-					this.SendPropertyChanged("Role");
-					this.OnRoleChanged();
+					this._Appositive = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DB_Element_DB_ParentChildRelation", Storage="_DB_Element", ThisKey="Child", OtherKey="ID", IsForeignKey=true)]
-		public DB_Element DB_Element
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AggregateAuxiliary", DbType="Bit")]
+		public System.Nullable<bool> AggregateAuxiliary
 		{
 			get
 			{
-				return this._DB_Element.Entity;
+				return this._AggregateAuxiliary;
 			}
 			set
 			{
-				DB_Element previousValue = this._DB_Element.Entity;
-				if (((previousValue != value) 
-							|| (this._DB_Element.HasLoadedOrAssignedValue == false)))
+				if ((this._AggregateAuxiliary != value))
 				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._DB_Element.Entity = null;
-						previousValue.DB_ParentChildRelations.Remove(this);
-					}
-					this._DB_Element.Entity = value;
-					if ((value != null))
-					{
-						value.DB_ParentChildRelations.Add(this);
-						this._Child = value.ID;
-					}
-					else
-					{
-						this._Child = default(int);
-					}
-					this.SendPropertyChanged("DB_Element");
+					this._AggregateAuxiliary = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DB_Element_DB_ParentChildRelation1", Storage="_DB_Element1", ThisKey="Parent", OtherKey="ID", IsForeignKey=true)]
-		public DB_Element DB_Element1
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Complementizer", DbType="VarChar(24)")]
+		public string Complementizer
 		{
 			get
 			{
-				return this._DB_Element1.Entity;
+				return this._Complementizer;
 			}
 			set
 			{
-				DB_Element previousValue = this._DB_Element1.Entity;
-				if (((previousValue != value) 
-							|| (this._DB_Element1.HasLoadedOrAssignedValue == false)))
+				if ((this._Complementizer != value))
 				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._DB_Element1.Entity = null;
-						previousValue.DB_ParentChildRelations1.Remove(this);
-					}
-					this._DB_Element1.Entity = value;
-					if ((value != null))
-					{
-						value.DB_ParentChildRelations1.Add(this);
-						this._Parent = value.ID;
-					}
-					else
-					{
-						this._Parent = default(int);
-					}
-					this.SendPropertyChanged("DB_Element1");
+					this._Complementizer = value;
 				}
 			}
 		}
 		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Form", DbType="Int")]
+		public System.Nullable<int> Form
 		{
-			if ((this.PropertyChanging != null))
+			get
 			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
+				return this._Form;
+			}
+			set
+			{
+				if ((this._Form != value))
+				{
+					this._Form = value;
+				}
 			}
 		}
 		
-		protected virtual void SendPropertyChanged(String propertyName)
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_InterrogativeType", DbType="TinyInt")]
+		public System.Nullable<byte> InterrogativeType
 		{
-			if ((this.PropertyChanged != null))
+			get
 			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+				return this._InterrogativeType;
+			}
+			set
+			{
+				if ((this._InterrogativeType != value))
+				{
+					this._InterrogativeType = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Modal", DbType="VarChar(24)")]
+		public string Modal
+		{
+			get
+			{
+				return this._Modal;
+			}
+			set
+			{
+				if ((this._Modal != value))
+				{
+					this._Modal = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Negated", DbType="Bit")]
+		public System.Nullable<bool> Negated
+		{
+			get
+			{
+				return this._Negated;
+			}
+			set
+			{
+				if ((this._Negated != value))
+				{
+					this._Negated = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Passive", DbType="Bit")]
+		public System.Nullable<bool> Passive
+		{
+			get
+			{
+				return this._Passive;
+			}
+			set
+			{
+				if ((this._Passive != value))
+				{
+					this._Passive = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Perfect", DbType="Bit")]
+		public System.Nullable<bool> Perfect
+		{
+			get
+			{
+				return this._Perfect;
+			}
+			set
+			{
+				if ((this._Perfect != value))
+				{
+					this._Perfect = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Person", DbType="TinyInt")]
+		public System.Nullable<byte> Person
+		{
+			get
+			{
+				return this._Person;
+			}
+			set
+			{
+				if ((this._Person != value))
+				{
+					this._Person = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Progressive", DbType="Bit")]
+		public System.Nullable<bool> Progressive
+		{
+			get
+			{
+				return this._Progressive;
+			}
+			set
+			{
+				if ((this._Progressive != value))
+				{
+					this._Progressive = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SuppressGenitiveInGerund", DbType="Bit")]
+		public System.Nullable<bool> SuppressGenitiveInGerund
+		{
+			get
+			{
+				return this._SuppressGenitiveInGerund;
+			}
+			set
+			{
+				if ((this._SuppressGenitiveInGerund != value))
+				{
+					this._SuppressGenitiveInGerund = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SuppressedComplementizer", DbType="Bit")]
+		public System.Nullable<bool> SuppressedComplementizer
+		{
+			get
+			{
+				return this._SuppressedComplementizer;
+			}
+			set
+			{
+				if ((this._SuppressedComplementizer != value))
+				{
+					this._SuppressedComplementizer = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Tense", DbType="TinyInt")]
+		public System.Nullable<byte> Tense
+		{
+			get
+			{
+				return this._Tense;
+			}
+			set
+			{
+				if ((this._Tense != value))
+				{
+					this._Tense = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DB_VerbPhrases")]
+	public partial class DB_VerbPhrase
+	{
+		
+		private int _ID;
+		
+		private System.Nullable<byte> _DiscourseFunction;
+		
+		private System.Nullable<bool> _Appositive;
+		
+		private System.Nullable<bool> _AggregateAuxiliary;
+		
+		private System.Nullable<byte> _Form;
+		
+		private string _Modal;
+		
+		private System.Nullable<bool> _Negated;
+		
+		private System.Nullable<bool> _Passive;
+		
+		private System.Nullable<bool> _Perfect;
+		
+		private System.Nullable<byte> _Person;
+		
+		private System.Nullable<bool> _Progressive;
+		
+		private System.Nullable<bool> _SuppressGenitiveInGerund;
+		
+		private System.Nullable<bool> _SuppressedComplementizer;
+		
+		private System.Nullable<byte> _Tense;
+		
+		public DB_VerbPhrase()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", DbType="Int NOT NULL")]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this._ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DiscourseFunction", DbType="TinyInt")]
+		public System.Nullable<byte> DiscourseFunction
+		{
+			get
+			{
+				return this._DiscourseFunction;
+			}
+			set
+			{
+				if ((this._DiscourseFunction != value))
+				{
+					this._DiscourseFunction = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Appositive", DbType="Bit")]
+		public System.Nullable<bool> Appositive
+		{
+			get
+			{
+				return this._Appositive;
+			}
+			set
+			{
+				if ((this._Appositive != value))
+				{
+					this._Appositive = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AggregateAuxiliary", DbType="Bit")]
+		public System.Nullable<bool> AggregateAuxiliary
+		{
+			get
+			{
+				return this._AggregateAuxiliary;
+			}
+			set
+			{
+				if ((this._AggregateAuxiliary != value))
+				{
+					this._AggregateAuxiliary = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Form", DbType="TinyInt")]
+		public System.Nullable<byte> Form
+		{
+			get
+			{
+				return this._Form;
+			}
+			set
+			{
+				if ((this._Form != value))
+				{
+					this._Form = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Modal", DbType="VarChar(24)")]
+		public string Modal
+		{
+			get
+			{
+				return this._Modal;
+			}
+			set
+			{
+				if ((this._Modal != value))
+				{
+					this._Modal = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Negated", DbType="Bit")]
+		public System.Nullable<bool> Negated
+		{
+			get
+			{
+				return this._Negated;
+			}
+			set
+			{
+				if ((this._Negated != value))
+				{
+					this._Negated = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Passive", DbType="Bit")]
+		public System.Nullable<bool> Passive
+		{
+			get
+			{
+				return this._Passive;
+			}
+			set
+			{
+				if ((this._Passive != value))
+				{
+					this._Passive = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Perfect", DbType="Bit")]
+		public System.Nullable<bool> Perfect
+		{
+			get
+			{
+				return this._Perfect;
+			}
+			set
+			{
+				if ((this._Perfect != value))
+				{
+					this._Perfect = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Person", DbType="TinyInt")]
+		public System.Nullable<byte> Person
+		{
+			get
+			{
+				return this._Person;
+			}
+			set
+			{
+				if ((this._Person != value))
+				{
+					this._Person = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Progressive", DbType="Bit")]
+		public System.Nullable<bool> Progressive
+		{
+			get
+			{
+				return this._Progressive;
+			}
+			set
+			{
+				if ((this._Progressive != value))
+				{
+					this._Progressive = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SuppressGenitiveInGerund", DbType="Bit")]
+		public System.Nullable<bool> SuppressGenitiveInGerund
+		{
+			get
+			{
+				return this._SuppressGenitiveInGerund;
+			}
+			set
+			{
+				if ((this._SuppressGenitiveInGerund != value))
+				{
+					this._SuppressGenitiveInGerund = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SuppressedComplementizer", DbType="Bit")]
+		public System.Nullable<bool> SuppressedComplementizer
+		{
+			get
+			{
+				return this._SuppressedComplementizer;
+			}
+			set
+			{
+				if ((this._SuppressedComplementizer != value))
+				{
+					this._SuppressedComplementizer = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Tense", DbType="TinyInt")]
+		public System.Nullable<byte> Tense
+		{
+			get
+			{
+				return this._Tense;
+			}
+			set
+			{
+				if ((this._Tense != value))
+				{
+					this._Tense = value;
+				}
 			}
 		}
 	}

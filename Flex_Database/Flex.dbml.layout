@@ -1,69 +1,198 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 13.5, 10.875" name="Flex">
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 14.25, 10.125" name="Flex">
   <DataContextMoniker Name="/FlexDataContext" />
   <nestedChildShapes>
-    <classShape Id="80d47c5b-f6f1-46d6-b112-35b26e31be78" absoluteBounds="8.25, 2.25, 2, 1.1939925130208331">
-      <DataClassMoniker Name="/FlexDataContext/DB_Element" />
+    <classShape Id="8eeb4f77-c52a-4f34-99cd-efd856027e3e" absoluteBounds="0.5, 4.875, 2, 1.3862939453125">
+      <DataClassMoniker Name="/FlexDataContext/DB_ChildOrdering" />
       <nestedChildShapes>
-        <elementListCompartment Id="27cb229c-ecfc-481d-a6ef-7378c1fa075d" absoluteBounds="8.265, 2.71, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="0f98b20f-ba82-4463-a5dc-773df9d4de20" absoluteBounds="0.51500000000000057, 5.3350000000000009, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="a695f580-41b7-4d10-acb9-dd6ccbc37a0f" absoluteBounds="4.125, 4.875, 2, 1.5785953776041666">
-      <DataClassMoniker Name="/FlexDataContext/DB_WeightedWord" />
-      <nestedChildShapes>
-        <elementListCompartment Id="5b32f296-e2ed-4e5f-8ac0-044d1afd4360" absoluteBounds="4.14, 5.335, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <associationConnector edgePoints="[(8.25 : 2.85691108120554); (5.125 : 2.85691108120554); (5.125 : 4.875)]" manuallyRouted="true" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/FlexDataContext/DB_Element/DB_Element_DB_WeightedWord" />
-      <nodes>
-        <classShapeMoniker Id="80d47c5b-f6f1-46d6-b112-35b26e31be78" />
-        <classShapeMoniker Id="a695f580-41b7-4d10-acb9-dd6ccbc37a0f" />
-      </nodes>
-    </associationConnector>
-    <classShape Id="92847b9f-1cc5-4382-938a-97fa9b165c3d" absoluteBounds="11.25, 2.25, 2, 1.3862939453125">
+    <classShape Id="0d431a01-a8d7-429a-b04e-7eba5eb0cefb" absoluteBounds="0.5, 3.25, 2, 1.3862939453125">
       <DataClassMoniker Name="/FlexDataContext/DB_ParentChildRelation" />
       <nestedChildShapes>
-        <elementListCompartment Id="226671a7-06b9-418e-ac07-911e317f49c4" absoluteBounds="11.265, 2.7100000000000009, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="4a261ed7-0c2c-4499-b30f-3b2cf30fb42a" absoluteBounds="0.51499999999999968, 3.71, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(10.25 : 2.84699625651042); (11.25 : 2.84699625651042)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/FlexDataContext/DB_Element/DB_Element_DB_ParentChildRelation" />
-      <nodes>
-        <classShapeMoniker Id="80d47c5b-f6f1-46d6-b112-35b26e31be78" />
-        <classShapeMoniker Id="92847b9f-1cc5-4382-938a-97fa9b165c3d" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(10.25 : 2.48599812825521); (11.25 : 2.48599812825521)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/FlexDataContext/DB_Element/DB_Element_DB_ParentChildRelation1" />
-      <nodes>
-        <classShapeMoniker Id="80d47c5b-f6f1-46d6-b112-35b26e31be78" />
-        <classShapeMoniker Id="92847b9f-1cc5-4382-938a-97fa9b165c3d" />
-      </nodes>
-    </associationConnector>
-    <classShape Id="4a15e402-708b-4b93-a93c-8d219bc9a2e8" absoluteBounds="7.125, 4.875, 2, 1.3862939453124996">
-      <DataClassMoniker Name="/FlexDataContext/DB_WordElement" />
+    <classShape Id="04afc597-64e9-48cb-aada-35a263f87c30" isExpanded="false" absoluteBounds="5, 3.625, 2, 0.45">
+      <DataClassMoniker Name="/FlexDataContext/DB_NounPhrase" />
       <nestedChildShapes>
-        <elementListCompartment Id="8cb0dc6d-6f66-45b7-b325-35b96dcd8634" absoluteBounds="7.14, 5.335, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="4c9267cc-c407-4e92-8b75-48bfb0f2e76f" absoluteBounds="5.015, 4.085, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <inheritanceConnector edgePoints="[(9.25 : 3.44399251302083); (9.25 : 4.54166666666667); (8.125 : 4.54166666666667); (8.125 : 4.875)]" manuallyRouted="true" fixedFrom="NotFixed" fixedTo="NotFixed" TargetRelationshipDomainClassId="7a7fe09e-e9ef-4b01-9ff3-bde95e827b62">
-      <nodes>
-        <classShapeMoniker Id="80d47c5b-f6f1-46d6-b112-35b26e31be78" />
-        <classShapeMoniker Id="4a15e402-708b-4b93-a93c-8d219bc9a2e8" />
-      </nodes>
-    </inheritanceConnector>
-    <classShape Id="49c15be9-ea9d-47e3-a799-ad57612623c7" absoluteBounds="10.25, 5, 2, 5.6169254557291648">
-      <DataClassMoniker Name="/FlexDataContext/DB_ParentElement" />
+    <classShape Id="7f7b0b7c-9c9a-48ac-b682-7a152f148aa7" isExpanded="false" absoluteBounds="5, 4.875, 2, 0.45">
+      <DataClassMoniker Name="/FlexDataContext/DB_AdjectivePhrase" />
       <nestedChildShapes>
-        <elementListCompartment Id="434f8d03-a041-468e-a573-7caf762d4966" absoluteBounds="10.265, 5.46, 1.9700000000000002, 5.0569254557291661" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="509f2087-57c4-4313-90f2-a89c8e6756dc" absoluteBounds="5.015, 5.335, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <inheritanceConnector edgePoints="[(9.25 : 3.44399251302083); (9.25 : 4.625); (11.25 : 4.625); (11.25 : 5)]" fixedFrom="NotFixed" fixedTo="NotFixed" TargetRelationshipDomainClassId="7a7fe09e-e9ef-4b01-9ff3-bde95e827b62">
-      <nodes>
-        <classShapeMoniker Id="80d47c5b-f6f1-46d6-b112-35b26e31be78" />
-        <classShapeMoniker Id="49c15be9-ea9d-47e3-a799-ad57612623c7" />
-      </nodes>
-    </inheritanceConnector>
+    <classShape Id="819f09eb-967d-4f0a-ab08-d66beef3eb0e" isExpanded="false" absoluteBounds="5, 5.5, 2, 0.45">
+      <DataClassMoniker Name="/FlexDataContext/DB_AdverbPhrase" />
+      <nestedChildShapes>
+        <elementListCompartment Id="24ec57da-c34b-4816-9369-a83e5ec83fa0" absoluteBounds="5.015, 5.9600000000000009, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="f299656a-0a26-483f-9418-415cf7111d83" absoluteBounds="7.5, 3.125, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/FlexDataContext/DB_WeightedWord" />
+      <nestedChildShapes>
+        <elementListCompartment Id="937b341d-8571-48d2-9866-4fcdfa0fc02d" absoluteBounds="7.5150000000000006, 3.5850000000000009, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="ca9ec954-a51e-4f5d-bef7-1009aed4aaf8" isExpanded="false" absoluteBounds="5, 6.125, 2, 0.45">
+      <DataClassMoniker Name="/FlexDataContext/DB_PrepositionalPhrase" />
+      <nestedChildShapes>
+        <elementListCompartment Id="3f7ced97-a0ad-4ef3-b628-a61001afb786" absoluteBounds="5.015, 6.5850000000000009, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="d0b79d8e-a896-45b9-a4cc-0040d04698f3" isExpanded="false" absoluteBounds="12, 3, 2, 0.45">
+      <DataClassMoniker Name="/FlexDataContext/DB_Noun" />
+      <nestedChildShapes>
+        <elementListCompartment Id="d8fb18d1-bef3-4082-b57c-c25357acce21" absoluteBounds="12.015, 3.46, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="b0d7ab04-3af5-424c-a584-a5c5f052d90e" isExpanded="false" absoluteBounds="12, 3.625, 2, 0.45">
+      <DataClassMoniker Name="/FlexDataContext/DB_Verb" />
+      <nestedChildShapes>
+        <elementListCompartment Id="fcee128c-6daf-4af0-b748-71e6d8f71b14" absoluteBounds="12.015, 4.085, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="de8f8460-be96-41be-baf0-3ad3d8aa1f76" isExpanded="false" absoluteBounds="12, 4.25, 2, 0.45">
+      <DataClassMoniker Name="/FlexDataContext/DB_Adjective" />
+      <nestedChildShapes>
+        <elementListCompartment Id="5cdba6d7-23a9-4cd6-a2b3-ffb400a7e329" absoluteBounds="12.015, 4.71, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="82ab7e88-2886-436d-9ae8-562e2ea63eb2" isExpanded="false" absoluteBounds="12, 4.875, 2, 0.45">
+      <DataClassMoniker Name="/FlexDataContext/DB_Adverb" />
+      <nestedChildShapes>
+        <elementListCompartment Id="192bc5a5-deb0-4614-86ff-484299fd165c" absoluteBounds="12.015, 5.335, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="6ab95d58-253f-4891-b431-da25691a4329" isExpanded="false" absoluteBounds="12, 6.25, 2, 0.45">
+      <DataClassMoniker Name="/FlexDataContext/DB_Preposition" />
+      <nestedChildShapes>
+        <elementListCompartment Id="fb7da7b1-762c-4720-9b87-ab75cb9e9ebf" absoluteBounds="12.015, 6.71, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="6f340974-9041-427f-a319-d524889b1e53" isExpanded="false" absoluteBounds="12, 6.875, 2, 0.45">
+      <DataClassMoniker Name="/FlexDataContext/DB_Conjunction" />
+      <nestedChildShapes>
+        <elementListCompartment Id="22465e05-67f9-4eb0-8551-4f05016488e5" absoluteBounds="12.015, 7.3350000000000009, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="ee12ea57-823c-47fc-85c1-c15b223e1df7" isExpanded="false" absoluteBounds="12, 7.5, 2, 0.45">
+      <DataClassMoniker Name="/FlexDataContext/DB_Determiner" />
+      <nestedChildShapes>
+        <elementListCompartment Id="bf8c483d-10de-4e4c-b412-eb8fdc898323" absoluteBounds="12.015, 7.9600000000000009, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="29366b78-8882-4c10-b9f3-cf70613873db" isExpanded="false" absoluteBounds="12, 8.125, 2, 0.45">
+      <DataClassMoniker Name="/FlexDataContext/DB_CardinalNumber" />
+      <nestedChildShapes>
+        <elementListCompartment Id="e3275c15-20e3-4d15-813d-b3dbc6444570" absoluteBounds="12.015, 8.585, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="dc891dc1-6b9a-4dbb-9f57-b9970f945e86" isExpanded="false" absoluteBounds="12, 8.75, 2, 0.45">
+      <DataClassMoniker Name="/FlexDataContext/DB_Modal" />
+      <nestedChildShapes>
+        <elementListCompartment Id="3e410c5d-d451-458a-bec7-6787153a5d9c" absoluteBounds="12.015, 9.21, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="c89c7eee-2628-4a06-ac46-4a1f63cb27dd" isExpanded="false" absoluteBounds="12, 9.375, 2, 0.45">
+      <DataClassMoniker Name="/FlexDataContext/DB_Particle" />
+      <nestedChildShapes>
+        <elementListCompartment Id="6a8e21a7-a298-4421-beb2-defc9d3afd2e" absoluteBounds="12.015, 9.835, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="962ff8ee-0f54-4b5e-a964-0bfd496f1af3" isExpanded="false" absoluteBounds="12, 5.625, 2, 0.45">
+      <DataClassMoniker Name="/FlexDataContext/DB_Pronoun" />
+      <nestedChildShapes>
+        <elementListCompartment Id="c473419a-060f-411a-8a59-23842db6531b" absoluteBounds="12.015, 6.0850000000000009, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="d62dc256-c1ad-4ed0-91a8-2a2f97e3229a" absoluteBounds="6.375, 0.625, 2, 1.3862939453125">
+      <DataClassMoniker Name="/FlexDataContext/DB_Element" />
+      <nestedChildShapes>
+        <elementListCompartment Id="f21a4e15-67c8-4c6b-a4f0-b615987fc68a" absoluteBounds="6.39, 1.0850000000000009, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="975f23a3-7df3-44a7-b259-85ad7ed34e56" absoluteBounds="9.75, 2.625, 2, 2.5401025390625">
+      <DataClassMoniker Name="/FlexDataContext/DB_Word" />
+      <nestedChildShapes>
+        <elementListCompartment Id="271907d7-a42a-4707-8278-1d1510d36afa" absoluteBounds="9.765, 3.085, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="980fd27f-d10a-4541-8ca0-5e5848aff8d4" absoluteBounds="2.75, 2.625, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/FlexDataContext/DB_Parent" />
+      <nestedChildShapes>
+        <elementListCompartment Id="ce70a076-5e73-47f3-b586-16eae7f48a71" absoluteBounds="2.765, 3.085, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="15fc88f9-42dd-44be-bf31-773e8ae8b9dd" isExpanded="false" absoluteBounds="9.75, 5.375, 2, 0.45">
+      <DataClassMoniker Name="/FlexDataContext/LayerWord" />
+      <nestedChildShapes>
+        <elementListCompartment Id="de6a9734-8dd2-429e-a9a9-0bcc30d9813a" absoluteBounds="9.765, 5.835, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="995204ad-5fb8-401e-8dfa-c6f39321e5e6" isExpanded="false" absoluteBounds="2.75, 4.5, 2, 0.45">
+      <DataClassMoniker Name="/FlexDataContext/LayerParent" />
+      <nestedChildShapes>
+        <elementListCompartment Id="1d17d773-c0f8-4c0e-917d-493122d7acbf" absoluteBounds="2.7649999999999997, 4.96, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="83a6effc-4b93-4ef4-a105-cf39d904816c" isExpanded="false" absoluteBounds="2.75, 5.125, 2, 0.45">
+      <DataClassMoniker Name="/FlexDataContext/LayerPhrase" />
+      <nestedChildShapes>
+        <elementListCompartment Id="6f4135e1-4959-457d-bc75-034fba421aff" absoluteBounds="2.7649999999999997, 5.585, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="16a96858-46a6-4cc1-9f4a-2b891ac8fda4" isExpanded="false" absoluteBounds="2.75, 5.75, 2, 0.45">
+      <DataClassMoniker Name="/FlexDataContext/LayerNounPhrase" />
+      <nestedChildShapes>
+        <elementListCompartment Id="97b4b354-0161-4645-94b1-0269d5ca1a40" absoluteBounds="2.765, 6.21, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="e3fa11eb-ef2e-4a0e-b5b4-559c9a5531c0" isExpanded="false" absoluteBounds="2.75, 7, 2, 0.45">
+      <DataClassMoniker Name="/FlexDataContext/LayerAdjectivePhrase" />
+      <nestedChildShapes>
+        <elementListCompartment Id="b3fda959-6317-457a-bc19-5b721a6548b4" absoluteBounds="2.765, 7.4600000000000009, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="dddb2590-8c2e-4e84-8159-c8ee482d8150" isExpanded="false" absoluteBounds="2.75, 7.625, 2, 0.45">
+      <DataClassMoniker Name="/FlexDataContext/LayerAdverbPhrase" />
+      <nestedChildShapes>
+        <elementListCompartment Id="43834a7b-d974-4a4c-a69e-70aff2b56de6" absoluteBounds="2.765, 8.085, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="43d6d614-9b2d-4ed2-bb15-1481367ff7e8" isExpanded="false" absoluteBounds="9.75, 6, 2, 0.45">
+      <DataClassMoniker Name="/FlexDataContext/LayerPronoun" />
+      <nestedChildShapes>
+        <elementListCompartment Id="b4948af7-62cb-42e7-a826-fe4c94037f2d" absoluteBounds="9.765, 6.4600000000000009, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="238abeda-11cb-4201-bcac-1118fd58216e" isExpanded="false" absoluteBounds="2.75, 6.375, 2, 0.45">
+      <DataClassMoniker Name="/FlexDataContext/LayerVerbPhrase" />
+      <nestedChildShapes>
+        <elementListCompartment Id="fb51950b-ea01-4f28-b49b-ce8250be9594" absoluteBounds="2.7649999999999997, 6.8350000000000009, 1.9700000000000002, 2.5570068359375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="a4392e27-8b7e-42be-a62a-c63c0d754d0d" isExpanded="false" absoluteBounds="2.75, 8.25, 2, 0.45">
+      <DataClassMoniker Name="/FlexDataContext/LayerClause" />
+      <nestedChildShapes>
+        <elementListCompartment Id="e1466a99-997d-429e-b59a-46c62de604d1" absoluteBounds="2.7649999999999997, 8.71, 1.9700000000000002, 2.941609700520833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="8fc82dfe-b32c-41a9-b82b-bd3d77b8f7c3" isExpanded="false" absoluteBounds="5, 2.875, 2, 0.45">
+      <DataClassMoniker Name="/FlexDataContext/DB_Clause" />
+      <nestedChildShapes>
+        <elementListCompartment Id="802d22cf-5ec2-4dea-b24a-f7780b401dc3" absoluteBounds="5.015, 3.335, 1.9700000000000002, 3.3262125651041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="11e17347-276e-4957-a0d6-f45df49e1992" isExpanded="false" absoluteBounds="5, 4.25, 2, 0.45">
+      <DataClassMoniker Name="/FlexDataContext/DB_VerbPhrase" />
+      <nestedChildShapes>
+        <elementListCompartment Id="b442cd43-2642-491a-bc79-4272e791c658" absoluteBounds="5.015, 4.7100000000000009, 1.9700000000000002, 2.941609700520833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
   </nestedChildShapes>
 </ordesignerObjectsDiagram>

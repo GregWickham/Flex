@@ -6,9 +6,8 @@ namespace Datamuse
 {
     public static class Noun
     {
-        public static async Task<IEnumerable<string>> SynonymsFor(string noun) => (await Client.MeaningLike(noun))
-            .Where(word => word.Tags.Contains("n"))
-            .OrderByDescending(word => word.Score)
-            .Select(word => word.Text);
+        public static async Task<IEnumerable<Word>> SynonymsFor(string noun) => (await Client.MeaningLike(noun))
+            .Where(word => word.Tags != null && word.Tags.Contains("n"))
+            .OrderByDescending(word => word.Score);
     }
 }

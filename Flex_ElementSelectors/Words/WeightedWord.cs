@@ -1,14 +1,15 @@
 ﻿using System.Diagnostics;
+using FlexibleRealization;
 
 namespace Flex.ElementSelectors
 {
     [DebuggerDisplay("{Text}")]
-    public class WeightedWord
+    public class WeightedWord : IWeightedWord
     {
         public WeightedWord(string word)
         {
             Text = word;
-            Weight = 0x7FFF;
+            Weight = DefaultWeight;
         }
 
         public WeightedWord(string word, int weight)
@@ -16,6 +17,8 @@ namespace Flex.ElementSelectors
             Text = word;
             Weight = weight;
         }
+
+        public static readonly int DefaultWeight = 0x7FFF;
 
         public string Text { get; set; }
 

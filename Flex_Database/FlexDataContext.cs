@@ -1,25 +1,49 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Transactions;
 using FlexibleRealization;
 
 namespace Flex.Database
 {
+    public delegate void ElementChanged_EventHandler(int elementID);
+    public delegate void WordChanged_EventHandler(int wordID);
+    public delegate void ParentChanged_EventHandler(int parentID);
+    public delegate void DatabaseSaveCompleted_EventHandler(IElementTreeNode saved);
+
     public partial class FlexDataContext
     {
-        /// <summary>Load the ElementBuilder with  the specified <paramref name="elementID"/> from the Flex database, and return it</summary>
-        public ElementBuilder Load(int elementID) 
+        public event ElementChanged_EventHandler ElementChanged;
+        private void OnElementChanged(int elementID) => ElementChanged?.Invoke(elementID);
+
+        public event WordChanged_EventHandler WordChanged;
+        private void OnWordChanged(int wordID)
         {
-            DB_Element element = DB_Elements
-                .Where(dbElement => dbElement.ID.Equals(elementID))
-                .Single();
+            ElementChanged?.Invoke(wordID);
+            WordChanged?.Invoke(wordID);
+        }
+
+        public event ParentChanged_EventHandler ParentChanged;
+        private void OnParentChanged(int parentID)
+        {
+            ElementChanged?.Invoke(parentID);
+            ParentChanged?.Invoke(parentID);
+        }
+
+        public event DatabaseSaveCompleted_EventHandler SaveCompleted;
+        private void OnSaveCompleted(IElementTreeNode saved) => SaveCompleted?.Invoke(saved);
+
+        /// <summary>Load the ElementBuilder with  the specified <paramref name="elementID"/> from the Flex database, and return it</summary>
+        private ElementBuilder Load(int elementID)
+        {
+            DB_Element element = DB_Elements.Single(dbElement => dbElement.ID.Equals(elementID));
             ElementBuilder result;
             switch ((FlexData.ElementType)element.ElementType)
             {
-                case FlexData.ElementType.DB_WordElement:
+                case FlexData.ElementType.DB_Word:
                     result = LoadWord(elementID);
                     break;
-                case FlexData.ElementType.DB_ParentElement:
+                case FlexData.ElementType.DB_Parent:
                     result = LoadParent(elementID);
                     break;
                 default:
@@ -32,7 +56,7 @@ namespace Flex.Database
         public Task<ElementBuilder> LoadAsync(int elementID) => Task.Run(() => Load(elementID));
 
         /// <summary>Save <paramref name="element"/> to the Flex database</summary>
-        public void Save(IElementTreeNode element)
+        private void Save(IElementTreeNode element)
         {
             switch (element)
             {
@@ -47,7 +71,15 @@ namespace Flex.Database
         }
 
         /// <summary>Async version of <see cref="Save(IElementTreeNode)"/></summary>
-        public Task SaveAsync(IElementTreeNode element) => Task.Run(() => Save(element));
+        public Task SaveAsync(IElementTreeNode element) => Task.Run(() =>
+        {
+            using (TransactionScope transaction = new TransactionScope())
+            {
+                Save(element);
+                transaction.Complete();
+            }
+            OnSaveCompleted(element);
+        });
 
     }
 }

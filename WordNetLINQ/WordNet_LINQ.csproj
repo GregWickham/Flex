@@ -81,11 +81,17 @@
       <DependentUpon>WordNet.dbml</DependentUpon>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Echo\FlexibleRealization\FlexibleRealization.csproj">
+      <Project>{69a075e7-46b1-4aee-b5e9-8f7da88d773a}</Project>
+      <Name>FlexibleRealization</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-	<Target Name="SpicNSpan" AfterTargets="Clean">
-		<!-- bin -->
-		<RemoveDir Directories="$(TargetDir)" />
-		<!-- obj -->
-		<RemoveDir Directories="$(ProjectDir)$(BaseIntermediateOutputPath)" />
-	</Target>
+  <Target Name="SpicNSpan" AfterTargets="Clean">
+    <!-- bin -->
+    <RemoveDir Directories="$(TargetDir)" />
+    <!-- obj -->
+    <RemoveDir Directories="$(ProjectDir)$(BaseIntermediateOutputPath)" />
+  </Target>
 </Project>

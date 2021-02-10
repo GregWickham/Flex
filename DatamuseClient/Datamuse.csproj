@@ -50,10 +50,21 @@
     <Compile Include="Noun.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Verb.cs" />
+    <Compile Include="View Models\AdjectiveChoices.cs" />
+    <Compile Include="View Models\AdverbChoices.cs" />
+    <Compile Include="View Models\NounChoices.cs" />
+    <Compile Include="View Models\VerbChoices.cs" />
+    <Compile Include="View Models\WordChoices.cs" />
     <Compile Include="Word.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+	<Target Name="SpicNSpan" AfterTargets="Clean">
+		<!-- bin -->
+		<RemoveDir Directories="$(TargetDir)" />
+		<!-- obj -->
+		<RemoveDir Directories="$(ProjectDir)$(BaseIntermediateOutputPath)" />
+	</Target>
 </Project>
