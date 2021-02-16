@@ -14,6 +14,8 @@ namespace FlexibleRealization.UserInterface
 
     public delegate void TextRealized_EventHandler(string realizedText);
 
+    public delegate void ModelSetFromDatabase_EventHandler(IElementTreeNode tree);
+
     /// <summary>Interaction logic for ElementBuilderGraphEditor.xaml</summary>
     public partial class ElementBuilderTreeEditor : UserControl, INotifyPropertyChanged
     {
@@ -22,6 +24,29 @@ namespace FlexibleRealization.UserInterface
             InitializeComponent();
             ZoomControl.SetViewFinderVisibility(ZoomCtrl, Visibility.Hidden);
         }
+
+        #region Events
+
+        /// <summary>Register for this event to be notified when an IElementTreeNode is selected in the graph.</summary>
+        public event SelectedNodeChanged_EventHandler SelectedNodeChanged;
+
+        /// <summary>Notify listeners that this ElementBuilderGraphEditor has failed to realize text for an ElementBuilder.</summary>
+        public event RealizationFailed_EventHandler RealizationFailed;
+        private void OnRealizationFailed(IElementTreeNode failed) => RealizationFailed?.Invoke(failed);
+
+        /// <summary>Notify listeners that this ElementBuilderGraphEditor has successfully realized some text.</summary>
+        public event TextRealized_EventHandler TextRealized;
+        private void OnTextRealized(string realizedText) => TextRealized?.Invoke(realizedText);
+
+        public event SynsetBoundToNode_EventHandler SynsetBoundToNode;
+        private void OnSynsetBoundToNode(IElementTreeNode boundNode, int boundSynsetID) => SynsetBoundToNode?.Invoke(boundNode, boundSynsetID);
+
+        public event ModelSetFromDatabase_EventHandler ModelSetFromDatabase;
+        private void OnModelSetFromDatabase(IElementTreeNode tree) => ModelSetFromDatabase?.Invoke(tree);
+
+        #endregion Events
+
+        public bool ShowProperties { set { } }
 
         private RootNode ModelRoot;
         public IElementTreeNode Model => ModelRoot?.Stem;
@@ -37,6 +62,7 @@ namespace FlexibleRealization.UserInterface
                     window.Closing += Window_Closing;
                 }
             }
+            ElementGraphArea.SynsetBoundToNode += OnSynsetBoundToNode;
         }
 
         /// <summary>Tear down this ElementBuilderGraphEditor.</summary>
@@ -44,6 +70,7 @@ namespace FlexibleRealization.UserInterface
         {
             Loaded -= ElementBuilderTreeEditor_Loaded;
             Window.GetWindow(this).Closing -= Window_Closing;
+            ElementGraphArea.SynsetBoundToNode -= OnSynsetBoundToNode;
         }
 
         /// <summary>Generate an editable tree from <paramref name="text"/>, then try to realize that tree.</summary>
@@ -192,18 +219,7 @@ namespace FlexibleRealization.UserInterface
             OnPropertyChanged("SelectedElementDescription");
         }
 
-        /// <summary>Register for this event to be notified when an IElementTreeNode is selected in the graph.</summary>
-        public event SelectedNodeChanged_EventHandler SelectedNodeChanged;
-
-        /// <summary>Notify listeners that this ElementBuilderGraphEditor has failed to realize text for an ElementBuilder.</summary>
-        public event RealizationFailed_EventHandler RealizationFailed;
-        private void OnRealizationFailed(IElementTreeNode failed) => RealizationFailed?.Invoke(failed);
-
-        /// <summary>Notify listeners that this ElementBuilderGraphEditor has successfully realized some text.</summary>
-        public event TextRealized_EventHandler TextRealized;
-        private void OnTextRealized(string realizedText) => TextRealized?.Invoke(realizedText);
-
-        #region Drag / Drop
+        #region Drag / Drop of IElementTreeNodes
 
         public void OnElementDragStarted(Type draggedType)
         {
@@ -216,7 +232,7 @@ namespace FlexibleRealization.UserInterface
             }
             else
             {
-                ElementGraphArea.SetDropTargetsFor(draggedType);
+                ElementGraphArea.SetDropTargets_ForIElementTreeNode(draggedType);
             }
         }
 
@@ -226,7 +242,7 @@ namespace FlexibleRealization.UserInterface
             ZoomCtrl.DragEnter -= ZoomCtrl_DragEnter;
             ZoomCtrl.DragLeave -= ZoomCtrl_DragLeave;
             ZoomCtrl.Drop -= ZoomCtrl_Drop;
-            ElementGraphArea.ClearDropTargets();
+            ElementGraphArea.ClearDropTargets_ForIElementTreeNode();
         }
 
         public void OnElementDropCompleted(Type droppedType)
@@ -235,7 +251,7 @@ namespace FlexibleRealization.UserInterface
             ZoomCtrl.DragEnter -= ZoomCtrl_DragEnter;
             ZoomCtrl.DragLeave -= ZoomCtrl_DragLeave;
             ZoomCtrl.Drop -= ZoomCtrl_Drop;
-            ElementGraphArea.ClearDropTargets();
+            ElementGraphArea.ClearDropTargets_ForIElementTreeNode();
         }
 
         private void ZoomCtrl_DragEnter(object sender, DragEventArgs e)
@@ -254,16 +270,28 @@ namespace FlexibleRealization.UserInterface
         {
             if (e.Data.GetDataPresent(typeof(Task)))
             {
-                Task<ElementBuilder> loadTask = (Task<ElementBuilder>)e.Data.GetData(typeof(Task));
+                Task<IElementTreeNode> loadTask = (Task<IElementTreeNode>)e.Data.GetData(typeof(Task));
                 IElementTreeNode droppedNode = await loadTask;
                 // When a parent element is dragged from a database browser it has no root, so we need to create one
                 new RootNode(droppedNode);
                 SetModel(droppedNode);
                 SelectNode(droppedNode);
+                OnModelSetFromDatabase(droppedNode);
             }
         }
 
-        #endregion Drag / Drop
+        #endregion Drag / Drop of IElementTreeNodes
+
+        #region Drag / Drop of Synsets
+
+        public void OnSynsetDragStarted(int draggedSynsetID) => ElementGraphArea.SetDropTargets_ForSynset(draggedSynsetID);
+
+        public void OnSynsetDragCancelled(int draggedSynsetID) => ElementGraphArea.ClearDropTargets_ForSynset();
+
+        public void OnSynsetDropCompleted(int draggedSynsetID) => ElementGraphArea.ClearDropTargets_ForSynset();
+
+
+        #endregion Drag / Drop of Synsets
 
         #region Standard implementation of INotifyPropertyChanged
 

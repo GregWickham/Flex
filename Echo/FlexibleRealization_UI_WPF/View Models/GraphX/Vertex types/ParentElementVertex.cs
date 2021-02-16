@@ -21,9 +21,9 @@ namespace FlexibleRealization.UserInterface.ViewModels
 
         private string Description => Parent.DescriptionFor(Model);
 
-        internal override bool CanAcceptDropOf(Type nodeType) => Model.CanAddChildOfType(nodeType);
+        internal override bool CanAcceptDrop_OfIElementTreeNode(Type nodeType) => Model.CanAddChildOfType(nodeType);
 
-        internal override bool AcceptDropOf(IElementTreeNode node, DragDropEffects effects, int insertPoint)
+        internal override bool AcceptDrop_OfIElementTreeNode(IElementTreeNode node, DragDropEffects effects, int insertPoint)
         {
             List<IElementTreeNode> sortedChildrenBeforeDrop = Model.Children
                .OrderBy(node => node)
@@ -47,6 +47,8 @@ namespace FlexibleRealization.UserInterface.ViewModels
             Model.Root.OnTreeStructureChanged();
             return true;
         }
+
+        internal override bool CanAcceptDrop_OfSynset(int synsetID) => true;
 
         /// <summary>Construct and return a <see cref="UIElement"/> with content based on the <see cref="Model"/> of this view model.</summary>
         public override UIElement ToolTipContent

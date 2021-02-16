@@ -96,9 +96,9 @@
       <Project>{69a075e7-46b1-4aee-b5e9-8f7da88d773a}</Project>
       <Name>FlexibleRealization</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Echo\FlexibleRealization_UserInterface_WPF\FlexibleRealization_UserInterface_WPF.csproj">
+    <ProjectReference Include="..\Echo\FlexibleRealization_UI_WPF\FlexibleRealization_UI_WPF.csproj">
       <Project>{91b58255-572f-46a6-9e18-651845d2e97c}</Project>
-      <Name>FlexibleRealization_UserInterface_WPF</Name>
+      <Name>FlexibleRealization_UI_WPF</Name>
     </ProjectReference>
     <ProjectReference Include="..\Flex_Database\Flex_Database.csproj">
       <Project>{a7a76754-de7a-4c19-a027-c3b419a55a92}</Project>

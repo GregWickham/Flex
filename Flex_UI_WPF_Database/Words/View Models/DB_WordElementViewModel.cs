@@ -15,13 +15,8 @@ namespace Flex.Database.UserInterface.ViewModels
         {
             DB_Word = dbWordElement;
             WeightedWords = weightedWords;
-            //if (DB_Word.SingleWord != null)
-            //    SingleWord = DB_Word.SingleWord;
-            //else if (DB_Word.DefaultWeightedWord != null)
-            //{
-                DefaultWeightedWord = WeightedWords.Single(weightedWord => DB_Word.DefaultWeightedWord.Equals(weightedWord.ID));
-                actual.AddRange(WeightedWords.Where(weightedWord => weightedWord.ID != DB_Word.DefaultWeightedWord));
-            //}            
+            DefaultWeightedWord = WeightedWords.Single(weightedWord => DB_Word.DefaultWeightedWord.Equals(weightedWord.ID));
+            actual.AddRange(WeightedWords.Where(weightedWord => weightedWord.ID != DB_Word.DefaultWeightedWord));          
             Choices = WordChoicesFor(DB_Word);
         }
 
@@ -32,9 +27,7 @@ namespace Flex.Database.UserInterface.ViewModels
 
         public byte WordType => (byte)DB_Word.WordType;
 
-        public string DefaultWord => SingleWord ?? DefaultWeightedWord.Text;
-
-        private string SingleWord;
+        public string DefaultWord => DefaultWeightedWord.Text;
 
         private DB_WeightedWord DefaultWeightedWord;
 
@@ -53,14 +46,10 @@ namespace Flex.Database.UserInterface.ViewModels
         {
             if (actual.Count == 0)
             {
-                //DB_Word.SingleWord = DefaultWord;
-                //DB_Word.DefaultWeightedWord = null;
                 return FlexData.Context.SaveWordAsync(DB_Word, null, actual);
             }
             else
             {
-                //DefaultWeightedWord ??= new DB_WeightedWord { Text = DefaultWord, Weight = ElementSelectors.WeightedWord.DefaultWeight };
-                //DB_Word.SingleWord = null;
                 return FlexData.Context.SaveWordAsync(DB_Word, DefaultWeightedWord, actual);
             }
         }

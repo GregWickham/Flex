@@ -1,4 +1,5 @@
-﻿using System.Data.SqlClient;
+﻿using System;
+using System.Data.SqlClient;
 using FlexibleRealization;
 
 namespace WordNet.Linq
@@ -21,14 +22,24 @@ namespace WordNet.Linq
             }
         }
 
-        internal static WordNetDataContext Context { get; } = new WordNetDataContext(ConnectionString);
+        public static WordNetDataContext Context { get; } = new WordNetDataContext(ConnectionString);
 
-        public static char PartOfSpeechFor(WordElementBuilder builder) => builder switch
+        public enum PartOfSpeech
         {
-            NounBuilder nb => 'n',
-            VerbBuilder vb => 'v',
-            AdjectiveBuilder adjb => 'a',
-            AdverbBuilder advb => 'r'
+            Noun,
+            Verb,
+            Adjective,
+            Adverb
+        }
+
+        public static PartOfSpeech? PartOfSpeechMatching(WordElementBuilder wordBuilder) => wordBuilder switch
+        {
+            NounBuilder nounBuilder => PartOfSpeech.Noun,
+            VerbBuilder verbBuilder => PartOfSpeech.Verb,
+            AdjectiveBuilder adjectiveBuilder => PartOfSpeech.Adjective,
+            AdverbBuilder adverbBuilder => PartOfSpeech.Adverb,
+
+            _ => null
         };
     }
 }

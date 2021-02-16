@@ -26,185 +26,185 @@ namespace Flex.Database
 
         //public Task<ParentElementBuilder> LoadParentAsync(int parentBuilder_ID) => Task.Run(() => LoadParent(parentBuilder_ID));
 
-        private ParentElementBuilder LoadParent(int parentBuilder_ID)
-        {
-            ParentElementBuilder parentBuilder;
-            DB_Parent dbParent = DB_Parents.Single(element => element.ID.Equals(parentBuilder_ID));
-            parentBuilder = FlexData.Parent.BuilderOfType((FlexData.ParentType)dbParent.ParentType);
-            parentBuilder.FlexDB_ID = dbParent.ID;
-            LoadParentLayersOf(parentBuilder);
-            LoadChildrenOf(parentBuilder);
-            return parentBuilder;
-        }
+        //private ParentElementBuilder LoadParent(int parentBuilder_ID)
+        //{
+        //    ParentElementBuilder parentBuilder;
+        //    DB_Parent dbParent = DB_Parents.Single(element => element.ID.Equals(parentBuilder_ID));
+        //    parentBuilder = FlexData.Parent.BuilderOfType((FlexData.ParentType)dbParent.ParentType);
+        //    parentBuilder.FlexDB_ID = dbParent.ID;
+        //    LoadParentLayersOf(parentBuilder);
+        //    LoadChildrenOf(parentBuilder);
+        //    return parentBuilder;
+        //}
 
-        private void LoadParentLayersOf(ParentElementBuilder parentBuilder)
-        {
-            switch (parentBuilder)
-            {
-                case IndependentClauseBuilder clauseBuilder:
-                    CopyPhraseLayersOf(clauseBuilder, DB_Clauses.Single(clause => clause.ID.Equals(clauseBuilder.FlexDB_ID)));
-                    break;
-                case SubordinateClauseBuilder clauseBuilder:
-                    CopyPhraseLayersOf(clauseBuilder, DB_Clauses.Single(clause => clause.ID.Equals(clauseBuilder.FlexDB_ID)));
-                    break;
-                case NounPhraseBuilder nounPhraseBuilder:
-                    CopyPhraseLayersOf(nounPhraseBuilder, DB_NounPhrases.Single(nounPhrase => nounPhrase.ID.Equals(nounPhraseBuilder.FlexDB_ID)));
-                    break;
-                case VerbPhraseBuilder verbPhraseBuilder:
-                    CopyPhraseLayersOf(verbPhraseBuilder, DB_VerbPhrases.Single(nounPhrase => nounPhrase.ID.Equals(verbPhraseBuilder.FlexDB_ID)));
-                    break;
-                case AdjectivePhraseBuilder adjectivePhraseBuilder:
-                    CopyPhraseLayersOf(adjectivePhraseBuilder, DB_AdjectivePhrases.Single(nounPhrase => nounPhrase.ID.Equals(adjectivePhraseBuilder.FlexDB_ID)));
-                    break;
-                case AdverbPhraseBuilder adverbPhraseBuilder:
-                    CopyPhraseLayersOf(adverbPhraseBuilder, DB_AdverbPhrases.Single(nounPhrase => nounPhrase.ID.Equals(adverbPhraseBuilder.FlexDB_ID)));
-                    break;
-                case PrepositionalPhraseBuilder prepositionalPhraseBuilder:
-                    CopyPhraseLayersOf(prepositionalPhraseBuilder, DB_PrepositionalPhrases.Single(nounPhrase => nounPhrase.ID.Equals(prepositionalPhraseBuilder.FlexDB_ID)));
-                    break;
-            }
-        }
+        //private void LoadParentLayersOf(ParentElementBuilder parentBuilder)
+        //{
+        //    switch (parentBuilder)
+        //    {
+        //        case IndependentClauseBuilder clauseBuilder:
+        //            CopyPhraseLayersOf(clauseBuilder, DB_Clauses.Single(clause => clause.ID.Equals(clauseBuilder.FlexDB_ID)));
+        //            break;
+        //        case SubordinateClauseBuilder clauseBuilder:
+        //            CopyPhraseLayersOf(clauseBuilder, DB_Clauses.Single(clause => clause.ID.Equals(clauseBuilder.FlexDB_ID)));
+        //            break;
+        //        case NounPhraseBuilder nounPhraseBuilder:
+        //            CopyPhraseLayersOf(nounPhraseBuilder, DB_NounPhrases.Single(nounPhrase => nounPhrase.ID.Equals(nounPhraseBuilder.FlexDB_ID)));
+        //            break;
+        //        case VerbPhraseBuilder verbPhraseBuilder:
+        //            CopyPhraseLayersOf(verbPhraseBuilder, DB_VerbPhrases.Single(nounPhrase => nounPhrase.ID.Equals(verbPhraseBuilder.FlexDB_ID)));
+        //            break;
+        //        case AdjectivePhraseBuilder adjectivePhraseBuilder:
+        //            CopyPhraseLayersOf(adjectivePhraseBuilder, DB_AdjectivePhrases.Single(nounPhrase => nounPhrase.ID.Equals(adjectivePhraseBuilder.FlexDB_ID)));
+        //            break;
+        //        case AdverbPhraseBuilder adverbPhraseBuilder:
+        //            CopyPhraseLayersOf(adverbPhraseBuilder, DB_AdverbPhrases.Single(nounPhrase => nounPhrase.ID.Equals(adverbPhraseBuilder.FlexDB_ID)));
+        //            break;
+        //        case PrepositionalPhraseBuilder prepositionalPhraseBuilder:
+        //            CopyPhraseLayersOf(prepositionalPhraseBuilder, DB_PrepositionalPhrases.Single(nounPhrase => nounPhrase.ID.Equals(prepositionalPhraseBuilder.FlexDB_ID)));
+        //            break;
+        //    }
+        //}
 
-        private void CopyPhraseLayersOf(ClauseBuilder clauseBuilder, IPhrase dbPhrase)
-        {
-            clauseBuilder.DiscourseFunctionSpecified = dbPhrase.DiscourseFunction != null;
-            if (clauseBuilder.DiscourseFunctionSpecified) clauseBuilder.DiscourseFunction = (discourseFunction)dbPhrase.DiscourseFunction;
-            clauseBuilder.AppositiveSpecified = dbPhrase.Appositive != null;
-            if (clauseBuilder.AppositiveSpecified) clauseBuilder.Appositive = (bool)dbPhrase.Appositive;
-            switch (dbPhrase)
-            {
-                case IClause dbClause:
-                    CopyClauseLayerOf(clauseBuilder, dbClause);
-                    break;
-            }
-        }
+        //private void CopyPhraseLayersOf(ClauseBuilder clauseBuilder, IPhrase dbPhrase)
+        //{
+        //    clauseBuilder.DiscourseFunctionSpecified = dbPhrase.DiscourseFunction != null;
+        //    if (clauseBuilder.DiscourseFunctionSpecified) clauseBuilder.DiscourseFunction = (discourseFunction)dbPhrase.DiscourseFunction;
+        //    clauseBuilder.AppositiveSpecified = dbPhrase.Appositive != null;
+        //    if (clauseBuilder.AppositiveSpecified) clauseBuilder.Appositive = (bool)dbPhrase.Appositive;
+        //    switch (dbPhrase)
+        //    {
+        //        case IClause dbClause:
+        //            CopyClauseLayerOf(clauseBuilder, dbClause);
+        //            break;
+        //    }
+        //}
 
-        private void CopyClauseLayerOf(ClauseBuilder clauseBuilder, IClause dbClause)
-        {
-            clauseBuilder.AggregateAuxiliarySpecified = dbClause.AggregateAuxiliary != null;
-            if (clauseBuilder.AggregateAuxiliarySpecified) clauseBuilder.AggregateAuxiliary = (bool)dbClause.AggregateAuxiliary;
-            clauseBuilder.Complementiser = dbClause.Complementizer;
-            clauseBuilder.FormSpecified = dbClause.Form != null;
-            if (clauseBuilder.FormSpecified) clauseBuilder.Form = (form)dbClause.Form;
-            clauseBuilder.InterrogativeTypeSpecified = dbClause.InterrogativeType != null;
-            if (clauseBuilder.InterrogativeTypeSpecified) clauseBuilder.InterrogativeType = (interrogativeType)dbClause.InterrogativeType;
-            clauseBuilder.Modal = dbClause.Modal;
-            clauseBuilder.NegatedSpecified = dbClause.Negated != null;
-            if (clauseBuilder.NegatedSpecified) clauseBuilder.Negated = (bool)dbClause.Negated;
-            clauseBuilder.PassiveSpecified = dbClause.Passive != null;
-            if (clauseBuilder.PassiveSpecified) clauseBuilder.Passive = (bool)dbClause.Passive;
-            clauseBuilder.PerfectSpecified = dbClause.Perfect != null;
-            if (clauseBuilder.PerfectSpecified) clauseBuilder.Perfect = (bool)dbClause.Perfect;
-            clauseBuilder.PersonSpecified = dbClause.Person != null;
-            if (clauseBuilder.PersonSpecified) clauseBuilder.Person = (person)dbClause.Person;
-            clauseBuilder.ProgressiveSpecified = dbClause.Progressive != null;
-            if (clauseBuilder.ProgressiveSpecified) clauseBuilder.Progressive = (bool)dbClause.Progressive;
-            clauseBuilder.SuppressGenitiveInGerundSpecified = dbClause.SuppressGenitiveInGerund != null;
-            if (clauseBuilder.SuppressGenitiveInGerundSpecified) clauseBuilder.SuppressGenitiveInGerund = (bool)dbClause.SuppressGenitiveInGerund;
-            clauseBuilder.SuppressedComplementiserSpecified = dbClause.SuppressedComplementizer != null;
-            if (clauseBuilder.SuppressedComplementiserSpecified) clauseBuilder.SuppressedComplementiser = (bool)dbClause.SuppressedComplementizer;
-            clauseBuilder.TenseSpecified = dbClause.Tense != null;
-            if (clauseBuilder.TenseSpecified) clauseBuilder.Tense = (tense)dbClause.Tense;
-        }
+        //private void CopyClauseLayerOf(ClauseBuilder clauseBuilder, IClause dbClause)
+        //{
+        //    clauseBuilder.AggregateAuxiliarySpecified = dbClause.AggregateAuxiliary != null;
+        //    if (clauseBuilder.AggregateAuxiliarySpecified) clauseBuilder.AggregateAuxiliary = (bool)dbClause.AggregateAuxiliary;
+        //    clauseBuilder.Complementiser = dbClause.Complementizer;
+        //    clauseBuilder.FormSpecified = dbClause.Form != null;
+        //    if (clauseBuilder.FormSpecified) clauseBuilder.Form = (form)dbClause.Form;
+        //    clauseBuilder.InterrogativeTypeSpecified = dbClause.InterrogativeType != null;
+        //    if (clauseBuilder.InterrogativeTypeSpecified) clauseBuilder.InterrogativeType = (interrogativeType)dbClause.InterrogativeType;
+        //    clauseBuilder.Modal = dbClause.Modal;
+        //    clauseBuilder.NegatedSpecified = dbClause.Negated != null;
+        //    if (clauseBuilder.NegatedSpecified) clauseBuilder.Negated = (bool)dbClause.Negated;
+        //    clauseBuilder.PassiveSpecified = dbClause.Passive != null;
+        //    if (clauseBuilder.PassiveSpecified) clauseBuilder.Passive = (bool)dbClause.Passive;
+        //    clauseBuilder.PerfectSpecified = dbClause.Perfect != null;
+        //    if (clauseBuilder.PerfectSpecified) clauseBuilder.Perfect = (bool)dbClause.Perfect;
+        //    clauseBuilder.PersonSpecified = dbClause.Person != null;
+        //    if (clauseBuilder.PersonSpecified) clauseBuilder.Person = (person)dbClause.Person;
+        //    clauseBuilder.ProgressiveSpecified = dbClause.Progressive != null;
+        //    if (clauseBuilder.ProgressiveSpecified) clauseBuilder.Progressive = (bool)dbClause.Progressive;
+        //    clauseBuilder.SuppressGenitiveInGerundSpecified = dbClause.SuppressGenitiveInGerund != null;
+        //    if (clauseBuilder.SuppressGenitiveInGerundSpecified) clauseBuilder.SuppressGenitiveInGerund = (bool)dbClause.SuppressGenitiveInGerund;
+        //    clauseBuilder.SuppressedComplementiserSpecified = dbClause.SuppressedComplementizer != null;
+        //    if (clauseBuilder.SuppressedComplementiserSpecified) clauseBuilder.SuppressedComplementiser = (bool)dbClause.SuppressedComplementizer;
+        //    clauseBuilder.TenseSpecified = dbClause.Tense != null;
+        //    if (clauseBuilder.TenseSpecified) clauseBuilder.Tense = (tense)dbClause.Tense;
+        //}
 
-        private void CopyPhraseLayersOf(PhraseBuilder phraseBuilder, IPhrase dbPhrase)
-        {
-            phraseBuilder.DiscourseFunctionSpecified = dbPhrase.DiscourseFunction != null;
-            if (phraseBuilder.DiscourseFunctionSpecified) phraseBuilder.DiscourseFunction = (discourseFunction)dbPhrase.DiscourseFunction;
-            phraseBuilder.AppositiveSpecified = dbPhrase.Appositive != null;
-            if (phraseBuilder.AppositiveSpecified) phraseBuilder.Appositive = (bool)dbPhrase.Appositive;
-            switch (dbPhrase)
-            {
-                case INounPhrase dbNounPhrase:
-                    CopyNounPhraseLayerOf((NounPhraseBuilder)phraseBuilder, dbNounPhrase);
-                    break;
-                case IVerbPhrase dbVerbPhrase:
-                    CopyVerbPhraseLayerOf((VerbPhraseBuilder)phraseBuilder, dbVerbPhrase);
-                    break;
-                case IAdjectivePhrase dbAdjectivePhrase:
-                    CopyAdjectivePhraseLayerOf((AdjectivePhraseBuilder)phraseBuilder, dbAdjectivePhrase);
-                    break;
-                case IAdverbPhrase dbAdverbPhrase:
-                    CopyAdverbPhraseLayerOf((AdverbPhraseBuilder)phraseBuilder, dbAdverbPhrase);
-                    break;
-            }
-        }
+        //private void CopyPhraseLayersOf(PhraseBuilder phraseBuilder, IPhrase dbPhrase)
+        //{
+        //    phraseBuilder.DiscourseFunctionSpecified = dbPhrase.DiscourseFunction != null;
+        //    if (phraseBuilder.DiscourseFunctionSpecified) phraseBuilder.DiscourseFunction = (discourseFunction)dbPhrase.DiscourseFunction;
+        //    phraseBuilder.AppositiveSpecified = dbPhrase.Appositive != null;
+        //    if (phraseBuilder.AppositiveSpecified) phraseBuilder.Appositive = (bool)dbPhrase.Appositive;
+        //    switch (dbPhrase)
+        //    {
+        //        case INounPhrase dbNounPhrase:
+        //            CopyNounPhraseLayerOf((NounPhraseBuilder)phraseBuilder, dbNounPhrase);
+        //            break;
+        //        case IVerbPhrase dbVerbPhrase:
+        //            CopyVerbPhraseLayerOf((VerbPhraseBuilder)phraseBuilder, dbVerbPhrase);
+        //            break;
+        //        case IAdjectivePhrase dbAdjectivePhrase:
+        //            CopyAdjectivePhraseLayerOf((AdjectivePhraseBuilder)phraseBuilder, dbAdjectivePhrase);
+        //            break;
+        //        case IAdverbPhrase dbAdverbPhrase:
+        //            CopyAdverbPhraseLayerOf((AdverbPhraseBuilder)phraseBuilder, dbAdverbPhrase);
+        //            break;
+        //    }
+        //}
 
-        private void CopyNounPhraseLayerOf(NounPhraseBuilder nounPhraseBuilder, INounPhrase dbNounPhrase)
-        {
-            nounPhraseBuilder.AdjectiveOrderingSpecified = dbNounPhrase.AdjectiveOrdering != null;
-            if (nounPhraseBuilder.AdjectiveOrderingSpecified) nounPhraseBuilder.AdjectiveOrdering = (bool)dbNounPhrase.AdjectiveOrdering;
-            nounPhraseBuilder.ElidedSpecified = dbNounPhrase.Elided != null;
-            if (nounPhraseBuilder.ElidedSpecified) nounPhraseBuilder.Elided = (bool)dbNounPhrase.Elided;
-            nounPhraseBuilder.NumberSpecified = dbNounPhrase.Number != null;
-            if (nounPhraseBuilder.NumberSpecified) nounPhraseBuilder.Number = (numberAgreement)dbNounPhrase.Number;
-            nounPhraseBuilder.GenderSpecified = dbNounPhrase.Gender != null;
-            if (nounPhraseBuilder.GenderSpecified) nounPhraseBuilder.Gender = (gender)dbNounPhrase.Gender;
-            nounPhraseBuilder.PersonSpecified = dbNounPhrase.Person != null;
-            if (nounPhraseBuilder.PersonSpecified) nounPhraseBuilder.Person = (person)dbNounPhrase.Person;
-            nounPhraseBuilder.PossessiveSpecified = dbNounPhrase.Possessive != null;
-            if (nounPhraseBuilder.PossessiveSpecified) nounPhraseBuilder.Possessive = (bool)dbNounPhrase.Possessive;
-            nounPhraseBuilder.PronominalSpecified = dbNounPhrase.Pronominal != null;
-            if (nounPhraseBuilder.PronominalSpecified) nounPhraseBuilder.Pronominal = (bool)dbNounPhrase.Pronominal;
-        }
+        //private void CopyNounPhraseLayerOf(NounPhraseBuilder nounPhraseBuilder, INounPhrase dbNounPhrase)
+        //{
+        //    nounPhraseBuilder.AdjectiveOrderingSpecified = dbNounPhrase.AdjectiveOrdering != null;
+        //    if (nounPhraseBuilder.AdjectiveOrderingSpecified) nounPhraseBuilder.AdjectiveOrdering = (bool)dbNounPhrase.AdjectiveOrdering;
+        //    nounPhraseBuilder.ElidedSpecified = dbNounPhrase.Elided != null;
+        //    if (nounPhraseBuilder.ElidedSpecified) nounPhraseBuilder.Elided = (bool)dbNounPhrase.Elided;
+        //    nounPhraseBuilder.NumberSpecified = dbNounPhrase.Number != null;
+        //    if (nounPhraseBuilder.NumberSpecified) nounPhraseBuilder.Number = (numberAgreement)dbNounPhrase.Number;
+        //    nounPhraseBuilder.GenderSpecified = dbNounPhrase.Gender != null;
+        //    if (nounPhraseBuilder.GenderSpecified) nounPhraseBuilder.Gender = (gender)dbNounPhrase.Gender;
+        //    nounPhraseBuilder.PersonSpecified = dbNounPhrase.Person != null;
+        //    if (nounPhraseBuilder.PersonSpecified) nounPhraseBuilder.Person = (person)dbNounPhrase.Person;
+        //    nounPhraseBuilder.PossessiveSpecified = dbNounPhrase.Possessive != null;
+        //    if (nounPhraseBuilder.PossessiveSpecified) nounPhraseBuilder.Possessive = (bool)dbNounPhrase.Possessive;
+        //    nounPhraseBuilder.PronominalSpecified = dbNounPhrase.Pronominal != null;
+        //    if (nounPhraseBuilder.PronominalSpecified) nounPhraseBuilder.Pronominal = (bool)dbNounPhrase.Pronominal;
+        //}
 
-        private void CopyVerbPhraseLayerOf(VerbPhraseBuilder verbPhraseBuilder, IVerbPhrase dbVerbPhrase)
-        {
-            verbPhraseBuilder.AggregateAuxiliarySpecified = dbVerbPhrase.AggregateAuxiliary != null;
-            if (verbPhraseBuilder.AggregateAuxiliarySpecified) verbPhraseBuilder.AggregateAuxiliary = (bool)dbVerbPhrase.AggregateAuxiliary;
-            verbPhraseBuilder.FormSpecified = dbVerbPhrase.Form != null;
-            if (verbPhraseBuilder.FormSpecified) verbPhraseBuilder.Form = (form)dbVerbPhrase.Form;
-            verbPhraseBuilder.Modal = dbVerbPhrase.Modal;
-            verbPhraseBuilder.NegatedSpecified = dbVerbPhrase.Negated != null;
-            if (verbPhraseBuilder.NegatedSpecified) verbPhraseBuilder.Negated = (bool)dbVerbPhrase.Negated;
-            verbPhraseBuilder.PassiveSpecified = dbVerbPhrase.Passive != null;
-            if (verbPhraseBuilder.PassiveSpecified) verbPhraseBuilder.Passive = (bool)dbVerbPhrase.Passive;
-            verbPhraseBuilder.PerfectSpecified = dbVerbPhrase.Perfect != null;
-            if (verbPhraseBuilder.PerfectSpecified) verbPhraseBuilder.Perfect = (bool)dbVerbPhrase.Perfect;
-            verbPhraseBuilder.PersonSpecified = dbVerbPhrase.Person != null;
-            if (verbPhraseBuilder.PersonSpecified) verbPhraseBuilder.Person = (person)dbVerbPhrase.Person;
-            verbPhraseBuilder.ProgressiveSpecified = dbVerbPhrase.Progressive != null;
-            if (verbPhraseBuilder.ProgressiveSpecified) verbPhraseBuilder.Progressive = (bool)dbVerbPhrase.Progressive;
-            verbPhraseBuilder.SuppressGenitiveInGerundSpecified = dbVerbPhrase.SuppressGenitiveInGerund != null;
-            if (verbPhraseBuilder.SuppressGenitiveInGerundSpecified) verbPhraseBuilder.SuppressGenitiveInGerund = (bool)dbVerbPhrase.SuppressGenitiveInGerund;
-            verbPhraseBuilder.SuppressedComplementiserSpecified = dbVerbPhrase.SuppressedComplementizer != null;
-            if (verbPhraseBuilder.SuppressedComplementiserSpecified) verbPhraseBuilder.SuppressedComplementiser = (bool)dbVerbPhrase.SuppressedComplementizer;
-            verbPhraseBuilder.TenseSpecified = dbVerbPhrase.Tense != null;
-            if (verbPhraseBuilder.TenseSpecified) verbPhraseBuilder.Tense = (tense)dbVerbPhrase.Tense;
-        }
+        //private void CopyVerbPhraseLayerOf(VerbPhraseBuilder verbPhraseBuilder, IVerbPhrase dbVerbPhrase)
+        //{
+        //    verbPhraseBuilder.AggregateAuxiliarySpecified = dbVerbPhrase.AggregateAuxiliary != null;
+        //    if (verbPhraseBuilder.AggregateAuxiliarySpecified) verbPhraseBuilder.AggregateAuxiliary = (bool)dbVerbPhrase.AggregateAuxiliary;
+        //    verbPhraseBuilder.FormSpecified = dbVerbPhrase.Form != null;
+        //    if (verbPhraseBuilder.FormSpecified) verbPhraseBuilder.Form = (form)dbVerbPhrase.Form;
+        //    verbPhraseBuilder.Modal = dbVerbPhrase.Modal;
+        //    verbPhraseBuilder.NegatedSpecified = dbVerbPhrase.Negated != null;
+        //    if (verbPhraseBuilder.NegatedSpecified) verbPhraseBuilder.Negated = (bool)dbVerbPhrase.Negated;
+        //    verbPhraseBuilder.PassiveSpecified = dbVerbPhrase.Passive != null;
+        //    if (verbPhraseBuilder.PassiveSpecified) verbPhraseBuilder.Passive = (bool)dbVerbPhrase.Passive;
+        //    verbPhraseBuilder.PerfectSpecified = dbVerbPhrase.Perfect != null;
+        //    if (verbPhraseBuilder.PerfectSpecified) verbPhraseBuilder.Perfect = (bool)dbVerbPhrase.Perfect;
+        //    verbPhraseBuilder.PersonSpecified = dbVerbPhrase.Person != null;
+        //    if (verbPhraseBuilder.PersonSpecified) verbPhraseBuilder.Person = (person)dbVerbPhrase.Person;
+        //    verbPhraseBuilder.ProgressiveSpecified = dbVerbPhrase.Progressive != null;
+        //    if (verbPhraseBuilder.ProgressiveSpecified) verbPhraseBuilder.Progressive = (bool)dbVerbPhrase.Progressive;
+        //    verbPhraseBuilder.SuppressGenitiveInGerundSpecified = dbVerbPhrase.SuppressGenitiveInGerund != null;
+        //    if (verbPhraseBuilder.SuppressGenitiveInGerundSpecified) verbPhraseBuilder.SuppressGenitiveInGerund = (bool)dbVerbPhrase.SuppressGenitiveInGerund;
+        //    verbPhraseBuilder.SuppressedComplementiserSpecified = dbVerbPhrase.SuppressedComplementizer != null;
+        //    if (verbPhraseBuilder.SuppressedComplementiserSpecified) verbPhraseBuilder.SuppressedComplementiser = (bool)dbVerbPhrase.SuppressedComplementizer;
+        //    verbPhraseBuilder.TenseSpecified = dbVerbPhrase.Tense != null;
+        //    if (verbPhraseBuilder.TenseSpecified) verbPhraseBuilder.Tense = (tense)dbVerbPhrase.Tense;
+        //}
 
-        private void CopyAdjectivePhraseLayerOf(AdjectivePhraseBuilder adjectivePhraseBuilder, IAdjectivePhrase dbAdjectivePhrase)
-        {
-            adjectivePhraseBuilder.ComparativeSpecified = dbAdjectivePhrase.Comparative != null;
-            if (adjectivePhraseBuilder.ComparativeSpecified) adjectivePhraseBuilder.Comparative = (bool)dbAdjectivePhrase.Comparative;
-            adjectivePhraseBuilder.SuperlativeSpecified = dbAdjectivePhrase.Superlative != null;
-            if (adjectivePhraseBuilder.SuperlativeSpecified) adjectivePhraseBuilder.Superlative = (bool)dbAdjectivePhrase.Superlative;
-        }
+        //private void CopyAdjectivePhraseLayerOf(AdjectivePhraseBuilder adjectivePhraseBuilder, IAdjectivePhrase dbAdjectivePhrase)
+        //{
+        //    adjectivePhraseBuilder.ComparativeSpecified = dbAdjectivePhrase.Comparative != null;
+        //    if (adjectivePhraseBuilder.ComparativeSpecified) adjectivePhraseBuilder.Comparative = (bool)dbAdjectivePhrase.Comparative;
+        //    adjectivePhraseBuilder.SuperlativeSpecified = dbAdjectivePhrase.Superlative != null;
+        //    if (adjectivePhraseBuilder.SuperlativeSpecified) adjectivePhraseBuilder.Superlative = (bool)dbAdjectivePhrase.Superlative;
+        //}
 
-        private void CopyAdverbPhraseLayerOf(AdverbPhraseBuilder adverbPhraseBuilder, IAdverbPhrase dbAdverbPhrase)
-        {
-            adverbPhraseBuilder.ComparativeSpecified = dbAdverbPhrase.Comparative != null;
-            if (adverbPhraseBuilder.ComparativeSpecified) adverbPhraseBuilder.Comparative = (bool)dbAdverbPhrase.Comparative;
-            adverbPhraseBuilder.SuperlativeSpecified = dbAdverbPhrase.Superlative != null;
-            if (adverbPhraseBuilder.SuperlativeSpecified) adverbPhraseBuilder.Superlative = (bool)dbAdverbPhrase.Superlative;
-        }
+        //private void CopyAdverbPhraseLayerOf(AdverbPhraseBuilder adverbPhraseBuilder, IAdverbPhrase dbAdverbPhrase)
+        //{
+        //    adverbPhraseBuilder.ComparativeSpecified = dbAdverbPhrase.Comparative != null;
+        //    if (adverbPhraseBuilder.ComparativeSpecified) adverbPhraseBuilder.Comparative = (bool)dbAdverbPhrase.Comparative;
+        //    adverbPhraseBuilder.SuperlativeSpecified = dbAdverbPhrase.Superlative != null;
+        //    if (adverbPhraseBuilder.SuperlativeSpecified) adverbPhraseBuilder.Superlative = (bool)dbAdverbPhrase.Superlative;
+        //}
 
-        private void LoadChildrenOf(ParentElementBuilder parent)
-        {
-            foreach (DB_ParentChildRelation eachRelation in DB_ParentChildRelations.Where(relation => relation.Parent.Equals(parent.FlexDB_ID)))
-            {
-                ElementBuilder child = Load(eachRelation.Child);
-                parent.AddChildWithRole(child, (ParentElementBuilder.ChildRole)eachRelation.Role);
-            }
-            foreach (DB_ChildOrdering eachDB_Ordering in DB_ChildOrderings.Where(ordering => ordering.Parent.Equals(parent.FlexDB_ID)))
-            {
-                parent.ChildOrderings.Add(new ParentElementBuilder.ChildOrdering
-                {
-                    Before = parent.Children.Single(child => child.FlexDB_ID.Equals(eachDB_Ordering.Child_Before)),
-                    After = parent.Children.Single(child => child.FlexDB_ID.Equals(eachDB_Ordering.Child_After))
-                });
-            }
-        }
+        //private void LoadChildrenOf(ParentElementBuilder parent)
+        //{
+        //    foreach (DB_ParentChildRelation eachRelation in DB_ParentChildRelations.Where(relation => relation.Parent.Equals(parent.FlexDB_ID)))
+        //    {
+        //        ElementBuilder child = Load(eachRelation.Child);
+        //        parent.AddChildWithRole(child, (ParentElementBuilder.ChildRole)eachRelation.Role);
+        //    }
+        //    foreach (DB_ChildOrdering eachDB_Ordering in DB_ChildOrderings.Where(ordering => ordering.Parent.Equals(parent.FlexDB_ID)))
+        //    {
+        //        parent.ChildOrderings.Add(new ParentElementBuilder.ChildOrdering
+        //        {
+        //            Before = parent.Children.Single(child => child.FlexDB_ID.Equals(eachDB_Ordering.Child_Before)),
+        //            After = parent.Children.Single(child => child.FlexDB_ID.Equals(eachDB_Ordering.Child_After))
+        //        });
+        //    }
+        //}
 
         private void SaveParent(ParentElementBuilder parentBuilder)
         {
@@ -482,6 +482,180 @@ namespace Flex.Database
                 DB_ParentChildRelations.InsertOnSubmit(childRelation);
             }
             //SubmitChanges();
+        }
+
+        private ParentElementBuilder BuildParent(GetNodesForTreeResult parentResult, IEnumerable<GetNodesForTreeResult> nodeResults, IEnumerable<GetWeightedWordsForTreeResult> weightedWordResults, List<GetChildOrderingsForTreeResult> childOrderingResults)
+        {
+            ParentElementBuilder parentBuilder = FlexData.Parent.BuilderOfType((FlexData.ParentType)parentResult.ParentType);
+            parentBuilder.FlexDB_ID = (int)parentResult.ID;
+            BuildParentLayersOf(parentBuilder, parentResult);
+            BuildChildrenOf(parentBuilder, nodeResults, weightedWordResults, childOrderingResults);
+            return parentBuilder;
+        }
+
+        private void BuildParentLayersOf(ParentElementBuilder parentBuilder, GetNodesForTreeResult parentResult)
+        {
+            switch (parentBuilder)
+            {
+                case IndependentClauseBuilder clauseBuilder:
+                    BuildPhraseLayersOf(clauseBuilder, parentResult);
+                    break;
+                case SubordinateClauseBuilder clauseBuilder:
+                    BuildPhraseLayersOf(clauseBuilder, parentResult);
+                    break;
+                case NounPhraseBuilder nounPhraseBuilder:
+                    BuildPhraseLayersOf(nounPhraseBuilder, parentResult);
+                    break;
+                case VerbPhraseBuilder verbPhraseBuilder:
+                    BuildPhraseLayersOf(verbPhraseBuilder, parentResult);
+                    break;
+                case AdjectivePhraseBuilder adjectivePhraseBuilder:
+                    BuildPhraseLayersOf(adjectivePhraseBuilder, parentResult);
+                    break;
+                case AdverbPhraseBuilder adverbPhraseBuilder:
+                    BuildPhraseLayersOf(adverbPhraseBuilder, parentResult);
+                    break;
+                case PrepositionalPhraseBuilder prepositionalPhraseBuilder:
+                    BuildPhraseLayersOf(prepositionalPhraseBuilder, parentResult);
+                    break;
+            }
+        }
+
+        private void BuildPhraseLayersOf(ClauseBuilder clauseBuilder, GetNodesForTreeResult clauseResult)
+        {
+            clauseBuilder.DiscourseFunctionSpecified = clauseResult.DiscourseFunction != null;
+            if (clauseBuilder.DiscourseFunctionSpecified) clauseBuilder.DiscourseFunction = (discourseFunction)clauseResult.DiscourseFunction;
+            clauseBuilder.AppositiveSpecified = clauseResult.Appositive != null;
+            if (clauseBuilder.AppositiveSpecified) clauseBuilder.Appositive = (bool)clauseResult.Appositive;
+            BuildClauseLayerOf(clauseBuilder, clauseResult);
+        }
+
+        private void BuildClauseLayerOf(ClauseBuilder clauseBuilder, GetNodesForTreeResult clauseResult)
+        {
+            clauseBuilder.AggregateAuxiliarySpecified = clauseResult.C_AggregateAuxiliary != null;
+            if (clauseBuilder.AggregateAuxiliarySpecified) clauseBuilder.AggregateAuxiliary = (bool)clauseResult.C_AggregateAuxiliary;
+            clauseBuilder.Complementiser = clauseResult.C_Complementizer;
+            clauseBuilder.FormSpecified = clauseResult.C_Form != null;
+            if (clauseBuilder.FormSpecified) clauseBuilder.Form = (form)clauseResult.C_Form;
+            clauseBuilder.InterrogativeTypeSpecified = clauseResult.C_InterrogativeType != null;
+            if (clauseBuilder.InterrogativeTypeSpecified) clauseBuilder.InterrogativeType = (interrogativeType)clauseResult.C_InterrogativeType;
+            clauseBuilder.Modal = clauseResult.C_Modal;
+            clauseBuilder.NegatedSpecified = clauseResult.C_Negated != null;
+            if (clauseBuilder.NegatedSpecified) clauseBuilder.Negated = (bool)clauseResult.C_Negated;
+            clauseBuilder.PassiveSpecified = clauseResult.C_Passive != null;
+            if (clauseBuilder.PassiveSpecified) clauseBuilder.Passive = (bool)clauseResult.C_Passive;
+            clauseBuilder.PerfectSpecified = clauseResult.C_Perfect != null;
+            if (clauseBuilder.PerfectSpecified) clauseBuilder.Perfect = (bool)clauseResult.C_Perfect;
+            clauseBuilder.PersonSpecified = clauseResult.C_Person != null;
+            if (clauseBuilder.PersonSpecified) clauseBuilder.Person = (person)clauseResult.C_Person;
+            clauseBuilder.ProgressiveSpecified = clauseResult.C_Progressive != null;
+            if (clauseBuilder.ProgressiveSpecified) clauseBuilder.Progressive = (bool)clauseResult.C_Progressive;
+            clauseBuilder.SuppressGenitiveInGerundSpecified = clauseResult.C_SuppressGenitiveInGerund != null;
+            if (clauseBuilder.SuppressGenitiveInGerundSpecified) clauseBuilder.SuppressGenitiveInGerund = (bool)clauseResult.C_SuppressGenitiveInGerund;
+            clauseBuilder.SuppressedComplementiserSpecified = clauseResult.C_SuppressedComplementizer != null;
+            if (clauseBuilder.SuppressedComplementiserSpecified) clauseBuilder.SuppressedComplementiser = (bool)clauseResult.C_SuppressedComplementizer;
+            clauseBuilder.TenseSpecified = clauseResult.C_Tense != null;
+            if (clauseBuilder.TenseSpecified) clauseBuilder.Tense = (tense)clauseResult.C_Tense;
+        }
+
+        private void BuildPhraseLayersOf(PhraseBuilder phraseBuilder, GetNodesForTreeResult phraseResult)
+        {
+            phraseBuilder.DiscourseFunctionSpecified = phraseResult.DiscourseFunction != null;
+            if (phraseBuilder.DiscourseFunctionSpecified) phraseBuilder.DiscourseFunction = (discourseFunction)phraseResult.DiscourseFunction;
+            phraseBuilder.AppositiveSpecified = phraseResult.Appositive != null;
+            if (phraseBuilder.AppositiveSpecified) phraseBuilder.Appositive = (bool)phraseResult.Appositive;
+            switch (phraseBuilder)
+            {
+                case NounPhraseBuilder nounPhrase:
+                    BuildNounPhraseLayerOf(nounPhrase, phraseResult);
+                    break;
+                case VerbPhraseBuilder verbPhrase:
+                    BuildVerbPhraseLayerOf(verbPhrase, phraseResult);
+                    break;
+                case AdjectivePhraseBuilder adjectivePhrase:
+                    BuildAdjectivePhraseLayerOf(adjectivePhrase, phraseResult);
+                    break;
+                case AdverbPhraseBuilder adverbPhrase:
+                    BuildAdverbPhraseLayerOf(adverbPhrase, phraseResult);
+                    break;
+            }
+        }
+
+        private void BuildNounPhraseLayerOf(NounPhraseBuilder nounPhraseBuilder, GetNodesForTreeResult phraseResult)
+        {
+            nounPhraseBuilder.AdjectiveOrderingSpecified = phraseResult.NP_AdjectiveOrdering != null;
+            if (nounPhraseBuilder.AdjectiveOrderingSpecified) nounPhraseBuilder.AdjectiveOrdering = (bool)phraseResult.NP_AdjectiveOrdering;
+            nounPhraseBuilder.ElidedSpecified = phraseResult.NP_Elided != null;
+            if (nounPhraseBuilder.ElidedSpecified) nounPhraseBuilder.Elided = (bool)phraseResult.NP_Elided;
+            nounPhraseBuilder.NumberSpecified = phraseResult.NP_Number != null;
+            if (nounPhraseBuilder.NumberSpecified) nounPhraseBuilder.Number = (numberAgreement)phraseResult.NP_Number;
+            nounPhraseBuilder.GenderSpecified = phraseResult.NP_Gender != null;
+            if (nounPhraseBuilder.GenderSpecified) nounPhraseBuilder.Gender = (gender)phraseResult.NP_Gender;
+            nounPhraseBuilder.PersonSpecified = phraseResult.NP_Person != null;
+            if (nounPhraseBuilder.PersonSpecified) nounPhraseBuilder.Person = (person)phraseResult.NP_Person;
+            nounPhraseBuilder.PossessiveSpecified = phraseResult.NP_Possessive != null;
+            if (nounPhraseBuilder.PossessiveSpecified) nounPhraseBuilder.Possessive = (bool)phraseResult.NP_Possessive;
+            nounPhraseBuilder.PronominalSpecified = phraseResult.NP_Pronominal != null;
+            if (nounPhraseBuilder.PronominalSpecified) nounPhraseBuilder.Pronominal = (bool)phraseResult.NP_Pronominal;
+        }
+
+        private void BuildVerbPhraseLayerOf(VerbPhraseBuilder verbPhraseBuilder, GetNodesForTreeResult phraseResult)
+        {
+            verbPhraseBuilder.AggregateAuxiliarySpecified = phraseResult.VP_AggregateAuxiliary != null;
+            if (verbPhraseBuilder.AggregateAuxiliarySpecified) verbPhraseBuilder.AggregateAuxiliary = (bool)phraseResult.VP_AggregateAuxiliary;
+            verbPhraseBuilder.FormSpecified = phraseResult.VP_Form != null;
+            if (verbPhraseBuilder.FormSpecified) verbPhraseBuilder.Form = (form)phraseResult.VP_Form;
+            verbPhraseBuilder.Modal = phraseResult.VP_Modal;
+            verbPhraseBuilder.NegatedSpecified = phraseResult.VP_Negated != null;
+            if (verbPhraseBuilder.NegatedSpecified) verbPhraseBuilder.Negated = (bool)phraseResult.VP_Negated;
+            verbPhraseBuilder.PassiveSpecified = phraseResult.VP_Passive != null;
+            if (verbPhraseBuilder.PassiveSpecified) verbPhraseBuilder.Passive = (bool)phraseResult.VP_Passive;
+            verbPhraseBuilder.PerfectSpecified = phraseResult.VP_Perfect != null;
+            if (verbPhraseBuilder.PerfectSpecified) verbPhraseBuilder.Perfect = (bool)phraseResult.VP_Perfect;
+            verbPhraseBuilder.PersonSpecified = phraseResult.VP_Person != null;
+            if (verbPhraseBuilder.PersonSpecified) verbPhraseBuilder.Person = (person)phraseResult.VP_Person;
+            verbPhraseBuilder.ProgressiveSpecified = phraseResult.VP_Progressive != null;
+            if (verbPhraseBuilder.ProgressiveSpecified) verbPhraseBuilder.Progressive = (bool)phraseResult.VP_Progressive;
+            verbPhraseBuilder.SuppressGenitiveInGerundSpecified = phraseResult.VP_SuppressGenitiveInGerund != null;
+            if (verbPhraseBuilder.SuppressGenitiveInGerundSpecified) verbPhraseBuilder.SuppressGenitiveInGerund = (bool)phraseResult.VP_SuppressGenitiveInGerund;
+            verbPhraseBuilder.SuppressedComplementiserSpecified = phraseResult.VP_SuppressedComplementizer != null;
+            if (verbPhraseBuilder.SuppressedComplementiserSpecified) verbPhraseBuilder.SuppressedComplementiser = (bool)phraseResult.VP_SuppressedComplementizer;
+            verbPhraseBuilder.TenseSpecified = phraseResult.VP_Tense != null;
+            if (verbPhraseBuilder.TenseSpecified) verbPhraseBuilder.Tense = (tense)phraseResult.VP_Tense;
+        }
+
+        private void BuildAdjectivePhraseLayerOf(AdjectivePhraseBuilder adjectivePhraseBuilder, GetNodesForTreeResult phraseResult)
+        {
+            adjectivePhraseBuilder.ComparativeSpecified = phraseResult.AdjP_Comparative != null;
+            if (adjectivePhraseBuilder.ComparativeSpecified) adjectivePhraseBuilder.Comparative = (bool)phraseResult.AdjP_Comparative;
+            adjectivePhraseBuilder.SuperlativeSpecified = phraseResult.AdjP_Superlative != null;
+            if (adjectivePhraseBuilder.SuperlativeSpecified) adjectivePhraseBuilder.Superlative = (bool)phraseResult.AdjP_Superlative;
+        }
+
+        private void BuildAdverbPhraseLayerOf(AdverbPhraseBuilder adverbPhraseBuilder, GetNodesForTreeResult phraseResult)
+        {
+            adverbPhraseBuilder.ComparativeSpecified = phraseResult.AdvP_Comparative != null;
+            if (adverbPhraseBuilder.ComparativeSpecified) adverbPhraseBuilder.Comparative = (bool)phraseResult.AdvP_Comparative;
+            adverbPhraseBuilder.SuperlativeSpecified = phraseResult.AdvP_Superlative != null;
+            if (adverbPhraseBuilder.SuperlativeSpecified) adverbPhraseBuilder.Superlative = (bool)phraseResult.AdvP_Superlative;
+        }
+
+        private void BuildChildrenOf(ParentElementBuilder parentBuilder, IEnumerable<GetNodesForTreeResult> nodeResults, IEnumerable<GetWeightedWordsForTreeResult> weightedWordResults, List<GetChildOrderingsForTreeResult> childOrderingResults)
+        {
+            foreach (GetNodesForTreeResult eachChildResult in nodeResults.Where(nodeResult => nodeResult.ParentID.Equals(parentBuilder.FlexDB_ID)))
+            {
+                IElementTreeNode child = BuildTreeNode((int)eachChildResult.ID, nodeResults, weightedWordResults, childOrderingResults);
+                parentBuilder.AddChildWithRole(child, (ParentElementBuilder.ChildRole)eachChildResult.Role);
+            }
+            foreach (GetChildOrderingsForTreeResult eachChildOrderingResult in childOrderingResults.Where(childOrderingResult => childOrderingResult.Parent.Equals(parentBuilder.FlexDB_ID)))
+            {
+                parentBuilder.ChildOrderings.Add(new ParentElementBuilder.ChildOrdering
+                {
+                    Before = parentBuilder.Children.Single(child => child.FlexDB_ID.Equals(eachChildOrderingResult.Child_Before)),
+                    After = parentBuilder.Children.Single(child => child.FlexDB_ID.Equals(eachChildOrderingResult.Child_After))
+                });
+            }
+
         }
     }
 }

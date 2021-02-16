@@ -20,10 +20,16 @@ namespace FlexibleRealization.UserInterface.ViewModels
         /// <summary>The IsWordContents property is used by XAML style triggers</summary>
         public abstract bool IsWordContents { get; }
 
-        internal abstract bool CanAcceptDropOf(Type nodeType);
+        /// <summary>Return true if this ElementVertex can accept a drop of an IElementTreeNode of type <paramref name="nodeType"/>.</summary>
+        internal abstract bool CanAcceptDrop_OfIElementTreeNode(Type nodeType);
 
         /// <summary>Respond as appropriate to <paramref name="node"/> being dropped on this, and return true if successful.</summary>
-        internal abstract bool AcceptDropOf(IElementTreeNode node, DragDropEffects effects, int insertPoint);
+        internal abstract bool AcceptDrop_OfIElementTreeNode(IElementTreeNode node, DragDropEffects effects, int insertPoint);
+
+        internal abstract bool CanAcceptDrop_OfSynset(int synsetID);
+
+        /// <summary>Respond as appropriate to the synset with ID <paramref name="synsetID"/> being dropped on this, and return true if successful.</summary>
+        internal bool AcceptDrop_OfSynset(int synsetID) => true;
 
         private protected static readonly Thickness ToolTipBorderThickness = new Thickness(2);
         private protected static readonly CornerRadius ToolTipCornerRadius = new CornerRadius(8);

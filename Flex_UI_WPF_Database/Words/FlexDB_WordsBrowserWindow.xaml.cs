@@ -112,7 +112,7 @@ namespace Flex.Database.UserInterface
                 if (SelectedWord != null)
                 {
                     Type draggedType = FlexData.Word.BuilderTypeFrom((byte)SelectedWord.WordType);
-                    Task<ElementBuilder> loadWordTask = FlexData.Context.LoadAsync(SelectedWord.ID);
+                    Task<IElementTreeNode> loadWordTask = FlexData.Context.LoadTreeAsync(SelectedWord.ID);
                     OnElementDragStarted(draggedType);
                     DataObject dataObject = new DataObject();
                     dataObject.SetData(typeof(Task), loadWordTask);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
@@ -33,29 +34,40 @@ namespace Flex.Database
         public event DatabaseSaveCompleted_EventHandler SaveCompleted;
         private void OnSaveCompleted(IElementTreeNode saved) => SaveCompleted?.Invoke(saved);
 
-        /// <summary>Load the ElementBuilder with  the specified <paramref name="elementID"/> from the Flex database, and return it</summary>
-        private ElementBuilder Load(int elementID)
+        /// <summary>Load the ElementBuilder with  the specified <paramref name="elementID"/> from the Flex database, and return it.</summary>
+        //private ElementBuilder Load(int elementID)
+        //{
+        //    DB_Element element = DB_Elements.Single(dbElement => dbElement.ID.Equals(elementID));
+        //    ElementBuilder result;
+        //    switch ((FlexData.ElementType)element.ElementType)
+        //    {
+        //        case FlexData.ElementType.DB_Word:
+        //            result = LoadWord(elementID);
+        //            break;
+        //        case FlexData.ElementType.DB_Parent:
+        //            result = LoadParent(elementID);
+        //            break;
+        //        default:
+        //            throw new InvalidOperationException("");
+        //    }
+        //    return result;
+        //}
+
+        /// <summary>Async version of <see cref="Load(int)"/>.</summary>
+        //public Task<ElementBuilder> LoadAsync(int elementID) => Task.Run(() => Load(elementID));
+
+        /// <summary>Async version of <see cref="Save(IElementTreeNode)"/>.</summary>
+        public Task SaveAsync(IElementTreeNode element) => Task.Run(() =>
         {
-            DB_Element element = DB_Elements.Single(dbElement => dbElement.ID.Equals(elementID));
-            ElementBuilder result;
-            switch ((FlexData.ElementType)element.ElementType)
+            using (TransactionScope transaction = new TransactionScope())
             {
-                case FlexData.ElementType.DB_Word:
-                    result = LoadWord(elementID);
-                    break;
-                case FlexData.ElementType.DB_Parent:
-                    result = LoadParent(elementID);
-                    break;
-                default:
-                    throw new InvalidOperationException("");
+                Save(element);
+                transaction.Complete();
             }
-            return result;
-        }
+            OnSaveCompleted(element);
+        });
 
-        /// <summary>Async version of <see cref="Load(int)"/></summary>
-        public Task<ElementBuilder> LoadAsync(int elementID) => Task.Run(() => Load(elementID));
-
-        /// <summary>Save <paramref name="element"/> to the Flex database</summary>
+        /// <summary>Save <paramref name="element"/> to the Flex database.</summary>
         private void Save(IElementTreeNode element)
         {
             switch (element)
@@ -70,16 +82,27 @@ namespace Flex.Database
             }
         }
 
-        /// <summary>Async version of <see cref="Save(IElementTreeNode)"/></summary>
-        public Task SaveAsync(IElementTreeNode element) => Task.Run(() =>
+
+        public Task<IElementTreeNode> LoadTreeAsync(int rootID) => Task.Run(() => LoadTree(rootID));
+
+        private IElementTreeNode LoadTree(int rootID)
         {
-            using (TransactionScope transaction = new TransactionScope())
+            List<GetNodesForTreeResult> nodeResults = GetNodesForTree(rootID).ToList();
+            List<GetWeightedWordsForTreeResult> weightedWordResults = GetWeightedWordsForTree(rootID).ToList();
+            List<GetChildOrderingsForTreeResult> childOrderingResults = GetChildOrderingsForTree(rootID).ToList();
+            return BuildTreeNode(rootID, nodeResults, weightedWordResults, childOrderingResults);
+        }
+
+        private IElementTreeNode BuildTreeNode(int nodeID, IEnumerable<GetNodesForTreeResult> nodeResults, IEnumerable<GetWeightedWordsForTreeResult> weightedWordResults, List<GetChildOrderingsForTreeResult> childOrderingResults)
+        {
+            GetNodesForTreeResult resultForThisNode = nodeResults.Single(result => result.ID.Equals(nodeID));
+            return (FlexData.ElementType)resultForThisNode.ElementType switch
             {
-                Save(element);
-                transaction.Complete();
-            }
-            OnSaveCompleted(element);
-        });
+                FlexData.ElementType.DB_Word => BuildWord(resultForThisNode, weightedWordResults.Where(weightedWord => weightedWord.WordElement.Equals(resultForThisNode.ID))),
+                FlexData.ElementType.DB_Parent => BuildParent(resultForThisNode, nodeResults, weightedWordResults, childOrderingResults),
+                _ => throw new InvalidOperationException("Invalid FlexData.ElementType")
+            };
+        }
 
     }
 }

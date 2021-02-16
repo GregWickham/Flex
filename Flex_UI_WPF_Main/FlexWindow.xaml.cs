@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -6,10 +7,12 @@ using FlexibleRealization;
 using Flex.Database;
 using Flex.Database.UserInterface;
 using Flex.UserInterface.ViewModels;
+using WordNet.UserInterface;
+using System.Windows.Media.Imaging;
 
 namespace Flex.UserInterface
 {
-    /// <summary>Interaction logic for ParseAndRealizeWindow.xaml</summary>
+    /// <summary>Interaction logic for FlexWindow.xaml</summary>
     public partial class FlexWindow : Window
     {
         public FlexWindow()
@@ -18,8 +21,14 @@ namespace Flex.UserInterface
             VariationsWindow.Closing += VariationsWindow_Closing;
         }
 
+        #region TreeEditor
+
+        private void TreeEditor_ModelSetFromDatabase(IElementTreeNode tree) => BoundSynsets.LoadBindingsFor(tree);
+
+        /// <summary>The user has selected an IElementTreeNode in the tree editor.</summary>
         private void TreeEditor_SelectedNodeChanged()
         {
+            BoundSynsets.Element = TreeEditor.SelectedNode;
             switch (TreeEditor.SelectedNode)
             {
                 case WordElementBuilder word:
@@ -35,7 +44,6 @@ namespace Flex.UserInterface
                         else HideWordEditor();
                     }
                     else HideWordEditor();
-                    SynsetsControl.WordBuilder = word;
                     break;
                 default:
                     HideWordEditor();
@@ -71,22 +79,166 @@ namespace Flex.UserInterface
             }
         }
 
-        /// <summary>This event handler is called when the TreeEditor has successfully realized some text</summary>
+        /// <summary>This event handler is called when the TreeEditor has successfully realized some text.</summary>
         private void TreeEditor_TextRealized(string realizedText)
         {
-            realizedTextBox.Background = Brushes.WhiteSmoke;
-            realizedTextBox.Text = realizedText;
+            RealizedTextBox.Background = Brushes.WhiteSmoke;
+            RealizedTextBox.Text = realizedText;
         }
 
-        /// <summary>This event handler is called when the TreeEditor has tried to realize an IElementTreeNode, but failed</summary>
+        /// <summary>This event handler is called when the TreeEditor has tried to realize an IElementTreeNode, but failed.</summary>
         private void TreeEditor_RealizationFailed(IElementTreeNode failed)
         {
-            realizedTextBox.Background = RealizeFailedBrush;
-            realizedTextBox.Text = "";
+            RealizedTextBox.Background = RealizeFailedBrush;
+            RealizedTextBox.Text = "";
         }
 
-        /// <summary>A color representing that realization has failed</summary>
-        private static Brush RealizeFailedBrush = new SolidColorBrush(Color.FromArgb(100, 254, 0, 0));
+        private void ExpandCollapseTreeEditorPropertiesButton_Checked(object sender, RoutedEventArgs e) 
+        { 
+            if (ExpandCollapseTreeEditorPropertiesImage != null) ExpandCollapseTreeEditorPropertiesImage.Source = ChevronDownImage;
+            TreeEditor.ShowProperties = false;
+        }
+        private void ExpandCollapseTreeEditorPropertiesButton_Unchecked(object sender, RoutedEventArgs e) 
+        { 
+            if (ExpandCollapseTreeEditorPropertiesImage != null) ExpandCollapseTreeEditorPropertiesImage.Source = ChevronUpImage;
+            TreeEditor.ShowProperties = true;
+        }
+
+        #endregion TreeEditor
+
+        #region Menu Bar and Toolbar
+
+        /// <summary>When the user changes a setting for the CoreNLP server, save its settings.</summary>
+        private void CoreNLP_SettingChanged(object sender, System.Windows.Controls.TextChangedEventArgs e) => Stanford.CoreNLP.Properties.Settings.Default.Save();
+
+        /// <summary>When the user changes a setting for the SimpleNLG server, save its settings.</summary>
+        private void SimpleNLG_SettingChanged(object sender, System.Windows.Controls.TextChangedEventArgs e) => SimpleNLG.Properties.Settings.Default.Save();
+
+        /// <summary>When the user changes a setting for the WordNet server, save its settings.</summary>
+        private void WordNet_SettingChanged(object sender, System.Windows.Controls.TextChangedEventArgs e) => WordNet.Linq.Properties.Settings.Default.Save();
+
+        /// <summary>The user wants to browse WordNet.</summary>
+        private void BrowseWordNetMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            WordNetBrowserWindow wordNetBrowserWindow = new WordNetBrowserWindow();
+            wordNetBrowserWindow.Closing += WordNetBrowserWindow_Closing;
+            wordNetBrowserWindow.SynsetDragStarted += TreeEditor.OnSynsetDragStarted;
+            wordNetBrowserWindow.SynsetDragCancelled += TreeEditor.OnSynsetDragCancelled;
+            wordNetBrowserWindow.SynsetDropCompleted += TreeEditor.OnSynsetDropCompleted;
+            wordNetBrowserWindow.Show();
+        }
+
+        /// <summary>A WordNet browser window is closing.</summary>
+        private void WordNetBrowserWindow_Closing(object sender, CancelEventArgs e)
+        {
+            WordNetBrowserWindow wordNetBrowserWindow = (WordNetBrowserWindow)sender;
+            wordNetBrowserWindow.Closing -= WordNetBrowserWindow_Closing;
+            wordNetBrowserWindow.SynsetDragStarted -= TreeEditor.OnSynsetDragStarted;
+            wordNetBrowserWindow.SynsetDragCancelled -= TreeEditor.OnSynsetDragCancelled;
+            wordNetBrowserWindow.SynsetDropCompleted -= TreeEditor.OnSynsetDropCompleted;
+        }
+
+        /// <summary>The user wants to browse words in the Flex Database</summary>
+        private void BrowseWordsMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            FlexDB_WordsBrowserWindow wordBrowserWindow = new FlexDB_WordsBrowserWindow();
+            wordBrowserWindow.Closing += WordBrowserWindow_Closing;
+            wordBrowserWindow.ElementDragStarted += TreeEditor.OnElementDragStarted;
+            wordBrowserWindow.ElementDragCancelled += TreeEditor.OnElementDragCancelled;
+            wordBrowserWindow.ElementDropCompleted += TreeEditor.OnElementDropCompleted;
+            wordBrowserWindow.Show();
+        }
+
+        /// <summary>A database words browser window is closing. </summary>
+        private void WordBrowserWindow_Closing(object sender, CancelEventArgs e)
+        {
+            FlexDB_WordsBrowserWindow wordBrowserWindow = (FlexDB_WordsBrowserWindow)sender;
+            wordBrowserWindow.Closing -= WordBrowserWindow_Closing;
+            wordBrowserWindow.ElementDragStarted -= TreeEditor.OnElementDragStarted;
+            wordBrowserWindow.ElementDragCancelled -= TreeEditor.OnElementDragCancelled;
+            wordBrowserWindow.ElementDropCompleted -= TreeEditor.OnElementDropCompleted;
+        }
+
+        /// <summary>The user wants to browse words in the Flex Database</summary>
+        private void BrowseParentsMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            FlexDB_ParentsBrowserWindow parentBrowserWindow = new FlexDB_ParentsBrowserWindow();
+            parentBrowserWindow.Closing += ParentBrowserWindow_Closing;
+            parentBrowserWindow.ElementDragStarted += TreeEditor.OnElementDragStarted;
+            parentBrowserWindow.ElementDragCancelled += TreeEditor.OnElementDragCancelled;
+            parentBrowserWindow.ElementDropCompleted += TreeEditor.OnElementDropCompleted;
+            parentBrowserWindow.Show();
+        }
+
+        /// <summary>A database parents browser window is closing. </summary>
+        private void ParentBrowserWindow_Closing(object sender, CancelEventArgs e)
+        {
+            FlexDB_ParentsBrowserWindow parentBrowserWindow = (FlexDB_ParentsBrowserWindow)sender;
+            parentBrowserWindow.Closing -= ParentBrowserWindow_Closing;
+            parentBrowserWindow.ElementDragStarted -= TreeEditor.OnElementDragStarted;
+            parentBrowserWindow.ElementDragCancelled -= TreeEditor.OnElementDragCancelled;
+            parentBrowserWindow.ElementDropCompleted -= TreeEditor.OnElementDropCompleted;
+        }
+
+        /// <summary>When the user changes a setting for the WordNet server, save its settings</summary>
+        private void FlexDB_SettingChanged(object sender, System.Windows.Controls.TextChangedEventArgs e) => Flex.Database.Properties.Settings.Default.Save();
+
+        /// <summary>Delete the selected ElementBuilder from the ElementBuilderGraphArea</summary>
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            InputTextBox.Clear();
+            TreeEditor.DeleteSelection();
+            RealizedTextBox.Clear();
+            BoundSynsets.Clear();
+        }
+
+        /// <summary>Save the selected IElementTreeNode, and its synset-to-element bindings, to the Flex database.</summary>
+        private async void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            RealizationResult result = TreeEditor.Model.Realize();
+            if (result.Outcome == RealizationOutcome.Success)
+            {
+                await FlexData.Context.SaveAsync(TreeEditor.Model);
+                // We can't save synset bindings until all IElementTreeNodes are saved and we have valid element IDs for each one that's bound
+                BoundSynsets.SaveBindingsFor(TreeEditor.Model);
+            }           
+        }
+
+        #endregion Menu Bar and Toolbar
+
+        #region Input Text
+
+        /// <summary>The user wants to parse the text in the InputTextBox.</summary>
+        private void ParseButton_Click(object sender, RoutedEventArgs e) { HandleTextInput(); }
+
+        /// <summary>If there's text in the InputTextBox, parse it.</summary>
+        private void HandleTextInput()
+        {
+            HideVariationsWindow();
+            if (InputTextBox.Text.Length > 0) TreeEditor.ParseText(InputTextBox.Text);
+        }
+
+        /// <summary>The user has entered a keystroke in the InputTextBox.</summary>
+        private void InputTextBox_KeyDown(object sender, KeyEventArgs e) { if (e.Key == Key.Enter) HandleTextInput(); }
+
+        #endregion Input Text
+
+        #region Synset Bindings
+
+        /// <summary>This event handler is called when the TreeEditor wants to bind a synset to an IElementTreeNode.</summary>
+        /// <remarks>The actual creation of the binding is delegated to the BoundSynsetsControl.</remarks>
+        private void TreeEditor_SynsetBoundToNode(IElementTreeNode boundNode, int boundSynsetID)
+        {
+            ExpandCollapseSynsetBindingsButton.IsChecked = false;
+            BoundSynsets.BindSynsetToNode(boundNode, boundSynsetID);
+        }
+
+        private void ExpandCollapseSynsetsButton_Checked(object sender, RoutedEventArgs e) { if (ExpandCollapseSynsetBindingsImage != null) ExpandCollapseSynsetBindingsImage.Source = ChevronDownImage; }
+        private void ExpandCollapseSynsetsButton_Unchecked(object sender, RoutedEventArgs e) { if (ExpandCollapseSynsetBindingsImage != null) ExpandCollapseSynsetBindingsImage.Source = ChevronUpImage; }
+
+        #endregion Synset Bindings
+
+        #region Variations
 
         private readonly VariationsListWindow VariationsWindow = new VariationsListWindow();
 
@@ -112,96 +264,10 @@ namespace Flex.UserInterface
 
         private void VariationsWindow_Closing(object sender, CancelEventArgs e) => HideVariationsWindow();
 
-        /// <summary>When the user changes a setting for the CoreNLP server, save its settings</summary>
-        private void CoreNLP_SettingChanged(object sender, System.Windows.Controls.TextChangedEventArgs e) => Stanford.CoreNLP.Properties.Settings.Default.Save();
-
-        /// <summary>When the user changes a setting for the SimpleNLG server, save its settings</summary>
-        private void SimpleNLG_SettingChanged(object sender, System.Windows.Controls.TextChangedEventArgs e) => SimpleNLG.Properties.Settings.Default.Save();
-
-        /// <summary>When the user changes a setting for the WordNet server, save its settings</summary>
-        private void WordNet_SettingChanged(object sender, System.Windows.Controls.TextChangedEventArgs e) => WordNet.Linq.Properties.Settings.Default.Save();
-
-        /// <summary>The user wants to browse words in the Flex Database</summary>
-        private void BrowseWordsMenuItem_Click(object sender, RoutedEventArgs e)
+        /// <summary>The user has clicked on the "Show Variations" button.</summary>
+        private void ShowVariationsButton_Click(object sender, RoutedEventArgs e)
         {
-            FlexDB_WordsBrowserWindow wordBrowserWindow = new FlexDB_WordsBrowserWindow();
-            wordBrowserWindow.Closing += WordBrowserWindow_Closing;
-            wordBrowserWindow.ElementDragStarted += TreeEditor.OnElementDragStarted;
-            wordBrowserWindow.ElementDragCancelled += TreeEditor.OnElementDragCancelled;
-            wordBrowserWindow.ElementDropCompleted += TreeEditor.OnElementDropCompleted;
-            wordBrowserWindow.Show();
-        }
-
-        private void WordBrowserWindow_Closing(object sender, CancelEventArgs e)
-        {
-            FlexDB_WordsBrowserWindow wordBrowserWindow = (FlexDB_WordsBrowserWindow)sender;
-            wordBrowserWindow.Closing -= WordBrowserWindow_Closing;
-            wordBrowserWindow.ElementDragStarted -= TreeEditor.OnElementDragStarted;
-            wordBrowserWindow.ElementDragCancelled -= TreeEditor.OnElementDragCancelled;
-            wordBrowserWindow.ElementDropCompleted -= TreeEditor.OnElementDropCompleted;
-        }
-
-        /// <summary>The user wants to browse words in the Flex Database</summary>
-        private void BrowseParentsMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            FlexDB_ParentsBrowserWindow parentBrowserWindow = new FlexDB_ParentsBrowserWindow();
-            parentBrowserWindow.Closing += ParentBrowserWindow_Closing;
-            parentBrowserWindow.ElementDragStarted += TreeEditor.OnElementDragStarted;
-            parentBrowserWindow.ElementDragCancelled += TreeEditor.OnElementDragCancelled;
-            parentBrowserWindow.ElementDropCompleted += TreeEditor.OnElementDropCompleted;
-            parentBrowserWindow.Show();
-        }
-
-        private void ParentBrowserWindow_Closing(object sender, CancelEventArgs e)
-        {
-            FlexDB_ParentsBrowserWindow parentBrowserWindow = (FlexDB_ParentsBrowserWindow)sender;
-            parentBrowserWindow.Closing -= ParentBrowserWindow_Closing;
-            parentBrowserWindow.ElementDragStarted -= TreeEditor.OnElementDragStarted;
-            parentBrowserWindow.ElementDragCancelled -= TreeEditor.OnElementDragCancelled;
-            parentBrowserWindow.ElementDropCompleted -= TreeEditor.OnElementDropCompleted;
-        }
-
-        /// <summary>When the user changes a setting for the WordNet server, save its settings</summary>
-        private void FlexDB_SettingChanged(object sender, System.Windows.Controls.TextChangedEventArgs e) => Flex.Database.Properties.Settings.Default.Save();
-
-        /// <summary>Delete the selected ElementBuilder from the ElementBuilderGraphArea</summary>
-        private void DeleteButton_Click(object sender, RoutedEventArgs e)
-        {
-            inputTextBox.Clear();
-            TreeEditor.DeleteSelection();
-            realizedTextBox.Clear();
-        }
-
-        /// <summary>Save the selected ElementBuilder to the Flex database</summary>
-        private void SaveButton_Click(object sender, RoutedEventArgs e)
-        {
-            RealizationResult result = TreeEditor.Model.Realize();
-            if (result.Outcome == RealizationOutcome.Success)
-            {
-                FlexData.Context.SaveAsync(TreeEditor.Model);
-            }           
-        }
-
-        /// <summary>If there's text in the inputTextBox, parse it</summary>
-        private void parseButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (inputTextBox.Text.Length > 0) HandleTextInput(inputTextBox.Text);
-        }
-
-        /// <summary>Send <paramref name="text"/> to the GraphEditor</summary>
-        private void HandleTextInput(string text)
-        {
-            HideVariationsWindow();
-            TreeEditor.ParseText(text);
-        }
-
-        /// <summary>The user has entered some text in the inputTextBox</summary>
-        private void inputTextBox_TextInput(object sender, TextCompositionEventArgs e) => HandleTextInput(e.Text);
-
-        /// <summary>The user has clicked on the "Show Variations" button</summary>
-        private void showVariationsButton_Click(object sender, RoutedEventArgs e)
-        {
-            VariationsWindow.DefaultForm = realizedTextBox.Text;
+            VariationsWindow.DefaultForm = RealizedTextBox.Text;
             VariationsWindow.Variations.Clear();
             ShowVariationsWindow();
             foreach (IElementTreeNode eachRealizableVariation in TreeEditor.SelectedNode.GetRealizableVariations())
@@ -210,7 +276,7 @@ namespace Flex.UserInterface
             }
         }
 
-        /// <summary>Try to transform <paramref name="editableTree"/> into realizable form and if successful, try to realize it</summary>
+        /// <summary>Try to transform <paramref name="editableTree"/> into realizable form and if successful, try to realize it.</summary>
         private void TryToRealizeVariation(IElementTreeNode editableTree)
         {
             RealizationResult result = editableTree.Realize();
@@ -222,5 +288,13 @@ namespace Flex.UserInterface
                 default: break;
             }
         }
+
+        #endregion Variations
+
+        private static readonly BitmapImage ChevronDownImage = new BitmapImage(new Uri("./Resources/Images/Chevron_Down.png", UriKind.Relative));
+        private static readonly BitmapImage ChevronUpImage = new BitmapImage(new Uri("./Resources/Images/Chevron_Up.png", UriKind.Relative));
+
+        /// <summary>A color representing that realization has failed.</summary>
+        private static Brush RealizeFailedBrush = new SolidColorBrush(Color.FromArgb(100, 254, 0, 0));
     }
 }

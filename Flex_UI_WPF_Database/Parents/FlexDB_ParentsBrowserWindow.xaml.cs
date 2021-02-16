@@ -63,7 +63,7 @@ namespace Flex.Database.UserInterface
                 if (SelectedParent != null)
                 {
                     Type draggedType = FlexData.Parent.BuilderTypeFrom((byte)SelectedParent.ParentType);
-                    Task<ElementBuilder> loadParentTask = FlexData.Context.LoadAsync(SelectedParent.ID);
+                    Task<IElementTreeNode> loadParentTask = FlexData.Context.LoadTreeAsync(SelectedParent.ID);
                     OnElementDragStarted(draggedType);
                     DataObject dataObject = new DataObject();
                     dataObject.SetData(typeof(Task), loadParentTask);

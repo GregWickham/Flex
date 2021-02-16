@@ -57,5 +57,16 @@ namespace Flex.Database.Properties {
                 return ((string)(this["FlexConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=38.192.14.25,49170;Initial Catalog=Flex;Persist Security Info=True;Us" +
+            "er ID=sa")]
+        public string FlexConnectionString1 {
+            get {
+                return ((string)(this["FlexConnectionString1"]));
+            }
+        }
     }
 }

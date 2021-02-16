@@ -16,6 +16,8 @@ namespace FlexibleRealization.UserInterface.ViewModels
 
     public delegate void SelectedNodeChanged_EventHandler();
 
+    public delegate void SynsetBoundToNode_EventHandler(IElementTreeNode boundNode, int boundSynsetID);
+
     public class ElementBuilderGraphArea : GraphArea<ElementVertex, ElementEdge, ElementBuilderGraph>
     {
         public ElementBuilderGraphArea() : base()
@@ -25,6 +27,20 @@ namespace FlexibleRealization.UserInterface.ViewModels
             VertexMouseUp += ElementBuilderGraphArea_VertexMouseUp;
             SetVerticesDrag(false);
         }
+
+        #region Events
+
+        internal event GraphRootAdded_EventHandler GraphRootAdded;
+        private void OnGraphRootAdded(IElementTreeNode root) => GraphRootAdded?.Invoke(root);
+
+        /// <summary>Subscribe to this event to be notified when the selected node changes.</summary>
+        internal event SelectedNodeChanged_EventHandler SelectedNodeChanged;
+        private void OnSelectedNodeChanged() => SelectedNodeChanged?.Invoke();
+
+        internal event SynsetBoundToNode_EventHandler SynsetBoundToNode;
+        private void OnSynsetBoundToNode(IElementTreeNode boundNode, int boundSynsetID) => SynsetBoundToNode?.Invoke(boundNode, boundSynsetID);
+
+        #endregion Events
 
         public override void GenerateGraph(bool generateAllEdges = true, bool dataContextToDataItem = true)
         {
@@ -159,17 +175,10 @@ namespace FlexibleRealization.UserInterface.ViewModels
             OnSelectedNodeChanged();
         }
 
-        internal event GraphRootAdded_EventHandler GraphRootAdded;
-        private void OnGraphRootAdded(IElementTreeNode root) => GraphRootAdded?.Invoke(root);
-
-        /// <summary>Subscribe to this event to be notified when the selected node changes.</summary>
-        internal event SelectedNodeChanged_EventHandler SelectedNodeChanged;
-        private void OnSelectedNodeChanged() => SelectedNodeChanged?.Invoke();
-
         /// <summary>We set vertexClickPosition when a vertex is first clicked, then use it during mouse move to decide whether to start a drag operation.</summary>
         private Point mouseDownPosition;
 
-        #region Vertex Move and Drag / Drop
+        #region Vertex Move and Drag / Drop of IElementTreeNodes
 
         /// <summary>If the mouse down event happened on a vertex, select that vertex.  If Left-Ctrl is pressed, start moving the selected vertex.</summary>
         protected override void OnPreviewMouseDown(MouseButtonEventArgs e)
@@ -201,11 +210,11 @@ namespace FlexibleRealization.UserInterface.ViewModels
                     if (draggedVertex is ElementBuilderVertex ebv)
                     {
                         Type draggedType = ebv.Builder.GetType();
-                        SetDropTargetsFor(draggedType);
+                        SetDropTargets_ForIElementTreeNode(draggedType);
                         DataObject dataObject = new DataObject();
                         dataObject.SetData(typeof(IElementTreeNode), ebv.Builder);
-                        DragDrop.DoDragDrop(this, dataObject, DragDropEffects.Move | DragDropEffects.None);
-                        ClearDropTargets();
+                        DragDrop.DoDragDrop(this, dataObject, DragDropEffects.Move | DragDropEffects.Link | DragDropEffects.None);
+                        ClearDropTargets_ForIElementTreeNode();
                     }
                 }
                 // If we're intercepting this event to start a drag operation, set it as handled.
@@ -216,18 +225,18 @@ namespace FlexibleRealization.UserInterface.ViewModels
 
         private void ElementBuilderGraphArea_VertexMouseUp(object sender, VertexSelectedEventArgs args) => StopMoving(SelectedVertexControl);
 
-        /// <summary>Configure the appropriate vertexes to be drop targets for the supplied ElementBuilder.</summary>
-        internal void SetDropTargetsFor(Type nodeType)
+        /// <summary>Configure the appropriate vertexes to be drop targets for an IElementTreeNode of type <paramref name="nodeType"/>.</summary>
+        internal void SetDropTargets_ForIElementTreeNode(Type nodeType)
         {
             foreach (KeyValuePair<ElementVertex, VertexControl> eachKVP in VertexList)
             {
-                if (eachKVP.Key.CanAcceptDropOf(nodeType))
+                if (eachKVP.Key.CanAcceptDrop_OfIElementTreeNode(nodeType))
                 {
                     eachKVP.Value.AllowDrop = true;
-                    eachKVP.Value.DragEnter += VertexDropTarget_DragEnter;
-                    eachKVP.Value.DragLeave += VertexDropTarget_DragLeave;
-                    eachKVP.Value.DragOver += VertexDropTarget_DragOver;
-                    eachKVP.Value.Drop += VertexDropTarget_Drop;
+                    eachKVP.Value.DragEnter += VertexDropTarget_DragEnter_WithIElementTreeNode;
+                    eachKVP.Value.DragLeave += VertexDropTarget_DragLeave_WithIElementTreeNode;
+                    eachKVP.Value.DragOver += VertexDropTarget_DragOver_WithIElementTreeNode;
+                    eachKVP.Value.Drop += VertexDropTarget_Drop_IElementTreeNode;
                     eachKVP.Value.Background = (Brush)FindResource("VertexYesGradient");
                 }
                 else
@@ -237,22 +246,22 @@ namespace FlexibleRealization.UserInterface.ViewModels
             }
         }
 
-        /// <summary>Configure all vertexes to NOT be drop targets.</summary>
-        internal void ClearDropTargets()
+        /// <summary>Configure all vertexes to NOT be drop targets for an IElementTreeNode.</summary>
+        internal void ClearDropTargets_ForIElementTreeNode()
         {
             foreach (KeyValuePair<ElementVertex, VertexControl> eachKVP in VertexList)
             {
                 eachKVP.Value.AllowDrop = false;
-                eachKVP.Value.DragEnter -= VertexDropTarget_DragEnter;
-                eachKVP.Value.DragLeave -= VertexDropTarget_DragLeave;
-                eachKVP.Value.DragOver -= VertexDropTarget_DragOver;
-                eachKVP.Value.Drop -= VertexDropTarget_Drop;
+                eachKVP.Value.DragEnter -= VertexDropTarget_DragEnter_WithIElementTreeNode;
+                eachKVP.Value.DragLeave -= VertexDropTarget_DragLeave_WithIElementTreeNode;
+                eachKVP.Value.DragOver -= VertexDropTarget_DragOver_WithIElementTreeNode;
+                eachKVP.Value.Drop -= VertexDropTarget_Drop_IElementTreeNode;
                 eachKVP.Value.Background = eachKVP.Key.IsWordContents ? (Brush)FindResource("GhostWhiteBrush") : (Brush)FindResource("DarkGrayGradient");
             }
         }
 
-        /// <summary>A drag has entered a vertex that is an active drop target.</summary>
-        private void VertexDropTarget_DragEnter(object sender, DragEventArgs e)
+        /// <summary>A drag has entered a vertex that is an active drop target, with a payload that's an IElementTreeNode.</summary>
+        private void VertexDropTarget_DragEnter_WithIElementTreeNode(object sender, DragEventArgs e)
         {
             if ((e.AllowedEffects & DragDropEffects.Move) == DragDropEffects.Move)
                 e.Effects = DragDropEffects.Move;
@@ -261,8 +270,8 @@ namespace FlexibleRealization.UserInterface.ViewModels
             e.Handled = true;
         }
 
-        /// <summary>A drag has left a vertex that is an active drop target.</summary>
-        private void VertexDropTarget_DragLeave(object sender, DragEventArgs e)
+        /// <summary>A drag has left a vertex that is an active drop target, with a payload that's an IElementTreeNode.</summary>
+        private void VertexDropTarget_DragLeave_WithIElementTreeNode(object sender, DragEventArgs e)
         {
             e.Effects = DragDropEffects.None;
             if (activeInsertZone != null)
@@ -277,16 +286,13 @@ namespace FlexibleRealization.UserInterface.ViewModels
 
         private int? activeInsertZone = null;
         private ChildNodeInsertPoint activeInsertPointAdorner;
-        private void VertexDropTarget_DragOver(object sender, DragEventArgs e)
+        private void VertexDropTarget_DragOver_WithIElementTreeNode(object sender, DragEventArgs e)
         {
             VertexControl dropTarget = (VertexControl)sender; 
             switch (dropTarget.Vertex)
             {
                 case ParentElementVertex parentVertex:
                     List<VertexControl> childVertices = ChildVerticesFor(parentVertex).ToList();
-                    //int zoneCount = childVertices.Count + 1;
-                    //double positionX = e.GetPosition(dropTarget).X;
-                    //int zone = ZoneFromMousePosition(e.GetPosition(dropTarget).X, childVertices.Count + 1);
                     ShowInsertPointInParentZone(ZoneFromMousePosition(e.GetPosition(dropTarget).X, childVertices.Count + 1));
                     e.Handled = true;
                     break;
@@ -314,8 +320,6 @@ namespace FlexibleRealization.UserInterface.ViewModels
                         }
                     }
                 case WordPartOfSpeechVertex wordVertex:
-                    //double positionX = e.GetPosition(dropTarget).X;
-                    int zone = ZoneFromMousePosition(e.GetPosition(dropTarget).X, 2);
                     ShowInsertPointInWordZone(ZoneFromMousePosition(e.GetPosition(dropTarget).X, 2)); // A word vertex has just two insert zones: before and after
                     e.Handled = true;
                     break;
@@ -343,12 +347,12 @@ namespace FlexibleRealization.UserInterface.ViewModels
             int ZoneFromMousePosition(double x, int zoneCount) => (int)(x / (dropTarget.ActualWidth / zoneCount));
         }
 
-        /// <summary>A drag has ended with a drop onto a vertex that is an active drop target.</summary>
+        /// <summary>A drag has ended with an IElementTreeNode dropped onto a vertex that is an active drop target.</summary>
         /// <remarks>There are some non-obvious things about this method.  A successful drop will cause the underlying ElementBuilder tree to change form, which
         /// causes the ElementBuilderGraph to be regenerated and the ElementBuilderGraphArea to be redrawn.  Then we set the graph selection to the drop target.
         /// All of this means that the identity of all the user interface objects will change during the process.  The only thing we can count on to remain constant
         /// is the underlying model -- and even it changes form.</remarks>
-        private async void VertexDropTarget_Drop(object sender, DragEventArgs e)
+        private async void VertexDropTarget_Drop_IElementTreeNode(object sender, DragEventArgs e)
         {
             VertexControl dropTarget = (VertexControl)sender;
             ElementVertex targetVertex = (ElementVertex)dropTarget.Vertex;
@@ -364,12 +368,12 @@ namespace FlexibleRealization.UserInterface.ViewModels
                 }
                 else if (e.Data.GetDataPresent(typeof(Task)))
                 {
-                    Task <ElementBuilder> getElementBuilderTask = (Task<ElementBuilder>)e.Data.GetData(typeof(Task));
-                    droppedNode = await getElementBuilderTask;
+                    Task<IElementTreeNode> getNodeTask = (Task<IElementTreeNode>)e.Data.GetData(typeof(Task));
+                    droppedNode = await getNodeTask;
                 }
                 if (droppedNode != null)
                 {
-                    if (targetVertex.AcceptDropOf(droppedNode, e.Effects, (int)activeInsertZone))
+                    if (targetVertex.AcceptDrop_OfIElementTreeNode(droppedNode, e.Effects, (int)activeInsertZone))
                     {
                         ElementBuilder targetBuilder = targetVertex switch
                         {
@@ -385,6 +389,85 @@ namespace FlexibleRealization.UserInterface.ViewModels
             activeInsertPointAdorner = null;
         }
 
-        #endregion Vertex Move and Drag / Drop
+        #endregion Vertex Move and Drag / Drop of IElementTreeNodes
+
+        #region Drag / Drop of Synsets
+
+        /// <summary>Configure the appropriate vertexes to be drop targets for the Synset with ID <paramref name="synsetID"/>.</summary>
+        internal void SetDropTargets_ForSynset(int synsetID)
+        {
+            foreach (KeyValuePair<ElementVertex, VertexControl> eachKVP in VertexList)
+            {
+                if (eachKVP.Key.CanAcceptDrop_OfSynset(synsetID))
+                {
+                    eachKVP.Value.AllowDrop = true;
+                    eachKVP.Value.DragEnter += VertexDropTarget_DragEnter_WithSynset;
+                    eachKVP.Value.DragLeave += VertexDropTarget_DragLeave_WithSynset;
+                    eachKVP.Value.Drop += VertexDropTarget_Drop_Synset;
+                    eachKVP.Value.Background = (Brush)FindResource("VertexYesGradient");
+                }
+                else
+                {
+                    eachKVP.Value.Background = eachKVP.Key.IsWordContents ? (Brush)FindResource("GhostWhiteBrush") : (Brush)FindResource("VertexNoGradient");
+                }
+            }
+        }
+
+        /// <summary>Configure all vertexes to NOT be drop targets for a Synset.</summary>
+        internal void ClearDropTargets_ForSynset()
+        {
+            foreach (KeyValuePair<ElementVertex, VertexControl> eachKVP in VertexList)
+            {
+                eachKVP.Value.AllowDrop = false;
+                eachKVP.Value.DragEnter -= VertexDropTarget_DragEnter_WithSynset;
+                eachKVP.Value.DragLeave -= VertexDropTarget_DragLeave_WithSynset;
+                eachKVP.Value.Drop -= VertexDropTarget_Drop_Synset;
+                eachKVP.Value.Background = eachKVP.Key.IsWordContents ? (Brush)FindResource("GhostWhiteBrush") : (Brush)FindResource("DarkGrayGradient");
+            }
+        }
+
+        /// <summary>A drag has entered a vertex that is an active drop target, with a payload that's a Synset.</summary>
+        private void VertexDropTarget_DragEnter_WithSynset(object sender, DragEventArgs e)
+        {
+            if ((e.AllowedEffects & DragDropEffects.Link) == DragDropEffects.Link)
+                e.Effects = DragDropEffects.Link;
+            e.Handled = true;
+        }
+
+        /// <summary>A drag has left a vertex that is an active drop target, with a payload that's a Synset.</summary>
+        private void VertexDropTarget_DragLeave_WithSynset(object sender, DragEventArgs e)
+        {
+            e.Effects = DragDropEffects.None;
+            e.Handled = true;
+        }
+
+        /// <summary>A drag has ended with a Synset dropped onto a vertex that is an active drop target.</summary>
+        private void VertexDropTarget_Drop_Synset(object sender, DragEventArgs e)
+        {
+            VertexControl dropTarget = (VertexControl)sender;
+            ElementVertex targetVertex = (ElementVertex)dropTarget.Vertex;
+            if (targetVertex != null && VertexList.ContainsKey(targetVertex))
+            {
+                if (e.Data.GetDataPresent(typeof(int)))
+                {
+                    int droppedSynsetID = (int)e.Data.GetData(typeof(int));
+                    if (targetVertex.AcceptDrop_OfSynset(droppedSynsetID))
+                    {
+                        IElementTreeNode targetNode = targetVertex switch
+                        {
+                            ElementBuilderVertex ebv => ebv.Builder,
+                            _ => null
+                        };
+                        if (targetNode != null)
+                        {
+                            SetSelectedNode(targetNode);
+                            OnSynsetBoundToNode(targetNode, droppedSynsetID);
+                        }
+                    }
+                }
+            }
+        }
+
+        #endregion  Drag / Drop of Synsets
     }
 }

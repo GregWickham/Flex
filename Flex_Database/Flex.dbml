@@ -1,17 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Flex" Class="FlexDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=38.192.14.25,49170;Initial Catalog=Flex;Persist Security Info=True;User ID=Flex" SettingsObjectName="Flex.Database.Properties.Settings" SettingsPropertyName="FlexConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=38.192.14.25,49170;Initial Catalog=Flex;Persist Security Info=True;User ID=sa" SettingsObjectName="Flex.Database.Properties.Settings" SettingsPropertyName="FlexConnectionString1" Provider="System.Data.SqlClient" />
   <Table Name="dbo.DB_ChildOrderings" Member="DB_ChildOrderings">
     <Type Name="DB_ChildOrdering">
       <Column Name="Parent" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="Child_Before" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="Child_After" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-    </Type>
-  </Table>
-  <Table Name="dbo.DB_ParentChildRelations" Member="DB_ParentChildRelations">
-    <Type Name="DB_ParentChildRelation">
-      <Column Name="Parent" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="Child" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="Role" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
   <Table Name="dbo.DB_NounPhrases" Member="DB_NounPhrases">
@@ -324,4 +317,108 @@
       <Column Name="Tense" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
     </Type>
   </Table>
+  <Table Name="dbo.DB_ParentChildRelations" Member="DB_ParentChildRelations">
+    <Type Name="DB_ParentChildRelation">
+      <Column Name="Parent" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Child" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Role" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="Weight" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.SynsetToElementBindings" Member="SynsetToElementBindings">
+    <Type Name="SynsetToElementBinding">
+      <Column Name="SynsetID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ElementID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Weight" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Function Name="dbo.GetWeightedWordsForTree" Method="GetWeightedWordsForTree" IsComposable="true">
+    <Parameter Name="RootID" Parameter="rootID" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetWeightedWordsForTreeResult">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="WordElement" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Text" Type="System.String" DbType="VarChar(24) NOT NULL" CanBeNull="false" />
+      <Column Name="Weight" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetChildOrderingsForTree" Method="GetChildOrderingsForTree" IsComposable="true">
+    <Parameter Name="RootID" Parameter="rootID" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetChildOrderingsForTreeResult">
+      <Column Name="Parent" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Child_Before" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Child_After" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetSynsetBindingsForTree" Method="GetSynsetBindingsForTree" IsComposable="true">
+    <Parameter Name="RootID" Parameter="rootID" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetSynsetBindingsForTreeResult">
+      <Column Name="ElementID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SynsetID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Weight" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetNodesForTree" Method="GetNodesForTree" IsComposable="true">
+    <Parameter Name="RootID" Parameter="rootID" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetNodesForTreeResult">
+      <Column Name="ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ParentID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Role" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="Weight" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="ElementType" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="WordType" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="DefaultWeightedWord" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ExpletiveSubject" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Proper" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Inflection" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="Canned" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="PronounCase" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="Pronoun_Person" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="Pronoun_Number" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="Pronoun_Gender" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="ParentType" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="C_AggregateAuxiliary" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="C_Complementizer" Type="System.String" DbType="VarChar(24)" CanBeNull="true" />
+      <Column Name="C_Form" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="C_InterrogativeType" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="C_Modal" Type="System.String" DbType="VarChar(24)" CanBeNull="true" />
+      <Column Name="C_Negated" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="C_Passive" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="C_Perfect" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="C_Person" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="C_Progressive" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="C_SuppressGenitiveInGerund" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="C_SuppressedComplementizer" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="C_Tense" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="DiscourseFunction" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="Appositive" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="NP_AdjectiveOrdering" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="NP_Elided" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="NP_Number" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="NP_Gender" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="NP_Person" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="NP_Possessive" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="NP_Pronominal" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="VP_AggregateAuxiliary" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="VP_Form" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="VP_Modal" Type="System.String" DbType="VarChar(24)" CanBeNull="true" />
+      <Column Name="VP_Negated" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="VP_Passive" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="VP_Perfect" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="VP_Person" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="VP_Progressive" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="VP_SuppressGenitiveInGerund" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="VP_SuppressedComplementizer" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="VP_Tense" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="AdjP_Comparative" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="AdjP_Superlative" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="AdvP_Comparative" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="AdvP_Superlative" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetNodesIDsForTree" Method="GetNodesIDsForTree" IsComposable="true">
+    <Parameter Name="RootID" Parameter="rootID" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetNodesIDsForTreeResult">
+      <Column Name="ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
 </Database>

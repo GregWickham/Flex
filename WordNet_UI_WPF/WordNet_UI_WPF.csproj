@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D5C0E679-A33F-4703-9602-83EF01B12179}</ProjectGuid>
+    <ProjectGuid>{788ED0B0-CE7B-4CE9-A9BC-07630BE9AF21}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Flex.UserInterface</RootNamespace>
-    <AssemblyName>Flex_UI_WPF_Main</AssemblyName>
+    <RootNamespace>WordNet.UserInterface</RootNamespace>
+    <AssemblyName>WordNet_UI_WPF</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <LangVersion>8.0</LangVersion>
     <FileAlignment>512</FileAlignment>
@@ -36,13 +36,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="GraphX.WPF.Controls, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null" />
-    <Reference Include="PresentationFramework.Aero" />
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -52,7 +48,6 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="UIAutomationProvider" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -62,10 +57,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="VariationsListWindow.xaml.cs">
-      <DependentUpon>VariationsListWindow.xaml</DependentUpon>
-    </Compile>
-    <Page Include="FlexWindow.xaml">
+    <Page Include="WordNetBrowserWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -73,18 +65,12 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="FlexWindow.xaml.cs">
-      <DependentUpon>FlexWindow.xaml</DependentUpon>
+    <Compile Include="SynsetDragDropEventHandlers.cs" />
+    <Compile Include="View Models\AvailableSynsetsViewModel.cs" />
+    <Compile Include="WordNetBrowserWindow.xaml.cs">
+      <DependentUpon>WordNetBrowserWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Resources.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="VariationsListWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -104,7 +90,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -114,62 +99,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DatamuseClient\Datamuse.csproj">
-      <Project>{de8e55a2-cb22-4ea9-9e77-ae3c7dbfee5d}</Project>
-      <Name>Datamuse</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Echo\EnglishParsing\EnglishParsing.csproj">
-      <Project>{8e991b2f-4626-4715-b7ed-54498526aa19}</Project>
-      <Name>EnglishParsing</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Echo\FlexibleRealization\FlexibleRealization.csproj">
       <Project>{69a075e7-46b1-4aee-b5e9-8f7da88d773a}</Project>
       <Name>FlexibleRealization</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Echo\FlexibleRealization_UI_WPF\FlexibleRealization_UI_WPF.csproj">
-      <Project>{91b58255-572f-46a6-9e18-651845d2e97c}</Project>
-      <Name>FlexibleRealization_UI_WPF</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Echo\SimpleNLG\SimpleNLG.csproj">
-      <Project>{2df23dcb-99f7-4e02-8e59-8792b9aeeab8}</Project>
-      <Name>SimpleNLG</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Flex_Database\Flex_Database.csproj">
-      <Project>{a7a76754-de7a-4c19-a027-c3b419a55a92}</Project>
-      <Name>Flex_Database</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Flex_ElementSelectors\Flex_ElementSelectors.csproj">
-      <Project>{843bde60-f30e-4921-a444-11d34c12ee10}</Project>
-      <Name>Flex_ElementSelectors</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Flex_UI_WPF_Common\Flex_UI_WPF_Common.csproj">
-      <Project>{ab3fa907-b965-4688-b16b-5c6a7cc8dcdb}</Project>
-      <Name>Flex_UI_WPF_Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Flex_UI_WPF_Database\Flex_UI_WPF_Database.csproj">
-      <Project>{c95a237a-507e-4566-9461-80c5b56f304c}</Project>
-      <Name>Flex_UI_WPF_Database</Name>
     </ProjectReference>
     <ProjectReference Include="..\WordNetLINQ\WordNet_LINQ.csproj">
       <Project>{2d7454e9-b9a9-4e6a-98bd-0565e12adb7a}</Project>
       <Name>WordNet_LINQ</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WordNet_UI_WPF\WordNet_UI_WPF.csproj">
-      <Project>{788ed0b0-ce7b-4ce9-a9bc-07630be9af21}</Project>
-      <Name>WordNet_UI_WPF</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Images\Save_16x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Images\Chevron_Down.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Images\Delete.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Images\Chevron_Up.png" />
+    <Folder Include="Resources\Images\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="SpicNSpan" AfterTargets="Clean">

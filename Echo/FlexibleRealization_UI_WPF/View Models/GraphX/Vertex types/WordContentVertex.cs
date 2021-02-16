@@ -17,9 +17,11 @@ namespace FlexibleRealization.UserInterface.ViewModels
         /// <summary>The IsToken property is used by XAML style triggers</summary>
         public override bool IsWordContents => true;
 
-        internal override bool CanAcceptDropOf(Type nodeType) => false;
+        internal override bool CanAcceptDrop_OfIElementTreeNode(Type nodeType) => false;
 
-        internal override bool AcceptDropOf(IElementTreeNode node, DragDropEffects effects, int insertPoint) => throw new InvalidOperationException("Can't drop on a word contents vertex");
+        internal override bool AcceptDrop_OfIElementTreeNode(IElementTreeNode node, DragDropEffects effects, int insertPoint) => throw new InvalidOperationException("Can't drop on a word contents vertex");
+
+        internal override bool CanAcceptDrop_OfSynset(int synsetID) => false;
 
         /// <summary>Construct and return a <see cref="UIElement"/> with content based on the <see cref="Model"/> of this view model.</summary>
         public override UIElement ToolTipContent

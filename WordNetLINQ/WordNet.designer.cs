@@ -40,7 +40,7 @@ namespace WordNet.Linq
 		
 		public WordNetDataContext() : 
 				base("Data Source=38.192.14.25,49170;Initial Catalog=wordnet;Persist Security Info=True" +
-						";User ID=Flex", mappingSource)
+						";User ID=sa", mappingSource)
 		{
 			OnCreated();
 		}
@@ -83,6 +83,30 @@ namespace WordNet.Linq
 			{
 				return this.GetTable<Sense>();
 			}
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.HypernymsOf", IsComposable=true)]
+		public IQueryable<Synset> HypernymsOf([global::System.Data.Linq.Mapping.ParameterAttribute(Name="HyponymID", DbType="Int")] System.Nullable<int> hyponymID)
+		{
+			return this.CreateMethodCallQuery<Synset>(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), hyponymID);
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.HyponymsOf", IsComposable=true)]
+		public IQueryable<Synset> HyponymsOf([global::System.Data.Linq.Mapping.ParameterAttribute(Name="HypernymID", DbType="Int")] System.Nullable<int> hypernymID)
+		{
+			return this.CreateMethodCallQuery<Synset>(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), hypernymID);
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.HolonymsOf", IsComposable=true)]
+		public IQueryable<Synset> HolonymsOf([global::System.Data.Linq.Mapping.ParameterAttribute(Name="MeronymID", DbType="Int")] System.Nullable<int> meronymID)
+		{
+			return this.CreateMethodCallQuery<Synset>(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), meronymID);
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.MeronymsOf", IsComposable=true)]
+		public IQueryable<Synset> MeronymsOf([global::System.Data.Linq.Mapping.ParameterAttribute(Name="HolonymID", DbType="Int")] System.Nullable<int> holonymID)
+		{
+			return this.CreateMethodCallQuery<Synset>(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), holonymID);
 		}
 	}
 	

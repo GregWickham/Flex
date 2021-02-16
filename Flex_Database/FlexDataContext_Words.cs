@@ -31,61 +31,61 @@ namespace Flex.Database
         //    .Where(dbElement => dbElement.ElementType.Equals(FlexData.ElementType.DB_Word))
         //    .Select(dbBuilder => LoadWord(dbBuilder.ID));
 
-        private WordElementBuilder LoadWord(int wordBuilder_ID)
-        {
-            WordElementBuilder wordBuilder;
-            DB_Word dbWord = DB_Words.Single(element => element.ID.Equals(wordBuilder_ID));
-            wordBuilder = FlexData.Word.BuilderOfType((FlexData.WordType)dbWord.WordType);
-            wordBuilder.FlexDB_ID = wordBuilder_ID;
-            LoadWordLayersOf(wordBuilder);
-            Task.Run(() =>
-            {
-                WeightedWord defaultWeightedWord = DB_WeightedWords
-                    .Where(dbWeightedWord => dbWeightedWord.WordElement.Equals(wordBuilder_ID) && dbWord.DefaultWeightedWord.Equals(dbWeightedWord.ID))
-                    .Select(dbWeightedWord => new WeightedWord(dbWeightedWord.Text, dbWeightedWord.Weight))
-                    .Single();
-                IEnumerable<WeightedWord> alternates = DB_WeightedWords
-                    .Where(dbWeightedWord => dbWeightedWord.WordElement.Equals(wordBuilder_ID) && !dbWord.DefaultWeightedWord.Equals(dbWeightedWord.ID))
-                    .Select(dbWeightedWord => new WeightedWord(dbWeightedWord.Text, dbWeightedWord.Weight));
-                if (alternates.Count().Equals(0))
-                    wordBuilder.WordSource = new SingleWordSource(defaultWeightedWord.Text);
-                else
-                    wordBuilder.WordSource = new WordSelector(defaultWeightedWord, alternates);
-            });
-            return wordBuilder;
-        }
+        //private WordElementBuilder LoadWord(int wordBuilder_ID)
+        //{
+        //    WordElementBuilder wordBuilder;
+        //    DB_Word dbWord = DB_Words.Single(element => element.ID.Equals(wordBuilder_ID));
+        //    wordBuilder = FlexData.Word.BuilderOfType((FlexData.WordType)dbWord.WordType);
+        //    wordBuilder.FlexDB_ID = wordBuilder_ID;
+        //    LoadWordLayersOf(wordBuilder);
+        //    Task.Run(() =>
+        //    {
+        //        WeightedWord defaultWeightedWord = DB_WeightedWords
+        //            .Where(dbWeightedWord => dbWeightedWord.WordElement.Equals(wordBuilder_ID) && dbWord.DefaultWeightedWord.Equals(dbWeightedWord.ID))
+        //            .Select(dbWeightedWord => new WeightedWord(dbWeightedWord.Text, dbWeightedWord.Weight))
+        //            .Single();
+        //        IEnumerable<WeightedWord> alternates = DB_WeightedWords
+        //            .Where(dbWeightedWord => dbWeightedWord.WordElement.Equals(wordBuilder_ID) && !dbWord.DefaultWeightedWord.Equals(dbWeightedWord.ID))
+        //            .Select(dbWeightedWord => new WeightedWord(dbWeightedWord.Text, dbWeightedWord.Weight));
+        //        if (alternates.Count().Equals(0))
+        //            wordBuilder.WordSource = new SingleWordSource(defaultWeightedWord.Text);
+        //        else
+        //            wordBuilder.WordSource = new WordSelector(defaultWeightedWord, alternates);
+        //    });
+        //    return wordBuilder;
+        //}
 
-        private void LoadWordLayersOf(WordElementBuilder wordBuilder)
-        {
-            LayerWord wordLayer = LayerWords.Single(wordLayer => wordLayer.ID.Equals(wordBuilder.FlexDB_ID));
-            wordBuilder.ExpletiveSubjectSpecified = wordLayer.ExpletiveSubject != null;
-            if (wordBuilder.ExpletiveSubjectSpecified) wordBuilder.ExpletiveSubject = (bool)wordLayer.ExpletiveSubject;
-            wordBuilder.ProperSpecified = wordLayer.Proper != null;
-            if (wordBuilder.ProperSpecified) wordBuilder.Proper = (bool)wordLayer.Proper;
-            wordBuilder.InflectionSpecified = wordLayer.Inflection != null;
-            if (wordBuilder.InflectionSpecified) wordBuilder.Inflection = (inflection)wordLayer.Inflection;
-            wordBuilder.CannedSpecified = wordLayer.Canned != null;
-            if (wordBuilder.CannedSpecified) wordBuilder.Canned = (bool)wordLayer.Canned;
-            switch (wordBuilder)
-            {
-                case PronounBuilder pronounBuilder:
-                    LoadPronounLayerOf(pronounBuilder);
-                    break;
-            }
-        }
+        //private void LoadWordLayersOf(WordElementBuilder wordBuilder)
+        //{
+        //    LayerWord wordLayer = LayerWords.Single(wordLayer => wordLayer.ID.Equals(wordBuilder.FlexDB_ID));
+        //    wordBuilder.ExpletiveSubjectSpecified = wordLayer.ExpletiveSubject != null;
+        //    if (wordBuilder.ExpletiveSubjectSpecified) wordBuilder.ExpletiveSubject = (bool)wordLayer.ExpletiveSubject;
+        //    wordBuilder.ProperSpecified = wordLayer.Proper != null;
+        //    if (wordBuilder.ProperSpecified) wordBuilder.Proper = (bool)wordLayer.Proper;
+        //    wordBuilder.InflectionSpecified = wordLayer.Inflection != null;
+        //    if (wordBuilder.InflectionSpecified) wordBuilder.Inflection = (inflection)wordLayer.Inflection;
+        //    wordBuilder.CannedSpecified = wordLayer.Canned != null;
+        //    if (wordBuilder.CannedSpecified) wordBuilder.Canned = (bool)wordLayer.Canned;
+        //    switch (wordBuilder)
+        //    {
+        //        case PronounBuilder pronounBuilder:
+        //            LoadPronounLayerOf(pronounBuilder);
+        //            break;
+        //    }
+        //}
 
-        private void LoadPronounLayerOf(PronounBuilder pronounBuilder)
-        {
-            LayerPronoun pronounLayer = LayerPronouns.Single(pronounLayer => pronounLayer.ID.Equals(pronounBuilder.FlexDB_ID));
-            pronounBuilder.CaseSpecified = pronounLayer.PronounCase != null;
-            if (pronounBuilder.CaseSpecified) pronounBuilder.Case = (PronounCase)pronounLayer.PronounCase;
-            pronounBuilder.PersonSpecified = pronounLayer.Person != null;
-            if (pronounBuilder.PersonSpecified) pronounBuilder.Person = (person)pronounLayer.Person;
-            pronounBuilder.NumberSpecified = pronounLayer.Number != null;
-            if (pronounBuilder.NumberSpecified) pronounBuilder.Number = (numberAgreement)pronounLayer.Number;
-            pronounBuilder.GenderSpecified = pronounLayer.Gender != null;
-            if (pronounBuilder.GenderSpecified) pronounBuilder.Gender = (gender)pronounLayer.Gender;
-        }
+        //private void LoadPronounLayerOf(PronounBuilder pronounBuilder)
+        //{
+        //    LayerPronoun pronounLayer = LayerPronouns.Single(pronounLayer => pronounLayer.ID.Equals(pronounBuilder.FlexDB_ID));
+        //    pronounBuilder.CaseSpecified = pronounLayer.PronounCase != null;
+        //    if (pronounBuilder.CaseSpecified) pronounBuilder.Case = (PronounCase)pronounLayer.PronounCase;
+        //    pronounBuilder.PersonSpecified = pronounLayer.Person != null;
+        //    if (pronounBuilder.PersonSpecified) pronounBuilder.Person = (person)pronounLayer.Person;
+        //    pronounBuilder.NumberSpecified = pronounLayer.Number != null;
+        //    if (pronounBuilder.NumberSpecified) pronounBuilder.Number = (numberAgreement)pronounLayer.Number;
+        //    pronounBuilder.GenderSpecified = pronounLayer.Gender != null;
+        //    if (pronounBuilder.GenderSpecified) pronounBuilder.Gender = (gender)pronounLayer.Gender;
+        //}
 
         private void SaveWord(WordElementBuilder wordBuilder)
         {
@@ -262,6 +262,56 @@ namespace Flex.Database
                 default: break;
             }
         }
+
+        private WordElementBuilder BuildWord(GetNodesForTreeResult wordResult, IEnumerable<GetWeightedWordsForTreeResult> weightedWordResultsForThisBuilder)
+        {
+            WordElementBuilder wordBuilder = FlexData.Word.BuilderOfType((FlexData.WordType)wordResult.WordType);
+            wordBuilder.FlexDB_ID = (int)wordResult.ID;
+            BuildWordLayersOf(wordBuilder, wordResult);
+            if (weightedWordResultsForThisBuilder.Count().Equals(1))
+                wordBuilder.WordSource = new SingleWordSource(weightedWordResultsForThisBuilder.Single().Text);
+            else
+            {
+                GetWeightedWordsForTreeResult defaultWeightedWordResult = weightedWordResultsForThisBuilder.Single(weightedWordResult => wordResult.DefaultWeightedWord.Equals(weightedWordResult.ID));
+                WeightedWord defaultWeightedWord = new WeightedWord(defaultWeightedWordResult.Text, defaultWeightedWordResult.Weight);
+                IEnumerable<WeightedWord> alternateWeightedWords = weightedWordResultsForThisBuilder
+                    .Where(weightedWordResult => weightedWordResult != defaultWeightedWordResult)
+                    .Select(weightedWordResult => new WeightedWord(weightedWordResult.Text, weightedWordResult.Weight));
+                wordBuilder.WordSource = new WordSelector(defaultWeightedWord, alternateWeightedWords);
+            }
+            return wordBuilder;
+        }
+
+        private void BuildWordLayersOf(WordElementBuilder wordBuilder, GetNodesForTreeResult wordResult)
+        {
+            wordBuilder.ExpletiveSubjectSpecified = wordResult.ExpletiveSubject != null;
+            if (wordBuilder.ExpletiveSubjectSpecified) wordBuilder.ExpletiveSubject = (bool)wordResult.ExpletiveSubject;
+            wordBuilder.ProperSpecified = wordResult.Proper != null;
+            if (wordBuilder.ProperSpecified) wordBuilder.Proper = (bool)wordResult.Proper;
+            wordBuilder.InflectionSpecified = wordResult.Inflection != null;
+            if (wordBuilder.InflectionSpecified) wordBuilder.Inflection = (inflection)wordResult.Inflection;
+            wordBuilder.CannedSpecified = wordResult.Canned != null;
+            if (wordBuilder.CannedSpecified) wordBuilder.Canned = (bool)wordResult.Canned;
+            switch (wordBuilder)
+            {
+                case PronounBuilder pronounBuilder:
+                    BuildPronounLayerOf(pronounBuilder, wordResult);
+                    break;
+            }
+        }
+
+        private void BuildPronounLayerOf(PronounBuilder pronounBuilder, GetNodesForTreeResult pronounResult)
+        {
+            pronounBuilder.CaseSpecified = pronounResult.PronounCase != null;
+            if (pronounBuilder.CaseSpecified) pronounBuilder.Case = (PronounCase)pronounResult.PronounCase;
+            pronounBuilder.PersonSpecified = pronounResult.Pronoun_Person != null;
+            if (pronounBuilder.PersonSpecified) pronounBuilder.Person = (person)pronounResult.Pronoun_Person;
+            pronounBuilder.NumberSpecified = pronounResult.Pronoun_Number != null;
+            if (pronounBuilder.NumberSpecified) pronounBuilder.Number = (numberAgreement)pronounResult.Pronoun_Number;
+            pronounBuilder.GenderSpecified = pronounResult.Pronoun_Gender != null;
+            if (pronounBuilder.GenderSpecified) pronounBuilder.Gender = (gender)pronounResult.Pronoun_Gender;
+        }
+
 
         //private void SaveWord(DB_Word dbWord, DB_WeightedWord defaultWeightedWord, IEnumerable<DB_WeightedWord> alternateWeightedWords)
         //{

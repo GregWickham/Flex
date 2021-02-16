@@ -7,14 +7,28 @@
         xmlns:SimpleNLG_Properties="clr-namespace:SimpleNLG.Properties;assembly=SimpleNLG"    
         xmlns:WordNet_Properties="clr-namespace:WordNet.Linq.Properties;assembly=WordNet_LINQ"    
         xmlns:FlexDB_Properties="clr-namespace:Flex.Database.Properties;assembly=Flex_Database"   
-        xmlns:graphEditor="clr-namespace:FlexibleRealization.UserInterface;assembly=FlexibleRealization_UserInterface_WPF"
+        xmlns:treeEditor="clr-namespace:FlexibleRealization.UserInterface;assembly=FlexibleRealization_UserInterface_WPF"
         xmlns:uiCommon="clr-namespace:Flex.UserInterface;assembly=Flex_UI_WPF_Common"
         xmlns:local="clr-namespace:Flex.UserInterface"
         mc:Ignorable="d"
         Title="Flex Editor for English" Height="600" Width="960">
+
+    <Window.Resources>
+        <Style x:Key="BoundSynsetsStyle" TargetType="uiCommon:BoundSynsetsControl">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=ExpandCollapseSynsetBindingsButton, Path=IsChecked}" Value="True">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=ExpandCollapseSynsetBindingsButton, Path=IsChecked}" Value="False">
+                    <Setter Property="Visibility" Value="Visible" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="6*"/>
+            <RowDefinition Height="5*"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
@@ -53,6 +67,8 @@
                             </MenuItem>
                         </MenuItem>
                         <MenuItem Header="_WordNet">
+                            <MenuItem Header="Browse _WordNet" Click="BrowseWordNetMenuItem_Click"/>
+                            <Separator/>
                             <MenuItem Header="_Hostname">
                                 <TextBox Width="100" Text="{Binding Source={x:Static WordNet_Properties:Settings.Default}, Path=WordNet_ServerHost}" TextChanged="WordNet_SettingChanged"/>
                             </MenuItem>
@@ -86,27 +102,34 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBox x:Name="inputTextBox" Grid.Column="0" Margin="4"
-                     HorizontalAlignment="Stretch" VerticalContentAlignment="Center" 
-                     TextWrapping="NoWrap" TextInput="inputTextBox_TextInput" />
-                    <Button Grid.Column="1" Name="parseButton" Content="Parse" Margin="0 4 4 4" Padding="8 0 8 0" Click="parseButton_Click"/>
+                    <TextBox x:Name="InputTextBox" Grid.Column="0" Margin="4" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" TextWrapping="NoWrap" KeyDown="InputTextBox_KeyDown" />
+                    <Button Grid.Column="1" Name="ParseButton" Content="Parse" Margin="0 4 2 4" Padding="8 0 8 0" Click="ParseButton_Click"/>
+                    <ToggleButton Grid.Column="2" Width="20" Height="16" Margin="2 0 2 0" VerticalAlignment="Center" Name="ExpandCollapseTreeEditorPropertiesButton" Background="Transparent" IsChecked="False" 
+                                  Checked="ExpandCollapseTreeEditorPropertiesButton_Checked" Unchecked="ExpandCollapseTreeEditorPropertiesButton_Unchecked">
+                        <Image Name="ExpandCollapseTreeEditorPropertiesImage" HorizontalAlignment="Center" VerticalAlignment="Center" Source="./Resources/Images/Chevron_Up.png"/>
+                    </ToggleButton>
                 </Grid>
 
-                <graphEditor:ElementBuilderTreeEditor Grid.Row="2" Name="TreeEditor" 
-                    SelectedNodeChanged="TreeEditor_SelectedNodeChanged" RealizationFailed="TreeEditor_RealizationFailed" TextRealized="TreeEditor_TextRealized"/>
+                <treeEditor:ElementBuilderTreeEditor Grid.Row="2" Name="TreeEditor" 
+                        ModelSetFromDatabase="TreeEditor_ModelSetFromDatabase" SelectedNodeChanged="TreeEditor_SelectedNodeChanged" 
+                        RealizationFailed="TreeEditor_RealizationFailed" TextRealized="TreeEditor_TextRealized" SynsetBoundToNode="TreeEditor_SynsetBoundToNode"/>
 
                 <Grid Grid.Row="3">
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBox x:Name="realizedTextBox" Margin="4"
-                     HorizontalAlignment="Stretch" VerticalContentAlignment="Center"
-                     TextWrapping="NoWrap" />
-                    <Button Grid.Column="1" Name="showVariationsButton" Content="Show Variations" Margin="0 4 4 4" Padding="8 0 8 0" Click="showVariationsButton_Click"/>
+                    <ToggleButton Grid.Column="0" Width="20" Height="16" Margin="2 0 0 0" VerticalAlignment="Center" Name="ExpandCollapseSynsetBindingsButton" Background="Transparent" IsChecked="False" 
+                                  Checked="ExpandCollapseSynsetsButton_Checked" Unchecked="ExpandCollapseSynsetsButton_Unchecked">
+                        <Image Name="ExpandCollapseSynsetBindingsImage" HorizontalAlignment="Center" VerticalAlignment="Center" Source="./Resources/Images/Chevron_Up.png"/>
+                    </ToggleButton>
+                    <TextBox Grid.Column="1" x:Name="RealizedTextBox" Margin="4 4 4 4" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" TextWrapping="NoWrap" />
+                    <Button Grid.Column="2" Name="ShowVariationsButton" Content="Show Variations" Margin="0 4 4 4" Padding="8 0 8 0" Click="ShowVariationsButton_Click"/>
                 </Grid>
             </Grid>
             <GridSplitter Grid.Column="1" Width="2" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
@@ -115,9 +138,8 @@
 
         <GridSplitter Grid.Row="1" Height="2" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
 
-        <uiCommon:SynsetSelector x:Name="SynsetsControl" Grid.Row="2" Height="Auto" Width="Auto"/>
+        <uiCommon:BoundSynsetsControl x:Name="BoundSynsets" Grid.Row="2" Height="Auto" Style="{StaticResource BoundSynsetsStyle}"/>
 
     </Grid>
-
 
 </Window>
