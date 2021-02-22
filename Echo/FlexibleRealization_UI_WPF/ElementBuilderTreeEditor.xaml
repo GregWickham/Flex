@@ -14,7 +14,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*" x:Name="PropertiesColumn"/>
         </Grid.ColumnDefinitions>
 
         <graphx:ZoomControl Grid.Column="0" x:Name="ZoomCtrl" Background="White">

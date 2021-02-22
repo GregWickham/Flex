@@ -44,8 +44,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data Set Extensions\MorphosemanticRelationsForResult.cs" />
     <Compile Include="Data Set Extensions\Synset.cs" />
-    <Compile Include="PartOfSpeech.cs" />
+    <Compile Include="Data Set Extensions\TeleologyForResult.cs" />
+    <Compile Include="Data Set Extensions\WordSense.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>

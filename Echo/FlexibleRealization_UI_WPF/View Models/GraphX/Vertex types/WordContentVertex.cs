@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using WordNet.Linq;
 
 namespace FlexibleRealization.UserInterface.ViewModels
 {
@@ -21,7 +22,7 @@ namespace FlexibleRealization.UserInterface.ViewModels
 
         internal override bool AcceptDrop_OfIElementTreeNode(IElementTreeNode node, DragDropEffects effects, int insertPoint) => throw new InvalidOperationException("Can't drop on a word contents vertex");
 
-        internal override bool CanAcceptDrop_OfSynset(int synsetID) => false;
+        internal override bool CanAcceptDrop_OfSynset(Synset synset) => false;
 
         /// <summary>Construct and return a <see cref="UIElement"/> with content based on the <see cref="Model"/> of this view model.</summary>
         public override UIElement ToolTipContent

@@ -8,6 +8,7 @@ namespace WordNet.UserInterface.ViewModels
 {
     public class AvailableSynsetsViewModel : INotifyPropertyChanged
     {
+        /// <summary>Lookup synsets with a part of speech and a word sense that match <paramref name="node"/>.</summary>
         internal void LookupSynsetsMatching(IElementTreeNode node)
         {
             switch (node)
@@ -20,20 +21,23 @@ namespace WordNet.UserInterface.ViewModels
             }
         }
 
+        /// <summary>Lookup synsets the have a word sense matching ><paramref name="word"/>.</summary>
         internal void LookupSynsetsMatching(string word)
         {
             VisibleSynsets = Synsets.MatchingWord(word);
             OnPropertyChanged("VisibleSynsets");
         }
 
-        internal void LookupSynsetsMatching(string word, char partOfSpeechCode)
+        /// <summary>Lookup synsets with part of speech <paramref name="partOfSpeech"/> that have a word sense matching<paramref name="word"/>.</summary>
+        internal void LookupSynsetsMatching(string word, WordNetData.PartOfSpeech partOfSpeech)
         {
             VisibleSynsets = Synsets.MatchingWord(word)
-                .Where(synset => synset.POS.Equals(partOfSpeechCode));
+                .Where(synset => synset.MatchesPartOfSpeech(partOfSpeech));
             OnPropertyChanged("VisibleSynsets");
         }
 
-        public IEnumerable<Synset> VisibleSynsets { get; set; }
+        /// <summary>The collection of synsets being presented to the user as options.</summary>
+        public IEnumerable<Synset> VisibleSynsets { get; private set; }
                                                 
 
         #region Standard implementation of INotifyPropertyChanged

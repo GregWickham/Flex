@@ -1,0 +1,223 @@
+﻿<UserControl x:Class="WordNet.UserInterface.SynsetNavigatorControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WordNet.UserInterface"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <Style x:Key="SynsetHeaderStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="HighlightedListBorderStyle" TargetType="Border">
+            <Setter Property="BorderBrush" Value="LightBlue"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Margin" Value="2 2 2 0"/>
+        </Style>
+        <Style x:Key="RelatedSynsetsBorderStyle" TargetType="Border">
+            <Setter Property="BorderBrush" Value="LightGray"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Margin" Value="2 2 2 0"/>
+        </Style>
+        <Style x:Key="UsageExamplesListBoxStyle" TargetType="ListBox">
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="SelectionMode" Value="Single"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+        </Style>
+        <Style x:Key="RelatedSynsetsListBoxStyle" TargetType="ListBox">
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="SelectionMode" Value="Single"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+        </Style>
+        <Style x:Key="ListHeaderStyle" TargetType="TextBlock">
+            <Setter Property="Margin" Value="4 2 0 2"/>
+            <Setter Property="FontWeight" Value="DemiBold"/>
+        </Style>
+        <DataTemplate x:Key="SynsetTemplate">
+            <TextBlock Text="{Binding GlossWithoutExamples, IsAsync=True}"/>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" BorderBrush="LightBlue" BorderThickness="2" HorizontalAlignment="Center" Margin="0 2 0 0">
+            <StackPanel Orientation="Horizontal" Margin="12 2 12 2" HorizontalAlignment="Center" MouseDown="CurrentSynsetHeader_MouseDown" MouseMove="CurrentSynsetHeader_MouseMove">
+                <TextBlock Name="CurrentSynsetGlossTextBlock" Text="{Binding Path=PartOfSpeechAndGloss, IsAsync=True}" Style="{StaticResource SynsetHeaderStyle}"/>
+            </StackPanel>
+        </Border>
+        <!--<Image Grid.Row="0" Name="LinkImage" HorizontalAlignment="Right" VerticalAlignment="Center" Height="14" Margin="0 4 0 4" Source="./Resources/Images/Link.png" />-->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto" x:Name="PartOfSpeechSpecificRelationsColumn"/>
+            </Grid.ColumnDefinitions>
+
+            <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                <StackPanel Orientation="Vertical">
+                    <Border Style="{StaticResource RelatedSynsetsBorderStyle}">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="More general" Style="{StaticResource ListHeaderStyle}"/>
+                                <TextBlock Text="(Hypernyms)" Margin="4 2 0 2"/>
+                            </StackPanel>
+                            <ListBox Name="HypernymsList" ItemsSource="{Binding Hypernyms, IsAsync=True}" ItemTemplate="{StaticResource SynsetTemplate}"
+                                     MouseDoubleClick="HypernymsList_MouseDoubleClick" Style="{StaticResource RelatedSynsetsListBoxStyle}"/>
+                        </StackPanel>
+                    </Border>
+                    <Border Style="{StaticResource RelatedSynsetsBorderStyle}">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="More specific" Style="{StaticResource ListHeaderStyle}"/>
+                                <TextBlock Text="(Hyponyms)" Margin="4 2 0 2"/>
+                            </StackPanel>
+                            <ListBox Name="HyponymsList" ItemsSource="{Binding Hyponyms, IsAsync=True}" ItemTemplate="{StaticResource SynsetTemplate}"
+                                     MouseDoubleClick="HyponymsList_MouseDoubleClick" Style="{StaticResource RelatedSynsetsListBoxStyle}"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+            <GridSplitter Grid.Column="1" Width="1" VerticalAlignment="Stretch" HorizontalAlignment="Center" Background="LightGray"/>
+            <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                <StackPanel Orientation="Vertical">
+                    <Border Style="{StaticResource HighlightedListBorderStyle}">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="Usage Examples" Style="{StaticResource ListHeaderStyle}"/>
+                            <ListBox Name="UsageExamplesList" ItemsSource="{Binding GlossExamples, IsAsync=True}" IsHitTestVisible="False" Style="{StaticResource UsageExamplesListBoxStyle}"/>
+                        </StackPanel>
+                    </Border>
+                    <Border Style="{StaticResource RelatedSynsetsBorderStyle}">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Part of" Style="{StaticResource ListHeaderStyle}"/>
+                                <TextBlock Text="(Holonyms)" Margin="4 2 0 2"/>
+                            </StackPanel>
+                            <ListBox Name="HolonymsList" ItemsSource="{Binding Holonyms, IsAsync=True}" ItemTemplate="{StaticResource SynsetTemplate}"
+                                     MouseDoubleClick="HolonymsList_MouseDoubleClick" Style="{StaticResource RelatedSynsetsListBoxStyle}"/>
+                        </StackPanel>
+                    </Border>
+                    <Border Style="{StaticResource RelatedSynsetsBorderStyle}">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Parts" Style="{StaticResource ListHeaderStyle}"/>
+                                <TextBlock Text="(Meronyms)" Margin="4 2 0 2"/>
+                            </StackPanel>
+                            <ListBox Name="MeronymsList" ItemsSource="{Binding Meronyms, IsAsync=True}" ItemTemplate="{StaticResource SynsetTemplate}"
+                                     MouseDoubleClick="MeronymsList_MouseDoubleClick" Style="{StaticResource RelatedSynsetsListBoxStyle}"/>
+                        </StackPanel>
+                    </Border>
+                    <Border Style="{StaticResource RelatedSynsetsBorderStyle}">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="Types" Style="{StaticResource ListHeaderStyle}"/>
+                            <ListBox Name="TypesList" ItemsSource="{Binding Types, IsAsync=True}" ItemTemplate="{StaticResource SynsetTemplate}"
+                                     MouseDoubleClick="HolonymsList_MouseDoubleClick" Style="{StaticResource RelatedSynsetsListBoxStyle}"/>
+                        </StackPanel>
+                    </Border>
+                    <Border Style="{StaticResource RelatedSynsetsBorderStyle}">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="Instances of type" Style="{StaticResource ListHeaderStyle}"/>
+                            <ListBox Name="InstancesList" ItemsSource="{Binding Instances, IsAsync=True}" ItemTemplate="{StaticResource SynsetTemplate}"
+                                     MouseDoubleClick="MeronymsList_MouseDoubleClick" Style="{StaticResource RelatedSynsetsListBoxStyle}"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+            <GridSplitter Grid.Column="3" Width="1" VerticalAlignment="Stretch" HorizontalAlignment="Center" Background="LightGray"/>
+            <Border Grid.Column="4" BorderBrush="LightGray" BorderThickness="0 0 1 0">
+                <ScrollViewer Name="NounSpecificRelations" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Visibility="Collapsed">
+                    <StackPanel Orientation="Vertical">
+                        <Border Style="{StaticResource RelatedSynsetsBorderStyle}">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="Values of attribute" Style="{StaticResource ListHeaderStyle}"/>
+                                <ListBox Name="ValuesOfAttributeList" ItemsSource="{Binding ValuesOfAttribute, IsAsync=True}" ItemTemplate="{StaticResource SynsetTemplate}"
+                                         MouseDoubleClick="ValuesOfAttributeList_MouseDoubleClick" Style="{StaticResource RelatedSynsetsListBoxStyle}"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+            <Border Grid.Column="4" BorderBrush="LightGray" BorderThickness="0 0 1 0">
+                <ScrollViewer Name="VerbSpecificRelations" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Visibility="Collapsed">
+                    <StackPanel Orientation="Vertical">
+                        <Border Style="{StaticResource RelatedSynsetsBorderStyle}">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="Caused by" Style="{StaticResource ListHeaderStyle}"/>
+                                <ListBox Name="IsCausedByList" ItemsSource="{Binding IsCausedBy, IsAsync=True}" ItemTemplate="{StaticResource SynsetTemplate}"
+                                 MouseDoubleClick="IsCausedByList_MouseDoubleClick" Style="{StaticResource RelatedSynsetsListBoxStyle}"/>
+                            </StackPanel>
+                        </Border>
+                        <Border Style="{StaticResource RelatedSynsetsBorderStyle}">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="Cause of" Style="{StaticResource ListHeaderStyle}"/>
+                                <ListBox Name="IsCauseOfList" ItemsSource="{Binding IsCauseOf, IsAsync=True}" ItemTemplate="{StaticResource SynsetTemplate}" 
+                                         MouseDoubleClick="IsCauseOfList_MouseDoubleClick" Style="{StaticResource RelatedSynsetsListBoxStyle}"/>
+                            </StackPanel>
+                        </Border>
+                        <Border Style="{StaticResource RelatedSynsetsBorderStyle}">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="Entailed by" Style="{StaticResource ListHeaderStyle}"/>
+                                <ListBox Name="IsEntailedByList" ItemsSource="{Binding IsEntailedBy, IsAsync=True}" ItemTemplate="{StaticResource SynsetTemplate}"
+                                         MouseDoubleClick="IsEntailedByList_MouseDoubleClick" Style="{StaticResource RelatedSynsetsListBoxStyle}"/>
+                            </StackPanel>
+                        </Border>
+                        <Border Style="{StaticResource RelatedSynsetsBorderStyle}">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="Entails" Style="{StaticResource ListHeaderStyle}"/>
+                                <ListBox Name="EntailsList" ItemsSource="{Binding Entails, IsAsync=True}" ItemTemplate="{StaticResource SynsetTemplate}"
+                                         MouseDoubleClick="EntailsList_MouseDoubleClick" Style="{StaticResource RelatedSynsetsListBoxStyle}"/>
+                            </StackPanel>
+                        </Border>
+                        <Border Style="{StaticResource RelatedSynsetsBorderStyle}">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="Verb frames" Style="{StaticResource ListHeaderStyle}"/>
+                                <ListBox Name="VerbFramesList" ItemsSource="{Binding VerbFrames, IsAsync=True}" DisplayMemberPath="VerbFrame" Style="{StaticResource RelatedSynsetsListBoxStyle}"/>
+                            </StackPanel>
+                        </Border>
+                        <Border Style="{StaticResource RelatedSynsetsBorderStyle}">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="Members of verb group" Style="{StaticResource ListHeaderStyle}"/>
+                                <ListBox Name="VerbGroupMembersList" ItemsSource="{Binding VerbGroupMembers, IsAsync=True}" ItemTemplate="{StaticResource SynsetTemplate}"
+                                         MouseDoubleClick="VerbGroupMembersList_MouseDoubleClick" Style="{StaticResource RelatedSynsetsListBoxStyle}"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+            <Border Grid.Column="4" BorderBrush="LightGray" BorderThickness="0 0 1 0">
+                <ScrollViewer Name="AdjectiveSpecificRelations" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Visibility="Collapsed">
+                    <StackPanel Orientation="Vertical">
+                        <Border Style="{StaticResource RelatedSynsetsBorderStyle}">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="Satellites" Style="{StaticResource ListHeaderStyle}"/>
+                                <ListBox Name="SatellitesList" ItemsSource="{Binding Satellites, IsAsync=True}" ItemTemplate="{StaticResource SynsetTemplate}"
+                                 MouseDoubleClick="SatellitesList_MouseDoubleClick" Style="{StaticResource RelatedSynsetsListBoxStyle}"/>
+                            </StackPanel>
+                        </Border>
+                        <Border Style="{StaticResource RelatedSynsetsBorderStyle}">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="Attributes with this value" Style="{StaticResource ListHeaderStyle}"/>
+                                <ListBox Name="AttributesWithValueList" ItemsSource="{Binding AttributesWithValue, IsAsync=True}" ItemTemplate="{StaticResource SynsetTemplate}" 
+                                 MouseDoubleClick="AttributesWithValueList_MouseDoubleClick" Style="{StaticResource RelatedSynsetsListBoxStyle}"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+        </Grid>
+    </Grid>
+    
+</UserControl>

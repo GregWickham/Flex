@@ -1,0 +1,39 @@
+﻿<UserControl x:Class="WordNet.UserInterface.WordToSynsetSelectorControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WordNet.UserInterface"
+             mc:Ignorable="d" 
+             d:DesignHeight="125" d:DesignWidth="800" Loaded="UserControl_Loaded">
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="0" BorderBrush="LightGray" BorderThickness="2">
+            <StackPanel Name="WordLookup" AllowDrop="True" DragEnter="WordLookup_DragEnter" Drop="WordLookup_Drop" Background="White">
+                <TextBox Name="LookupWordTextBox" Margin="4" KeyDown="LookupWordTextBox_KeyDown"/>
+                <RadioButton Name ="AnyRadioButton" GroupName="partOfSpeech" Margin="8 0 4 6" FontWeight="DemiBold" IsChecked="True">ANY</RadioButton>
+                <RadioButton Name ="NounRadioButton" GroupName="partOfSpeech" Margin="8 0 4 2">Noun</RadioButton>
+                <RadioButton Name ="VerbRadioButton" GroupName="partOfSpeech" Margin="8 0 4 2">Verb</RadioButton>
+                <RadioButton Name ="AdjectiveRadioButton" GroupName="partOfSpeech" Margin="8 0 4 2">Adjective</RadioButton>
+                <RadioButton Name ="AdverbRadioButton" GroupName="partOfSpeech" Margin="8 0 4 8">Adverb</RadioButton>
+            </StackPanel>
+        </Border>
+
+        <ListBox Grid.Column="1" Name="SynsetsMatchingWordList" ItemsSource="{Binding VisibleSynsets, IsAsync=True}" 
+                     SelectionMode="Single" SelectionChanged="SynsetsMatchingWordList_SelectionChanged" MouseDoubleClick="SynsetsMatchingWordList_MouseDoubleClick">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding GlossWithoutExamples, IsAsync=True}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <ListBox Grid.Column="2" Name="UsageExamplesList" ItemsSource="{Binding GlossExamples}"/>
+    </Grid>
+    
+</UserControl>

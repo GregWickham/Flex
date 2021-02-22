@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Xml.Linq;
 using GraphX.Controls;
+using WordNet.Linq;
 using FlexibleRealization.UserInterface.ViewModels;
 
 namespace FlexibleRealization.UserInterface
@@ -39,14 +40,26 @@ namespace FlexibleRealization.UserInterface
         private void OnTextRealized(string realizedText) => TextRealized?.Invoke(realizedText);
 
         public event SynsetBoundToNode_EventHandler SynsetBoundToNode;
-        private void OnSynsetBoundToNode(IElementTreeNode boundNode, int boundSynsetID) => SynsetBoundToNode?.Invoke(boundNode, boundSynsetID);
+        private void OnSynsetBoundToNode(IElementTreeNode boundNode, Synset boundSynset) => SynsetBoundToNode?.Invoke(boundNode, boundSynset);
 
         public event ModelSetFromDatabase_EventHandler ModelSetFromDatabase;
         private void OnModelSetFromDatabase(IElementTreeNode tree) => ModelSetFromDatabase?.Invoke(tree);
 
         #endregion Events
 
-        public bool ShowProperties { set { } }
+        /// <summary>Allows the PropertiesTabControl to be collapsed</summary>
+        public bool ShowProperties
+        {
+            set
+            {
+                PropertiesTabControl.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
+                PropertiesColumn.Width = value
+                    ? StarColumnWidth
+                    : GridLength.Auto;
+            }
+        }
+
+        private static readonly GridLength StarColumnWidth = new GridLength(1, GridUnitType.Star);
 
         private RootNode ModelRoot;
         public IElementTreeNode Model => ModelRoot?.Stem;
@@ -284,11 +297,11 @@ namespace FlexibleRealization.UserInterface
 
         #region Drag / Drop of Synsets
 
-        public void OnSynsetDragStarted(int draggedSynsetID) => ElementGraphArea.SetDropTargets_ForSynset(draggedSynsetID);
+        public void OnSynsetDragStarted(Synset synset) => ElementGraphArea.SetDropTargets_ForSynset(synset);
 
-        public void OnSynsetDragCancelled(int draggedSynsetID) => ElementGraphArea.ClearDropTargets_ForSynset();
+        public void OnSynsetDragCancelled(Synset synset) => ElementGraphArea.ClearDropTargets_ForSynset();
 
-        public void OnSynsetDropCompleted(int draggedSynsetID) => ElementGraphArea.ClearDropTargets_ForSynset();
+        public void OnSynsetDropCompleted(Synset synset) => ElementGraphArea.ClearDropTargets_ForSynset();
 
 
         #endregion Drag / Drop of Synsets

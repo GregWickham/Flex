@@ -19,6 +19,52 @@ namespace Flex.Database.UserInterface
             InitializeComponent();
         }
 
+        public FlexDB_WordsBrowserWindow(
+            ElementDragStarted_EventHandler elementDragStartedHandler,
+            ElementDragCancelled_EventHandler elementDragCancelledHandler,
+            ElementDropCompleted_EventHandler elementDropCompletedHandler)
+        {
+            InitializeComponent();
+            // Hook up external event handlers supplied to the constructor, and keep track of them
+            if (elementDragStartedHandler != null)
+            {
+                ElementDragStarted += elementDragStartedHandler;
+                External_ElementDragStarted_EventHandler = elementDragStartedHandler;
+            }
+            if (elementDragCancelledHandler != null)
+            {
+                ElementDragCancelled += elementDragCancelledHandler;
+                External_ElementDragCancelled_EventHandler = elementDragCancelledHandler;
+            }
+            if (elementDragStartedHandler != null)
+            {
+                ElementDropCompleted += elementDropCompletedHandler;
+                External_ElementDropCompleted_EventHandler = elementDropCompletedHandler;
+            }
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e) => DataContext = new DB_WordElementsViewModel();
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            base.OnClosing(e);
+            ViewModel.Detach();
+            if (External_ElementDragStarted_EventHandler != null) ElementDragStarted -= External_ElementDragStarted_EventHandler;
+            if (External_ElementDragCancelled_EventHandler != null) ElementDragCancelled -= External_ElementDragCancelled_EventHandler;
+            if (External_ElementDropCompleted_EventHandler != null) ElementDropCompleted -= External_ElementDropCompleted_EventHandler;
+        }
+
+        #region External event handlers that can optionally be attached on construction of this Window
+
+        private ElementDragStarted_EventHandler External_ElementDragStarted_EventHandler;
+        private ElementDragCancelled_EventHandler External_ElementDragCancelled_EventHandler;
+        private ElementDropCompleted_EventHandler External_ElementDropCompleted_EventHandler;
+
+        #endregion External event handlers that can optionally be attached on construction of this Window
+
+
+        #region Events
+
         public event ElementDragStarted_EventHandler ElementDragStarted;
         private void OnElementDragStarted(Type draggedType) => ElementDragStarted?.Invoke(draggedType);
 
@@ -30,18 +76,9 @@ namespace Flex.Database.UserInterface
         public event ElementDropCompleted_EventHandler ElementDropCompleted;
         private void OnElementDropCompleted(Type droppedType) => ElementDropCompleted?.Invoke(droppedType);
 
-        protected override void OnClosing(CancelEventArgs e)
-        {
-            base.OnClosing(e);
-            ViewModel.Detach();
-        }
+        #endregion Events
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            DataContext = new DB_WordElementsViewModel();
-        }
 
-        private void Window_Closing(object sender, CancelEventArgs e) => ViewModel?.Detach();
 
         private DB_WordElementsViewModel ViewModel => (DB_WordElementsViewModel)DataContext;
 

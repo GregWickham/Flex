@@ -6,7 +6,7 @@
         xmlns:uiCommon="clr-namespace:Flex.UserInterface;assembly=Flex_UI_WPF_Common"
         xmlns:local="clr-namespace:Flex.Database.UserInterface"
         mc:Ignorable="d"
-        Title="Flex Words Browser" Height="620" Width="520" Loaded="Window_Loaded" Closing="Window_Closing">
+        Title="Flex Words Browser" Height="620" Width="520" Loaded="Window_Loaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

@@ -57,6 +57,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="WordSenseNavigatorControl.xaml.cs">
+      <DependentUpon>WordSenseNavigatorControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WordSensesForSynsetControl.xaml.cs">
+      <DependentUpon>WordSensesForSynsetControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WordToSynsetSelectorControl.xaml.cs">
+      <DependentUpon>WordToSynsetSelectorControl.xaml</DependentUpon>
+    </Compile>
+    <Page Include="SynsetNavigatorControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="WordNetBrowserWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -65,12 +78,27 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SynsetDragDropEventHandlers.cs" />
+    <Compile Include="DragDropEventHandlers.cs" />
+    <Compile Include="SynsetNavigatorControl.xaml.cs">
+      <DependentUpon>SynsetNavigatorControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View Models\AvailableSynsetsViewModel.cs" />
     <Compile Include="WordNetBrowserWindow.xaml.cs">
       <DependentUpon>WordNetBrowserWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="WordSenseNavigatorControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WordSensesForSynsetControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WordToSynsetSelectorControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -109,7 +137,17 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\Images\" />
+    <Resource Include="Resources\Images\Chevron_Left.png" />
+    <Resource Include="Resources\Images\Chevron_Right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Chevron_Down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Chevron_Up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Link.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="SpicNSpan" AfterTargets="Clean">

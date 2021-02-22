@@ -22,7 +22,7 @@ namespace WordNet.Linq
 	using System;
 	
 	
-	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="wordnet")]
+	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="wordnet_from_backup")]
 	public partial class WordNetDataContext : System.Data.Linq.DataContext
 	{
 		
@@ -33,14 +33,14 @@ namespace WordNet.Linq
     partial void InsertSynset(Synset instance);
     partial void UpdateSynset(Synset instance);
     partial void DeleteSynset(Synset instance);
-    partial void InsertSense(Sense instance);
-    partial void UpdateSense(Sense instance);
-    partial void DeleteSense(Sense instance);
+    partial void InsertWordSense(WordSense instance);
+    partial void UpdateWordSense(WordSense instance);
+    partial void DeleteWordSense(WordSense instance);
     #endregion
 		
 		public WordNetDataContext() : 
-				base("Data Source=38.192.14.25,49170;Initial Catalog=wordnet;Persist Security Info=True" +
-						";User ID=sa", mappingSource)
+				base("Data Source=38.192.14.25,49170;Initial Catalog=wordnet_from_backup;Persist Securi" +
+						"ty Info=True;User ID=sa", mappingSource)
 		{
 			OnCreated();
 		}
@@ -77,11 +77,11 @@ namespace WordNet.Linq
 			}
 		}
 		
-		public System.Data.Linq.Table<Sense> Senses
+		public System.Data.Linq.Table<WordSense> WordSenses
 		{
 			get
 			{
-				return this.GetTable<Sense>();
+				return this.GetTable<WordSense>();
 			}
 		}
 		
@@ -107,6 +107,174 @@ namespace WordNet.Linq
 		public IQueryable<Synset> MeronymsOf([global::System.Data.Linq.Mapping.ParameterAttribute(Name="HolonymID", DbType="Int")] System.Nullable<int> holonymID)
 		{
 			return this.CreateMethodCallQuery<Synset>(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), holonymID);
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.CausedBy", IsComposable=true)]
+		public IQueryable<Synset> CausedBy([global::System.Data.Linq.Mapping.ParameterAttribute(Name="CauserID", DbType="Int")] System.Nullable<int> causerID)
+		{
+			return this.CreateMethodCallQuery<Synset>(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), causerID);
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.CausesOf", IsComposable=true)]
+		public IQueryable<Synset> CausesOf([global::System.Data.Linq.Mapping.ParameterAttribute(Name="CausedID", DbType="Int")] System.Nullable<int> causedID)
+		{
+			return this.CreateMethodCallQuery<Synset>(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), causedID);
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.EntailedBy", IsComposable=true)]
+		public IQueryable<Synset> EntailedBy([global::System.Data.Linq.Mapping.ParameterAttribute(Name="EntailerID", DbType="Int")] System.Nullable<int> entailerID)
+		{
+			return this.CreateMethodCallQuery<Synset>(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), entailerID);
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.EntailersOf", IsComposable=true)]
+		public IQueryable<Synset> EntailersOf([global::System.Data.Linq.Mapping.ParameterAttribute(Name="EntailedID", DbType="Int")] System.Nullable<int> entailedID)
+		{
+			return this.CreateMethodCallQuery<Synset>(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), entailedID);
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.InstancesOf", IsComposable=true)]
+		public IQueryable<Synset> InstancesOf([global::System.Data.Linq.Mapping.ParameterAttribute(Name="TypeID", DbType="Int")] System.Nullable<int> typeID)
+		{
+			return this.CreateMethodCallQuery<Synset>(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), typeID);
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.TypesOf", IsComposable=true)]
+		public IQueryable<Synset> TypesOf([global::System.Data.Linq.Mapping.ParameterAttribute(Name="InstanceID", DbType="Int")] System.Nullable<int> instanceID)
+		{
+			return this.CreateMethodCallQuery<Synset>(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), instanceID);
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SatellitesOf", IsComposable=true)]
+		public IQueryable<Synset> SatellitesOf([global::System.Data.Linq.Mapping.ParameterAttribute(Name="HeadID", DbType="Int")] System.Nullable<int> headID)
+		{
+			return this.CreateMethodCallQuery<Synset>(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), headID);
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.ClusterHeadsOf", IsComposable=true)]
+		public IQueryable<Synset> ClusterHeadsOf([global::System.Data.Linq.Mapping.ParameterAttribute(Name="SatelliteID", DbType="Int")] System.Nullable<int> satelliteID)
+		{
+			return this.CreateMethodCallQuery<Synset>(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), satelliteID);
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.AttributesWithValue", IsComposable=true)]
+		public IQueryable<Synset> AttributesWithValue([global::System.Data.Linq.Mapping.ParameterAttribute(Name="ValueID", DbType="Int")] System.Nullable<int> valueID)
+		{
+			return this.CreateMethodCallQuery<Synset>(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), valueID);
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.ValuesOfAttribute", IsComposable=true)]
+		public IQueryable<Synset> ValuesOfAttribute([global::System.Data.Linq.Mapping.ParameterAttribute(Name="AttributeID", DbType="Int")] System.Nullable<int> attributeID)
+		{
+			return this.CreateMethodCallQuery<Synset>(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), attributeID);
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.WordSensesForSynset", IsComposable=true)]
+		public IQueryable<WordSense> WordSensesForSynset([global::System.Data.Linq.Mapping.ParameterAttribute(Name="SynsetID", DbType="Int")] System.Nullable<int> synsetID)
+		{
+			return this.CreateMethodCallQuery<WordSense>(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), synsetID);
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.DerivationsOf", IsComposable=true)]
+		public IQueryable<WordSense> DerivationsOf([global::System.Data.Linq.Mapping.ParameterAttribute(Name="SynsetID", DbType="Int")] System.Nullable<int> synsetID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="WordNumber", DbType="Int")] System.Nullable<int> wordNumber)
+		{
+			return this.CreateMethodCallQuery<WordSense>(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), synsetID, wordNumber);
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.PertainsTo", IsComposable=true)]
+		public IQueryable<WordSense> PertainsTo([global::System.Data.Linq.Mapping.ParameterAttribute(Name="SynsetID", DbType="Int")] System.Nullable<int> synsetID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="WordNumber", DbType="Int")] System.Nullable<int> wordNumber)
+		{
+			return this.CreateMethodCallQuery<WordSense>(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), synsetID, wordNumber);
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.PertainedBy", IsComposable=true)]
+		public IQueryable<WordSense> PertainedBy([global::System.Data.Linq.Mapping.ParameterAttribute(Name="SynsetID", DbType="Int")] System.Nullable<int> synsetID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="WordNumber", DbType="Int")] System.Nullable<int> wordNumber)
+		{
+			return this.CreateMethodCallQuery<WordSense>(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), synsetID, wordNumber);
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.AntonymsOf", IsComposable=true)]
+		public IQueryable<WordSense> AntonymsOf([global::System.Data.Linq.Mapping.ParameterAttribute(Name="SynsetID", DbType="Int")] System.Nullable<int> synsetID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="WordNumber", DbType="Int")] System.Nullable<int> wordNumber)
+		{
+			return this.CreateMethodCallQuery<WordSense>(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), synsetID, wordNumber);
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.PertainersOf", IsComposable=true)]
+		public IQueryable<WordSense> PertainersOf([global::System.Data.Linq.Mapping.ParameterAttribute(Name="SynsetID", DbType="Int")] System.Nullable<int> synsetID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="WordNumber", DbType="Int")] System.Nullable<int> wordNumber)
+		{
+			return this.CreateMethodCallQuery<WordSense>(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), synsetID, wordNumber);
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SeeAlso", IsComposable=true)]
+		public IQueryable<WordSense> SeeAlso([global::System.Data.Linq.Mapping.ParameterAttribute(Name="SynsetID", DbType="Int")] System.Nullable<int> synsetID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="WordNumber", DbType="Int")] System.Nullable<int> wordNumber)
+		{
+			return this.CreateMethodCallQuery<WordSense>(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), synsetID, wordNumber);
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.AdverbsDerivedFrom", IsComposable=true)]
+		public IQueryable<WordSense> AdverbsDerivedFrom([global::System.Data.Linq.Mapping.ParameterAttribute(Name="SynsetID", DbType="Int")] System.Nullable<int> synsetID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="WordNumber", DbType="Int")] System.Nullable<int> wordNumber)
+		{
+			return this.CreateMethodCallQuery<WordSense>(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), synsetID, wordNumber);
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SynsetsWithSenseMatchingWord", IsComposable=true)]
+		public IQueryable<Synset> SynsetsWithSenseMatchingWord([global::System.Data.Linq.Mapping.ParameterAttribute(Name="WordText", DbType="NVarChar(255)")] string wordText)
+		{
+			return this.CreateMethodCallQuery<Synset>(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), wordText);
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.ParticipleFormsOf", IsComposable=true)]
+		public IQueryable<WordSense> ParticipleFormsOf([global::System.Data.Linq.Mapping.ParameterAttribute(Name="SynsetID", DbType="Int")] System.Nullable<int> synsetID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="WordNumber", DbType="Int")] System.Nullable<int> wordNumber)
+		{
+			return this.CreateMethodCallQuery<WordSense>(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), synsetID, wordNumber);
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.BaseVerbFormsOfParticiple", IsComposable=true)]
+		public IQueryable<WordSense> BaseVerbFormsOfParticiple([global::System.Data.Linq.Mapping.ParameterAttribute(Name="SynsetID", DbType="Int")] System.Nullable<int> synsetID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="WordNumber", DbType="Int")] System.Nullable<int> wordNumber)
+		{
+			return this.CreateMethodCallQuery<WordSense>(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), synsetID, wordNumber);
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.TeleologyFor", IsComposable=true)]
+		public IQueryable<TeleologyForResult2> TeleologyFor([global::System.Data.Linq.Mapping.ParameterAttribute(Name="SynsetID", DbType="Int")] System.Nullable<int> synsetID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="WordNumber", DbType="Int")] System.Nullable<int> wordNumber)
+		{
+			return this.CreateMethodCallQuery<TeleologyForResult2>(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), synsetID, wordNumber);
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.VerbFramesForSynset", IsComposable=true)]
+		public IQueryable<VerbFramesForSynsetResult> VerbFramesForSynset([global::System.Data.Linq.Mapping.ParameterAttribute(Name="SynsetID", DbType="Int")] System.Nullable<int> synsetID)
+		{
+			return this.CreateMethodCallQuery<VerbFramesForSynsetResult>(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), synsetID);
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.VerbFramesForWordSense", IsComposable=true)]
+		public IQueryable<VerbFramesForWordSenseResult> VerbFramesForWordSense([global::System.Data.Linq.Mapping.ParameterAttribute(Name="SynsetID", DbType="Int")] System.Nullable<int> synsetID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="WordNumber", DbType="Int")] System.Nullable<int> wordNumber)
+		{
+			return this.CreateMethodCallQuery<VerbFramesForWordSenseResult>(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), synsetID, wordNumber);
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SynsetsInVerbGroupWith", IsComposable=true)]
+		public IQueryable<Synset> SynsetsInVerbGroupWith([global::System.Data.Linq.Mapping.ParameterAttribute(Name="SynsetID", DbType="Int")] System.Nullable<int> synsetID)
+		{
+			return this.CreateMethodCallQuery<Synset>(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), synsetID);
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.MorphosemanticRelationsFor", IsComposable=true)]
+		public IQueryable<MorphosemanticRelationsForResult> MorphosemanticRelationsFor([global::System.Data.Linq.Mapping.ParameterAttribute(Name="SynsetID", DbType="Int")] System.Nullable<int> synsetID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="WordNumber", DbType="Int")] System.Nullable<int> wordNumber)
+		{
+			return this.CreateMethodCallQuery<MorphosemanticRelationsForResult>(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), synsetID, wordNumber);
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.AdjectivesBasesOfDerivedAdverb", IsComposable=true)]
+		public IQueryable<WordSense> AdjectivesBasesOfDerivedAdverb([global::System.Data.Linq.Mapping.ParameterAttribute(Name="SynsetID", DbType="Int")] System.Nullable<int> synsetID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="WordNumber", DbType="Int")] System.Nullable<int> wordNumber)
+		{
+			return this.CreateMethodCallQuery<WordSense>(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), synsetID, wordNumber);
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SyntaxOfAdjective", IsComposable=true)]
+		public IQueryable<SyntaxOfAdjectiveResult> SyntaxOfAdjective([global::System.Data.Linq.Mapping.ParameterAttribute(Name="SynsetID", DbType="Int")] System.Nullable<int> synsetID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="WordNumber", DbType="Int")] System.Nullable<int> wordNumber)
+		{
+			return this.CreateMethodCallQuery<SyntaxOfAdjectiveResult>(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), synsetID, wordNumber);
 		}
 	}
 	
@@ -221,7 +389,7 @@ namespace WordNet.Linq
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tblSenses")]
-	public partial class Sense : INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class WordSense : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -260,7 +428,7 @@ namespace WordNet.Linq
     partial void OnTagCountChanged();
     #endregion
 		
-		public Sense()
+		public WordSense()
 		{
 			OnCreated();
 		}
@@ -422,6 +590,280 @@ namespace WordNet.Linq
 			if ((this.PropertyChanged != null))
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	public partial class TeleologyForResult2
+	{
+		
+		private string _SourceWordText;
+		
+		private char _SourcePOS;
+		
+		private string _Relation;
+		
+		private string _TelosWordText;
+		
+		private char _TelosPOS;
+		
+		public TeleologyForResult2()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SourceWordText", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string SourceWordText
+		{
+			get
+			{
+				return this._SourceWordText;
+			}
+			set
+			{
+				if ((this._SourceWordText != value))
+				{
+					this._SourceWordText = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SourcePOS", DbType="NChar(1) NOT NULL")]
+		public char SourcePOS
+		{
+			get
+			{
+				return this._SourcePOS;
+			}
+			set
+			{
+				if ((this._SourcePOS != value))
+				{
+					this._SourcePOS = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Relation", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Relation
+		{
+			get
+			{
+				return this._Relation;
+			}
+			set
+			{
+				if ((this._Relation != value))
+				{
+					this._Relation = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TelosWordText", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string TelosWordText
+		{
+			get
+			{
+				return this._TelosWordText;
+			}
+			set
+			{
+				if ((this._TelosWordText != value))
+				{
+					this._TelosWordText = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TelosPOS", DbType="NChar(1) NOT NULL")]
+		public char TelosPOS
+		{
+			get
+			{
+				return this._TelosPOS;
+			}
+			set
+			{
+				if ((this._TelosPOS != value))
+				{
+					this._TelosPOS = value;
+				}
+			}
+		}
+	}
+	
+	public partial class VerbFramesForSynsetResult
+	{
+		
+		private string _VerbFrame;
+		
+		public VerbFramesForSynsetResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_VerbFrame", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string VerbFrame
+		{
+			get
+			{
+				return this._VerbFrame;
+			}
+			set
+			{
+				if ((this._VerbFrame != value))
+				{
+					this._VerbFrame = value;
+				}
+			}
+		}
+	}
+	
+	public partial class VerbFramesForWordSenseResult
+	{
+		
+		private string _VerbFrame;
+		
+		public VerbFramesForWordSenseResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_VerbFrame", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string VerbFrame
+		{
+			get
+			{
+				return this._VerbFrame;
+			}
+			set
+			{
+				if ((this._VerbFrame != value))
+				{
+					this._VerbFrame = value;
+				}
+			}
+		}
+	}
+	
+	public partial class MorphosemanticRelationsForResult
+	{
+		
+		private string _SourceWordText;
+		
+		private char _SourcePOS;
+		
+		private string _Relation;
+		
+		private string _TargetWordText;
+		
+		private char _TargetPOS;
+		
+		public MorphosemanticRelationsForResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SourceWordText", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string SourceWordText
+		{
+			get
+			{
+				return this._SourceWordText;
+			}
+			set
+			{
+				if ((this._SourceWordText != value))
+				{
+					this._SourceWordText = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SourcePOS", DbType="NChar(1) NOT NULL")]
+		public char SourcePOS
+		{
+			get
+			{
+				return this._SourcePOS;
+			}
+			set
+			{
+				if ((this._SourcePOS != value))
+				{
+					this._SourcePOS = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Relation", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Relation
+		{
+			get
+			{
+				return this._Relation;
+			}
+			set
+			{
+				if ((this._Relation != value))
+				{
+					this._Relation = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TargetWordText", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string TargetWordText
+		{
+			get
+			{
+				return this._TargetWordText;
+			}
+			set
+			{
+				if ((this._TargetWordText != value))
+				{
+					this._TargetWordText = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TargetPOS", DbType="NChar(1) NOT NULL")]
+		public char TargetPOS
+		{
+			get
+			{
+				return this._TargetPOS;
+			}
+			set
+			{
+				if ((this._TargetPOS != value))
+				{
+					this._TargetPOS = value;
+				}
+			}
+		}
+	}
+	
+	public partial class SyntaxOfAdjectiveResult
+	{
+		
+		private string _SyntaxCode;
+		
+		public SyntaxOfAdjectiveResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SyntaxCode", DbType="NVarChar(2) NOT NULL", CanBeNull=false)]
+		public string SyntaxCode
+		{
+			get
+			{
+				return this._SyntaxCode;
+			}
+			set
+			{
+				if ((this._SyntaxCode != value))
+				{
+					this._SyntaxCode = value;
+				}
 			}
 		}
 	}

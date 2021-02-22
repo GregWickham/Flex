@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using GraphX.Common.Models;
 using GraphX.Controls;
+using WordNet.Linq;
 
 namespace FlexibleRealization.UserInterface.ViewModels
 {
@@ -26,10 +27,10 @@ namespace FlexibleRealization.UserInterface.ViewModels
         /// <summary>Respond as appropriate to <paramref name="node"/> being dropped on this, and return true if successful.</summary>
         internal abstract bool AcceptDrop_OfIElementTreeNode(IElementTreeNode node, DragDropEffects effects, int insertPoint);
 
-        internal abstract bool CanAcceptDrop_OfSynset(int synsetID);
+        internal abstract bool CanAcceptDrop_OfSynset(Synset synset);
 
-        /// <summary>Respond as appropriate to the synset with ID <paramref name="synsetID"/> being dropped on this, and return true if successful.</summary>
-        internal bool AcceptDrop_OfSynset(int synsetID) => true;
+        /// <summary>Respond as appropriate to <paramref name="synset"/> being dropped on this, and return true if successful.</summary>
+        internal bool AcceptDrop_OfSynset(Synset synset) => true;
 
         private protected static readonly Thickness ToolTipBorderThickness = new Thickness(2);
         private protected static readonly CornerRadius ToolTipCornerRadius = new CornerRadius(8);

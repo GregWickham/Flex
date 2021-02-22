@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using GraphX.Controls;
 using GraphX.Controls.Models;
+using WordNet.Linq;
 
 namespace FlexibleRealization.UserInterface.ViewModels
 {
@@ -16,7 +17,7 @@ namespace FlexibleRealization.UserInterface.ViewModels
 
     public delegate void SelectedNodeChanged_EventHandler();
 
-    public delegate void SynsetBoundToNode_EventHandler(IElementTreeNode boundNode, int boundSynsetID);
+    public delegate void SynsetBoundToNode_EventHandler(IElementTreeNode boundNode, Synset boundSynset);
 
     public class ElementBuilderGraphArea : GraphArea<ElementVertex, ElementEdge, ElementBuilderGraph>
     {
@@ -38,7 +39,7 @@ namespace FlexibleRealization.UserInterface.ViewModels
         private void OnSelectedNodeChanged() => SelectedNodeChanged?.Invoke();
 
         internal event SynsetBoundToNode_EventHandler SynsetBoundToNode;
-        private void OnSynsetBoundToNode(IElementTreeNode boundNode, int boundSynsetID) => SynsetBoundToNode?.Invoke(boundNode, boundSynsetID);
+        private void OnSynsetBoundToNode(IElementTreeNode boundNode, Synset synset) => SynsetBoundToNode?.Invoke(boundNode, synset);
 
         #endregion Events
 
@@ -394,11 +395,11 @@ namespace FlexibleRealization.UserInterface.ViewModels
         #region Drag / Drop of Synsets
 
         /// <summary>Configure the appropriate vertexes to be drop targets for the Synset with ID <paramref name="synsetID"/>.</summary>
-        internal void SetDropTargets_ForSynset(int synsetID)
+        internal void SetDropTargets_ForSynset(Synset synset)
         {
             foreach (KeyValuePair<ElementVertex, VertexControl> eachKVP in VertexList)
             {
-                if (eachKVP.Key.CanAcceptDrop_OfSynset(synsetID))
+                if (eachKVP.Key.CanAcceptDrop_OfSynset(synset))
                 {
                     eachKVP.Value.AllowDrop = true;
                     eachKVP.Value.DragEnter += VertexDropTarget_DragEnter_WithSynset;
@@ -448,10 +449,10 @@ namespace FlexibleRealization.UserInterface.ViewModels
             ElementVertex targetVertex = (ElementVertex)dropTarget.Vertex;
             if (targetVertex != null && VertexList.ContainsKey(targetVertex))
             {
-                if (e.Data.GetDataPresent(typeof(int)))
+                if (e.Data.GetDataPresent(typeof(Synset)))
                 {
-                    int droppedSynsetID = (int)e.Data.GetData(typeof(int));
-                    if (targetVertex.AcceptDrop_OfSynset(droppedSynsetID))
+                    Synset droppedSynset = (Synset)e.Data.GetData(typeof(Synset));
+                    if (targetVertex.AcceptDrop_OfSynset(droppedSynset))
                     {
                         IElementTreeNode targetNode = targetVertex switch
                         {
@@ -461,7 +462,7 @@ namespace FlexibleRealization.UserInterface.ViewModels
                         if (targetNode != null)
                         {
                             SetSelectedNode(targetNode);
-                            OnSynsetBoundToNode(targetNode, droppedSynsetID);
+                            OnSynsetBoundToNode(targetNode, droppedSynset);
                         }
                     }
                 }

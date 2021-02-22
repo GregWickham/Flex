@@ -7,6 +7,7 @@ using FlexibleRealization;
 using Flex.Database;
 using Flex.Database.UserInterface;
 using Flex.UserInterface.ViewModels;
+using WordNet.Linq;
 using WordNet.UserInterface;
 using System.Windows.Media.Imaging;
 
@@ -117,67 +118,35 @@ namespace Flex.UserInterface
         /// <summary>When the user changes a setting for the WordNet server, save its settings.</summary>
         private void WordNet_SettingChanged(object sender, System.Windows.Controls.TextChangedEventArgs e) => WordNet.Linq.Properties.Settings.Default.Save();
 
-        /// <summary>The user wants to browse WordNet.</summary>
+        /// <summary>The user wants to browse WordNet synsets.</summary>
         private void BrowseWordNetMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            WordNetBrowserWindow wordNetBrowserWindow = new WordNetBrowserWindow();
-            wordNetBrowserWindow.Closing += WordNetBrowserWindow_Closing;
-            wordNetBrowserWindow.SynsetDragStarted += TreeEditor.OnSynsetDragStarted;
-            wordNetBrowserWindow.SynsetDragCancelled += TreeEditor.OnSynsetDragCancelled;
-            wordNetBrowserWindow.SynsetDropCompleted += TreeEditor.OnSynsetDropCompleted;
-            wordNetBrowserWindow.Show();
-        }
-
-        /// <summary>A WordNet browser window is closing.</summary>
-        private void WordNetBrowserWindow_Closing(object sender, CancelEventArgs e)
-        {
-            WordNetBrowserWindow wordNetBrowserWindow = (WordNetBrowserWindow)sender;
-            wordNetBrowserWindow.Closing -= WordNetBrowserWindow_Closing;
-            wordNetBrowserWindow.SynsetDragStarted -= TreeEditor.OnSynsetDragStarted;
-            wordNetBrowserWindow.SynsetDragCancelled -= TreeEditor.OnSynsetDragCancelled;
-            wordNetBrowserWindow.SynsetDropCompleted -= TreeEditor.OnSynsetDropCompleted;
+            new WordNetBrowserWindow(
+                TreeEditor.OnSynsetDragStarted,
+                TreeEditor.OnSynsetDragCancelled,
+                TreeEditor.OnSynsetDropCompleted,
+                null, null, null)
+            .Show();
         }
 
         /// <summary>The user wants to browse words in the Flex Database</summary>
         private void BrowseWordsMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            FlexDB_WordsBrowserWindow wordBrowserWindow = new FlexDB_WordsBrowserWindow();
-            wordBrowserWindow.Closing += WordBrowserWindow_Closing;
-            wordBrowserWindow.ElementDragStarted += TreeEditor.OnElementDragStarted;
-            wordBrowserWindow.ElementDragCancelled += TreeEditor.OnElementDragCancelled;
-            wordBrowserWindow.ElementDropCompleted += TreeEditor.OnElementDropCompleted;
-            wordBrowserWindow.Show();
-        }
-
-        /// <summary>A database words browser window is closing. </summary>
-        private void WordBrowserWindow_Closing(object sender, CancelEventArgs e)
-        {
-            FlexDB_WordsBrowserWindow wordBrowserWindow = (FlexDB_WordsBrowserWindow)sender;
-            wordBrowserWindow.Closing -= WordBrowserWindow_Closing;
-            wordBrowserWindow.ElementDragStarted -= TreeEditor.OnElementDragStarted;
-            wordBrowserWindow.ElementDragCancelled -= TreeEditor.OnElementDragCancelled;
-            wordBrowserWindow.ElementDropCompleted -= TreeEditor.OnElementDropCompleted;
+            new FlexDB_WordsBrowserWindow(
+                TreeEditor.OnElementDragStarted,
+                TreeEditor.OnElementDragCancelled,
+                TreeEditor.OnElementDropCompleted)
+            .Show();
         }
 
         /// <summary>The user wants to browse words in the Flex Database</summary>
         private void BrowseParentsMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            FlexDB_ParentsBrowserWindow parentBrowserWindow = new FlexDB_ParentsBrowserWindow();
-            parentBrowserWindow.Closing += ParentBrowserWindow_Closing;
-            parentBrowserWindow.ElementDragStarted += TreeEditor.OnElementDragStarted;
-            parentBrowserWindow.ElementDragCancelled += TreeEditor.OnElementDragCancelled;
-            parentBrowserWindow.ElementDropCompleted += TreeEditor.OnElementDropCompleted;
-            parentBrowserWindow.Show();
-        }
-
-        /// <summary>A database parents browser window is closing. </summary>
-        private void ParentBrowserWindow_Closing(object sender, CancelEventArgs e)
-        {
-            FlexDB_ParentsBrowserWindow parentBrowserWindow = (FlexDB_ParentsBrowserWindow)sender;
-            parentBrowserWindow.Closing -= ParentBrowserWindow_Closing;
-            parentBrowserWindow.ElementDragStarted -= TreeEditor.OnElementDragStarted;
-            parentBrowserWindow.ElementDragCancelled -= TreeEditor.OnElementDragCancelled;
-            parentBrowserWindow.ElementDropCompleted -= TreeEditor.OnElementDropCompleted;
+            new FlexDB_ParentsBrowserWindow(
+                TreeEditor.OnElementDragStarted,
+                TreeEditor.OnElementDragCancelled,
+                TreeEditor.OnElementDropCompleted)
+            .Show();
         }
 
         /// <summary>When the user changes a setting for the WordNet server, save its settings</summary>
@@ -227,10 +196,10 @@ namespace Flex.UserInterface
 
         /// <summary>This event handler is called when the TreeEditor wants to bind a synset to an IElementTreeNode.</summary>
         /// <remarks>The actual creation of the binding is delegated to the BoundSynsetsControl.</remarks>
-        private void TreeEditor_SynsetBoundToNode(IElementTreeNode boundNode, int boundSynsetID)
+        private void TreeEditor_SynsetBoundToNode(IElementTreeNode boundNode, Synset boundSynset)
         {
             ExpandCollapseSynsetBindingsButton.IsChecked = false;
-            BoundSynsets.BindSynsetToNode(boundNode, boundSynsetID);
+            BoundSynsets.BindSynsetToNode(boundNode, boundSynset);
         }
 
         private void ExpandCollapseSynsetsButton_Checked(object sender, RoutedEventArgs e) { if (ExpandCollapseSynsetBindingsImage != null) ExpandCollapseSynsetBindingsImage.Source = ChevronDownImage; }

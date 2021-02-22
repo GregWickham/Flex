@@ -5,7 +5,7 @@ namespace WordNet.Linq
 {
     public static class Senses
     {
-        public static IEnumerable<Sense> ForWord(string word) => WordNetData.Context.Senses
+        public static IEnumerable<WordSense> ForWord(string word) => WordNetData.Context.WordSenses
             .Where(sense => sense.WordText.Equals(word));
     }
 }

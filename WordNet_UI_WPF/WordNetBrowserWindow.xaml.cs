@@ -1,10 +1,9 @@
-﻿using System.Windows;
-using System.Windows.Input;
-using System.Threading.Tasks;
-using FlexibleRealization;
+﻿using System;
+using System.ComponentModel;
+using System.Reflection;
+using System.Windows;
+using System.Windows.Media.Imaging;
 using WordNet.Linq;
-using WordNet.UserInterface.ViewModels;
-using System;
 
 namespace WordNet.UserInterface
 {
@@ -16,171 +15,147 @@ namespace WordNet.UserInterface
             InitializeComponent();
         }
 
+        public WordNetBrowserWindow(
+            SynsetDragStarted_EventHandler synsetDragStartedHandler, 
+            SynsetDragCancelled_EventHandler synsetDragCancelledHandler,
+            SynsetDropCompleted_EventHandler synsetDropCompletedHandler,
+            WordSenseDragStarted_EventHandler wordSenseDragStartedHandler,
+            WordSenseDragCancelled_EventHandler wordSenseDragCancelledHandler,
+            WordSenseDropCompleted_EventHandler wordSenseDropCompletedHandler)
+        {
+            InitializeComponent();
+            // Hook up external event handlers supplied to the constructor, and keep track of them
+            if (synsetDragStartedHandler != null)
+            {
+                SynsetDragStarted += synsetDragStartedHandler;
+                External_SynsetDragStarted_EventHandler = synsetDragStartedHandler;
+            }
+            if (synsetDragCancelledHandler != null)
+            {
+                SynsetDragCancelled += synsetDragCancelledHandler;
+                External_SynsetDragCancelled_EventHandler = synsetDragCancelledHandler;
+            }
+            if (synsetDragStartedHandler != null)
+            {
+                SynsetDragStarted += synsetDragStartedHandler;
+                External_SynsetDropCompleted_EventHandler = synsetDropCompletedHandler;
+            }
+            if (wordSenseDragStartedHandler != null)
+            {
+                WordSenseDragStarted += wordSenseDragStartedHandler;
+                External_WordSenseDragStarted_EventHandler = wordSenseDragStartedHandler;
+            }
+            if (wordSenseDragCancelledHandler != null)
+            {
+                WordSenseDragCancelled += wordSenseDragCancelledHandler;
+                External_WordSenseDragCancelled_EventHandler = wordSenseDragCancelledHandler;
+            }
+            if (wordSenseDragStartedHandler != null)
+            {
+                WordSenseDropCompleted += wordSenseDropCompletedHandler;
+                External_WordSenseDropCompleted_EventHandler = wordSenseDropCompletedHandler;
+            }
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            base.OnClosing(e);
+            if (External_SynsetDragStarted_EventHandler != null) SynsetDragStarted -= External_SynsetDragStarted_EventHandler;
+            if (External_SynsetDragCancelled_EventHandler != null) SynsetDragCancelled -= External_SynsetDragCancelled_EventHandler;
+            if (External_SynsetDropCompleted_EventHandler != null) SynsetDropCompleted -= External_SynsetDropCompleted_EventHandler;
+            if (External_WordSenseDragStarted_EventHandler != null) WordSenseDragStarted -= External_WordSenseDragStarted_EventHandler;
+            if (External_WordSenseDragCancelled_EventHandler != null) WordSenseDragCancelled -= External_WordSenseDragCancelled_EventHandler;
+            if (External_WordSenseDropCompleted_EventHandler != null) WordSenseDropCompleted -= External_WordSenseDropCompleted_EventHandler;
+        }
+
+        #region External event handlers that can optionally be attached on construction of this Window
+
+        private SynsetDragStarted_EventHandler External_SynsetDragStarted_EventHandler;
+        private SynsetDragCancelled_EventHandler External_SynsetDragCancelled_EventHandler;
+        private SynsetDropCompleted_EventHandler External_SynsetDropCompleted_EventHandler;
+        private WordSenseDragStarted_EventHandler External_WordSenseDragStarted_EventHandler;
+        private WordSenseDragCancelled_EventHandler External_WordSenseDragCancelled_EventHandler;
+        private WordSenseDropCompleted_EventHandler External_WordSenseDropCompleted_EventHandler;
+
+        #endregion External event handlers that can optionally be attached on construction of this Window
+
+        #region Events
+
         public event SynsetDragStarted_EventHandler SynsetDragStarted;
-        private void OnSynsetDragStarted(int draggedSynsetID) => SynsetDragStarted?.Invoke(draggedSynsetID);
-
-
         public event SynsetDragCancelled_EventHandler SynsetDragCancelled;
-        private void OnSynsetDragCancelled(int draggedSynsetID) => SynsetDragCancelled?.Invoke(draggedSynsetID);
-
-
         public event SynsetDropCompleted_EventHandler SynsetDropCompleted;
-        private void OnSynsetDropCompleted(int draggedSynsetID) => SynsetDropCompleted?.Invoke(draggedSynsetID);
 
+        public event WordSenseDragStarted_EventHandler WordSenseDragStarted;
+        public event WordSenseDragCancelled_EventHandler WordSenseDragCancelled;
+        public event WordSenseDropCompleted_EventHandler WordSenseDropCompleted;
 
-        private void Window_Loaded(object sender, RoutedEventArgs e) => DataContext = new AvailableSynsetsViewModel();
+        #endregion Events
 
+        #region Control Event Handlers
 
-        #region Synset Navigation
+        private void SynsetNavigator_SynsetDragStarted(Synset synset) => SynsetDragStarted?.Invoke(synset);
+        private void SynsetNavigator_SynsetDragCancelled(Synset synset) => SynsetDragCancelled?.Invoke(synset);
+        private void SynsetNavigator_SynsetDropCompleted(Synset synset) => SynsetDropCompleted?.Invoke(synset);
 
-        private Synset NavigatorCurrentSynset => (Synset)SynsetNavigator.DataContext;
-
-
-        private Synset SelectedHypernym => (Synset)HypernymsList.SelectedItem;
-        private void HypernymsList_MouseDoubleClick(object sender, MouseButtonEventArgs e) => SynsetNavigator.DataContext = SelectedHypernym;
-
-
-        private Synset SelectedHyponym => (Synset)HyponymsList.SelectedItem;
-        private void HyponymsList_MouseDoubleClick(object sender, MouseButtonEventArgs e) => SynsetNavigator.DataContext = SelectedHyponym;
-
-
-        private Synset SelectedHolonym => (Synset)HolonymsList.SelectedItem;
-        private void HolonymsList_MouseDoubleClick(object sender, MouseButtonEventArgs e) => SynsetNavigator.DataContext = SelectedHolonym;
-
-
-        private Synset SelectedMeronym => (Synset)MeronymsList.SelectedItem;
-        private void MeronymsList_MouseDoubleClick(object sender, MouseButtonEventArgs e) => SynsetNavigator.DataContext = SelectedMeronym;
-
-
-        #endregion Synset Navigation
-
-
-        #region Available Synsets
-
-        private AvailableSynsetsViewModel ViewModel => (AvailableSynsetsViewModel)DataContext;
-
-        private void LookupWordTextBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e) { if (e.Key == Key.Return) LookupEnteredWord(); }
-
-        private void LookupEnteredWord()
+        private void WordToSynsetSelector_SynsetSelected(Synset synset)
         {
-            if ((bool)AnyRadioButton.IsChecked) ViewModel.LookupSynsetsMatching(LookupWordTextBox.Text);
-            else ViewModel.LookupSynsetsMatching(LookupWordTextBox.Text, SelectedPartOfSpeech);
-
+            SynsetNavigator.Visibility = Visibility.Visible;
+            ExpandCollapseWordFinderButton.IsChecked = false;
+            OnSelectedSynsetChanged(synset);
         }
 
-        private char SelectedPartOfSpeech
+        private void SynsetNavigator_SynsetSelected(Synset synset) => OnSelectedSynsetChanged(synset);
+
+        private void OnSelectedSynsetChanged(Synset selectedSynset)
         {
-            get
-            {
-                if ((bool)NounRadioButton.IsChecked) return 'n';
-                else if ((bool)VerbRadioButton.IsChecked) return 'v';
-                else if ((bool)AdjectiveRadioButton.IsChecked) return 'a';
-                else return 'r';
-            }
+            SynsetNavigator.CurrentSynset = selectedSynset;
+            WordSensesControl.CurrentSynset = selectedSynset;
         }
 
-        private void LookupSynsetsFor(IElementTreeNode node)
+        #endregion Control Event Handlers
+
+        #region Menu and Toolbar
+
+        private void NewWindowMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (node is WordElementBuilder wordBuilder)
-            {
-                switch (wordBuilder)
-                {
-                    case NounBuilder noun:
-                        LookupWordTextBox.Text = noun.WordSource.DefaultWord;
-                        NounRadioButton.IsChecked = true;
-                        ViewModel.LookupSynsetsMatching(noun);
-                        break;
-                    case VerbBuilder verb:
-                        LookupWordTextBox.Text = verb.WordSource.DefaultWord;
-                        VerbRadioButton.IsChecked = true;
-                        ViewModel.LookupSynsetsMatching(verb);
-                        break;
-                    case AdjectiveBuilder adjective:
-                        LookupWordTextBox.Text = adjective.WordSource.DefaultWord;
-                        AdjectiveRadioButton.IsChecked = true;
-                        ViewModel.LookupSynsetsMatching(adjective);
-                        break;
-                    case AdverbBuilder adverb:
-                        LookupWordTextBox.Text = adverb.WordSource.DefaultWord;
-                        AdverbRadioButton.IsChecked = true;
-                        ViewModel.LookupSynsetsMatching(adverb);
-                        break;
-                }
-            }
+            // Duplicate the external events handlers from this window to the new window.
+            new WordNetBrowserWindow(
+                External_SynsetDragStarted_EventHandler,
+                External_SynsetDragCancelled_EventHandler,
+                External_SynsetDropCompleted_EventHandler,
+                External_WordSenseDragStarted_EventHandler,
+                External_WordSenseDragCancelled_EventHandler,
+                External_WordSenseDropCompleted_EventHandler)
+            .Show();
         }
 
-        private Synset SelectedSynsetMatchingWord => (Synset)SynsetsMatchingWordList.SelectedItem;
-
-        private void SynsetsMatchingWordList_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e) => UsageExamplesList.DataContext = SelectedSynsetMatchingWord;
-
-        private void SynsetsMatchingWordList_MouseDoubleClick(object sender, MouseButtonEventArgs e) => SynsetNavigator.DataContext = SelectedSynsetMatchingWord;
-
-
-        #region Drag / Drop of IElementTreeNode onto WordLookup
-
-        private void WordLookup_DragEnter(object sender, DragEventArgs e)
-        {
-            e.Effects = DragDropEffects.Link;
-            e.Handled = true;
+        private void ExpandCollapseWordFinderButton_Checked(object sender, RoutedEventArgs e) 
+        { 
+            if (ExpandCollapseWordFinderImage != null) ExpandCollapseWordFinderImage.Source = ChevronUpImage;
+            if (ExpandCollapseWordFinderTextBlock != null) ExpandCollapseWordFinderTextBlock.Text = "Hide synset from word finder";
+        }
+        private void ExpandCollapseWordFinderButton_Unchecked(object sender, RoutedEventArgs e) 
+        { 
+            if (ExpandCollapseWordFinderImage != null) ExpandCollapseWordFinderImage.Source = ChevronDownImage;
+            if (ExpandCollapseWordFinderTextBlock != null) ExpandCollapseWordFinderTextBlock.Text = "Find synset from word";
+        }
+        private void ExpandCollapseWordSensesButton_Checked(object sender, RoutedEventArgs e) 
+        { 
+            if (ExpandCollapseWordSensesImage != null) ExpandCollapseWordSensesImage.Source = ChevronLeftImage;
+            if (ExpandCollapseWordSensesTextBlock != null) ExpandCollapseWordSensesTextBlock.Text = "Hide word senses";
+        }
+        private void ExpandCollapseWordSensesButton_Unchecked(object sender, RoutedEventArgs e) 
+        { 
+            if (ExpandCollapseWordSensesImage != null) ExpandCollapseWordSensesImage.Source = ChevronRightImage;
+            if (ExpandCollapseWordSensesTextBlock != null) ExpandCollapseWordSensesTextBlock.Text = "Show word senses";
         }
 
-        private async void WordLookup_Drop(object sender, DragEventArgs e)
-        {
-            IElementTreeNode droppedNode = null;
-            // We could get a dropped IElementTree node in one of two forms:
-            // 1.  It's in the IDataObject as an IElementTreeNode, ready to use; or
-            // 2.  It's in the IDataObject as a Task<ElementBuilder> that we can run to get the IElementTreeNode
-            if (e.Data.GetDataPresent(typeof(IElementTreeNode)))
-            {
-                droppedNode = (IElementTreeNode)e.Data.GetData(typeof(IElementTreeNode));
-            }
-            else if (e.Data.GetDataPresent(typeof(Task)))
-            {
-                Task<ElementBuilder> getElementBuilderTask = (Task<ElementBuilder>)e.Data.GetData(typeof(Task));
-                droppedNode = await getElementBuilderTask;
-            }
-            if (droppedNode != null) LookupSynsetsFor(droppedNode); 
-        }
+        private static readonly BitmapImage ChevronDownImage = new BitmapImage(new Uri("./Resources/Images/Chevron_Down.png", UriKind.Relative));
+        private static readonly BitmapImage ChevronUpImage = new BitmapImage(new Uri("./Resources/Images/Chevron_Up.png", UriKind.Relative));
+        private static readonly BitmapImage ChevronLeftImage = new BitmapImage(new Uri("./Resources/Images/Chevron_Left.png", UriKind.Relative));
+        private static readonly BitmapImage ChevronRightImage = new BitmapImage(new Uri("./Resources/Images/Chevron_Right.png", UriKind.Relative));
 
-
-        #endregion Drag / Drop of IElementTreeNode onto WordLookup        
-
-        #region Drag / Drop of Synsets from this window
-
-        private Point mouseDownPosition;
-        private void CurrentSynsetTextBlock_MouseDown(object sender, MouseButtonEventArgs e) => mouseDownPosition = e.GetPosition(this);
-
-        private void CurrentSynsetTextBlock_MouseMove(object sender, MouseEventArgs e)
-        {
-            base.OnMouseMove(e);
-            Point currentMousePosition = e.GetPosition(this);
-            Vector mouseDownDistanceMoved = mouseDownPosition - currentMousePosition;
-            if (e.LeftButton == MouseButtonState.Pressed &&
-                (Math.Abs(mouseDownDistanceMoved.X) > SystemParameters.MinimumHorizontalDragDistance || Math.Abs(mouseDownDistanceMoved.Y) > SystemParameters.MinimumVerticalDragDistance))
-            {
-                if (NavigatorCurrentSynset != null)
-                {
-                    OnSynsetDragStarted(NavigatorCurrentSynset.ID);
-                    DataObject dataObject = new DataObject();
-                    dataObject.SetData(typeof(int), NavigatorCurrentSynset.ID);
-                    DragDropEffects dragResult = DragDrop.DoDragDrop(this, dataObject, DragDropEffects.Link | DragDropEffects.None);
-                    switch (dragResult)
-                    {
-                        case DragDropEffects.None:
-                            OnSynsetDragCancelled(NavigatorCurrentSynset.ID);
-                            break;
-                        case DragDropEffects.Link:
-                            OnSynsetDropCompleted(NavigatorCurrentSynset.ID);
-                            break;
-                        default: break;
-                    }
-                }
-            }
-        }
-
-        #endregion Drag / Drop of Synsets from this window
-
-        #endregion Available Synsets
+        #endregion Menu and Toolbar
 
     }
 }

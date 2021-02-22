@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Threading.Tasks;
 using FlexibleRealization;
+using WordNet.Linq;
 using Flex.Database;
 using Flex.UserInterface.ViewModels;
 
@@ -21,7 +19,7 @@ namespace Flex.UserInterface
 
         public IElementTreeNode Element { set => ViewModel.ElementFilter = value; }
 
-        public void BindSynsetToNode(IElementTreeNode boundNode, int boundSynsetID) => ViewModel.AddBinding(boundNode, boundSynsetID);
+        public void BindSynsetToNode(IElementTreeNode boundNode, Synset boundSynset) => ViewModel.AddBinding(boundNode, boundSynset);
 
         public void LoadBindingsFor(IElementTreeNode tree) => ViewModel.LoadBindingsFor(tree);
 

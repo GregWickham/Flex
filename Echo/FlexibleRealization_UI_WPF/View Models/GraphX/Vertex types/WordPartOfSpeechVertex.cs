@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using WordNet.Linq;
 
 namespace FlexibleRealization.UserInterface.ViewModels
 {
@@ -32,7 +33,7 @@ namespace FlexibleRealization.UserInterface.ViewModels
             return true;
         }
 
-        internal override bool CanAcceptDrop_OfSynset(int synsetID) => true;
+        internal override bool CanAcceptDrop_OfSynset(Synset synset) => true;
 
         /// <summary>Construct and return a UIElement with content based on the Model of this view model.</summary>
         public override UIElement ToolTipContent

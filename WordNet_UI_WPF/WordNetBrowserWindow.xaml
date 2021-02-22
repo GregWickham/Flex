@@ -5,125 +5,76 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WordNet.UserInterface"
         mc:Ignorable="d"
-        Title="WordNet Browser" Height="500" Width="800" Loaded="Window_Loaded">
+        Title="WordNet Browser" Height="600" Width="900">
     
+    <Window.Resources>
+        <Style x:Key="WordFinderStyle" TargetType="local:WordToSynsetSelectorControl">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=ExpandCollapseWordFinderButton, Path=IsChecked}" Value="True">
+                    <Setter Property="Visibility" Value="Visible" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=ExpandCollapseWordFinderButton, Path=IsChecked}" Value="False">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="WordSensesStyle" TargetType="local:WordSensesForSynsetControl">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=ExpandCollapseWordSensesButton, Path=IsChecked}" Value="True">
+                    <Setter Property="Visibility" Value="Visible" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=ExpandCollapseWordSensesButton, Path=IsChecked}" Value="False">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="125"/>
-        </Grid.RowDefinitions>
-        
-        <Grid Grid.Row="0" Name="SynsetNavigator">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Border Grid.Row="0" BorderBrush="LightGray" BorderThickness="2" HorizontalAlignment="Center">
-                <TextBlock Name="CurrentSynsetTextBlock" Margin="12 4 12 4" Text="{Binding Path=GlossWithoutExamples, IsAsync=True}" FontSize="14" FontWeight="Bold" HorizontalAlignment="Center"
-                       MouseDown="CurrentSynsetTextBlock_MouseDown" MouseMove="CurrentSynsetTextBlock_MouseMove"/>
-            </Border>
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+            <DockPanel>
+                <Menu DockPanel.Dock="Left">
+                    <MenuItem Header="Window">
+                        <MenuItem Header="New Window" Click="NewWindowMenuItem_Click"/>
+                    </MenuItem>
+                </Menu>
+                <Menu DockPanel.Dock="Right" FlowDirection="RightToLeft" FontSize="12" Background="White" Height="24">
+                    <ToggleButton Margin="0 0 0 0" VerticalAlignment="Center" Name="ExpandCollapseWordSensesButton" Background="Transparent" IsChecked="False" BorderBrush="Gray"
+                                    Checked="ExpandCollapseWordSensesButton_Checked" Unchecked="ExpandCollapseWordSensesButton_Unchecked">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Width="14" Height="12" Name="ExpandCollapseWordSensesImage" HorizontalAlignment="Center" VerticalAlignment="Center" Source="./Resources/Images/Chevron_Right.png"/>
+                            <TextBlock Text="Show word senses" Margin="4 0 4 0" Name="ExpandCollapseWordSensesTextBlock"/>
+                        </StackPanel>
+                    </ToggleButton>
+                    <ToggleButton Margin="0 0 0 0" VerticalAlignment="Center" Name="ExpandCollapseWordFinderButton" Background="Transparent" IsChecked="True" BorderBrush="Gray"
+                                    Checked="ExpandCollapseWordFinderButton_Checked" Unchecked="ExpandCollapseWordFinderButton_Unchecked">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Find synset from word" Margin="4 0 4 0" Name="ExpandCollapseWordFinderTextBlock"/>
+                            <Image Width="18" Height="14" Name="ExpandCollapseWordFinderImage" HorizontalAlignment="Center" VerticalAlignment="Center" Source="./Resources/Images/Chevron_Up.png"/>
+                        </StackPanel>
+                    </ToggleButton>
+                </Menu>
+            </DockPanel>
 
-                <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                    <StackPanel Orientation="Vertical">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Hypernyms" Margin="4 2 0 2" FontWeight="DemiBold"/>
-                            <TextBlock Text="(More general)" Margin="4 3 0 2"/>
-                        </StackPanel>
-                        <ListBox Name="HypernymsList" Margin="4" ItemsSource="{Binding Hypernyms, IsAsync=True}"
-                                    BorderBrush="Transparent" SelectionMode="Single" MouseDoubleClick="HypernymsList_MouseDoubleClick"
-                                    ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding GlossWithoutExamples, IsAsync=True}"/>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Hyponyms" Margin="4 2 0 2" FontWeight="DemiBold"/>
-                            <TextBlock Text="(More specific)" Margin="4 3 0 2"/>
-                        </StackPanel>
-                        <ListBox Name="HyponymsList" Margin="4" ItemsSource="{Binding Hyponyms, IsAsync=True}" 
-                                    BorderBrush="Transparent" SelectionMode="Single" MouseDoubleClick="HyponymsList_MouseDoubleClick"
-                                    ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding GlossWithoutExamples, IsAsync=True}"/>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                    </StackPanel>
-                </ScrollViewer>
-                <GridSplitter Grid.Column="1" Width="2" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
-                <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                    <StackPanel Orientation="Vertical">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Holonyms" Margin="4 2 0 2" FontWeight="DemiBold"/>
-                            <TextBlock Text="(Is part of)" Margin="4 3 0 2"/>
-                        </StackPanel>
-                        <ListBox Name="HolonymsList" Margin="4" ItemsSource="{Binding Holonyms, IsAsync=True}"
-                                 BorderBrush="Transparent" SelectionMode="Single" MouseDoubleClick="HolonymsList_MouseDoubleClick"
-                                 ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding GlossWithoutExamples, IsAsync=True}"/>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Meronyms" Margin="4 2 0 2" FontWeight="DemiBold"/>
-                            <TextBlock Text="(Parts)" Margin="4 3 0 2"/>
-                        </StackPanel>
-                        <ListBox Name="MeronymsList" Margin="4" ItemsSource="{Binding Meronyms, IsAsync=True}" 
-                                 BorderBrush="Transparent" SelectionMode="Single" MouseDoubleClick="MeronymsList_MouseDoubleClick"
-                                 ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding GlossWithoutExamples, IsAsync=True}"/>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                    </StackPanel>
-                </ScrollViewer>
-                <GridSplitter Grid.Column="3" Width="2" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
-            </Grid>
+
+            <local:WordToSynsetSelectorControl Grid.Row="1" x:Name="WordToSynsetSelector" SynsetSelected="WordToSynsetSelector_SynsetSelected" Style="{StaticResource WordFinderStyle}"/>
+            <local:SynsetNavigatorControl Grid.Row="2" x:Name="SynsetNavigator" Visibility="Hidden"
+                    SynsetDragStarted="SynsetNavigator_SynsetDragStarted" SynsetDragCancelled="SynsetNavigator_SynsetDragCancelled" SynsetDropCompleted="SynsetNavigator_SynsetDropCompleted"
+                    SynsetSelected="SynsetNavigator_SynsetSelected"/>
         </Grid>
-
-        <Grid Grid.Row="1" Name="WordToSynsetSelector">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="3*"/>
-                <ColumnDefinition Width="3*"/>
-            </Grid.ColumnDefinitions>
-            
-            <Border Grid.Column="0" BorderBrush="LightGray" BorderThickness="2">
-                <StackPanel Name="WordLookup" AllowDrop="True" DragEnter="WordLookup_DragEnter" Drop="WordLookup_Drop" Background="White">
-                    <TextBox Name="LookupWordTextBox" Margin="4" KeyDown="LookupWordTextBox_KeyDown"/>
-                    <RadioButton Name ="AnyRadioButton" GroupName="partOfSpeech" Margin="8 0 4 6" FontWeight="DemiBold" IsChecked="True">ANY</RadioButton>
-                    <RadioButton Name ="NounRadioButton" GroupName="partOfSpeech" Margin="8 0 4 2">Noun</RadioButton>
-                    <RadioButton Name ="VerbRadioButton" GroupName="partOfSpeech" Margin="8 0 4 2">Verb</RadioButton>
-                    <RadioButton Name ="AdjectiveRadioButton" GroupName="partOfSpeech" Margin="8 0 4 2">Adjective</RadioButton>
-                    <RadioButton Name ="AdverbRadioButton" GroupName="partOfSpeech" Margin="8 0 4 8">Adverb</RadioButton>
-                </StackPanel>
-            </Border>
-
-            <ListBox Grid.Column="1" Name="SynsetsMatchingWordList" ItemsSource="{Binding VisibleSynsets, IsAsync=True}" 
-                     SelectionMode="Single" SelectionChanged="SynsetsMatchingWordList_SelectionChanged" MouseDoubleClick="SynsetsMatchingWordList_MouseDoubleClick">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding GlossWithoutExamples, IsAsync=True}"/>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-            <ListBox Grid.Column="2" Name="UsageExamplesList" ItemsSource="{Binding GlossExamples}"/>
-        </Grid>
+        <local:WordSensesForSynsetControl Grid.Column="1" x:Name="WordSensesControl" Style="{StaticResource WordSensesStyle}" />
     </Grid>
+
+
 </Window>

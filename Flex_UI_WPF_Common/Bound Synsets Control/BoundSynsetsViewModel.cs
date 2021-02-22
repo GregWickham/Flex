@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using FlexibleRealization;
+using WordNet.Linq;
 using Flex.Database;
 
 namespace Flex.UserInterface.ViewModels
@@ -57,12 +58,12 @@ namespace Flex.UserInterface.ViewModels
 
 
         /// <summary>Add a new binding between <paramref name="boundElement"/> and the synset with ID <paramref name="boundSynsetID"/>.</summary>
-        internal void AddBinding(object elementToBind, int synsetIDToBind)
+        internal void AddBinding(object elementToBind, Synset boundSynset)
         {
             HashSet<SynsetToElementBinding> bindingsForTheElement = BindingsForElement(elementToBind);
-            SynsetToElementBinding existingBinding = bindingsForTheElement.FirstOrDefault(binding => binding.SynsetID.Equals(synsetIDToBind));
+            SynsetToElementBinding existingBinding = bindingsForTheElement.FirstOrDefault(binding => binding.SynsetID.Equals(boundSynset.ID));
             if (existingBinding == null)
-                bindingsForTheElement.Add(new SynsetToElementBinding { SynsetID = synsetIDToBind });
+                bindingsForTheElement.Add(new SynsetToElementBinding { SynsetID = boundSynset.ID });
             OnPropertyChanged("VisibleBindings");
         }
 
