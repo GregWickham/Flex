@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Data.SqlClient;
-using FlexibleRealization;
 
 namespace WordNet.Linq
 {
@@ -45,16 +44,6 @@ namespace WordNet.Linq
             { 'r', PartOfSpeech.Adverb },
         };
 
-        internal static PartOfSpeech PartOfSpeechCorrespondingTo(WordElementBuilder wordBuilder) => wordBuilder switch
-        {
-            NounBuilder nounBuilder => PartOfSpeech.Noun,
-            VerbBuilder verbBuilder => PartOfSpeech.Verb,
-            AdjectiveBuilder adjectiveBuilder => PartOfSpeech.Adjective,
-            AdverbBuilder adverbBuilder => PartOfSpeech.Adverb,
-
-            _ => PartOfSpeech.Unspecified
-        };
-
         /// <summary>Return the <see cref="PartOfSpeech"/> value corresponding to <paramref name="wordNetPartOfSpeechCode"/>.</summary>
         private static PartOfSpeech PartOfSpeechCorrespondingTo(char wordNetPartOfSpeechCode)
         {
@@ -82,8 +71,6 @@ namespace WordNet.Linq
             _ => "Unspecified",
         };
 
-        internal static bool PartsOfSpeechMatch(WordElementBuilder wordBuilder, PartOfSpeech pos) => PartOfSpeechCorrespondingTo(wordBuilder).Equals(pos);
         internal static bool PartsOfSpeechMatch(PartOfSpeech partOfSpeech, char wordNetPartOfSpeechCode) => partOfSpeech.Equals(PartOfSpeechCorrespondingTo(wordNetPartOfSpeechCode));
-        internal static bool PartsOfSpeechMatch(WordElementBuilder wordBuilder, char wordNetPartOfSpeechCode) => PartOfSpeechCorrespondingTo(wordBuilder).Equals(PartOfSpeechCorrespondingTo(wordNetPartOfSpeechCode));
     }
 }

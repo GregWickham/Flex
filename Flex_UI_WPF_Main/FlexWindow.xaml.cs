@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -126,6 +127,32 @@ namespace Flex.UserInterface
                 TreeEditor.OnSynsetDragCancelled,
                 TreeEditor.OnSynsetDropCompleted,
                 null, null, null)
+                .SetDroppedWordConverter(e =>
+                {
+                    IElementTreeNode droppedNode = null;
+                    // We could get a dropped IElementTree node in one of two forms:
+                    // 1.  It's in the IDataObject as an IElementTreeNode, ready to use; or
+                    // 2.  It's in the IDataObject as a Task<ElementBuilder> that we can run to get the IElementTreeNode
+                    if (e.Data.GetDataPresent(typeof(IElementTreeNode)))
+                    {
+                        droppedNode = (IElementTreeNode)e.Data.GetData(typeof(IElementTreeNode));
+                    }
+                    else if (e.Data.GetDataPresent(typeof(Task)))
+                    {
+                        Task<IElementTreeNode> getNodeTask = (Task<IElementTreeNode>)e.Data.GetData(typeof(Task));
+                        droppedNode = getNodeTask.Result;
+                    }
+                    return (droppedNode is WordElementBuilder wordBuilder)
+                        ? new WordSpecification(wordBuilder.WordSource.DefaultWord, wordBuilder switch
+                            {
+                                NounBuilder nounBuilder => WordNetData.PartOfSpeech.Noun,
+                                VerbBuilder verbBuilder => WordNetData.PartOfSpeech.Verb,
+                                AdjectiveBuilder adjectiveBuilder => WordNetData.PartOfSpeech.Adjective,
+                                AdverbBuilder adverbBuilder => WordNetData.PartOfSpeech.Adverb,
+                                _ => WordNetData.PartOfSpeech.Unspecified
+                            })
+                        : null;
+                })
             .Show();
         }
 

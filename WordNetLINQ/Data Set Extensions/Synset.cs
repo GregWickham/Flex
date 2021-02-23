@@ -1,16 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Data.Linq.Mapping;
 using System.Linq;
 using System.Text.RegularExpressions;
-using FlexibleRealization;
 
 namespace WordNet.Linq
 {
     public partial class Synset
     {
         public static Synset WithID(int synsetID) => WordNetData.Context.Synsets.Single(synset => synset.ID.Equals(synsetID));
-
-        public bool MatchesPartOfSpeech(WordElementBuilder wordBuilder) => WordNetData.PartsOfSpeechMatch(wordBuilder, POS);
-        public bool MatchesPartOfSpeech(WordNetData.PartOfSpeech partOfSpeech) => WordNetData.PartsOfSpeechMatch(partOfSpeech, POS);
 
         public bool IsNoun => WordNetData.IsNoun(POS);
         public bool IsVerb => WordNetData.IsVerb(POS);

@@ -127,10 +127,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Echo\FlexibleRealization\FlexibleRealization.csproj">
-      <Project>{69a075e7-46b1-4aee-b5e9-8f7da88d773a}</Project>
-      <Name>FlexibleRealization</Name>
-    </ProjectReference>
     <ProjectReference Include="..\WordNetLINQ\WordNet_LINQ.csproj">
       <Project>{2d7454e9-b9a9-4e6a-98bd-0565e12adb7a}</Project>
       <Name>WordNet_LINQ</Name>

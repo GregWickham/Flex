@@ -22,7 +22,7 @@ namespace WordNet.Linq
 	using System;
 	
 	
-	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="wordnet_from_backup")]
+	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="wordnet")]
 	public partial class WordNetDataContext : System.Data.Linq.DataContext
 	{
 		
@@ -39,8 +39,8 @@ namespace WordNet.Linq
     #endregion
 		
 		public WordNetDataContext() : 
-				base("Data Source=38.192.14.25,49170;Initial Catalog=wordnet_from_backup;Persist Securi" +
-						"ty Info=True;User ID=sa", mappingSource)
+				base("Data Source=38.192.14.25,49170;Initial Catalog=wordnet;Persist Security Info=True" +
+						";User ID=sa", mappingSource)
 		{
 			OnCreated();
 		}
@@ -275,6 +275,30 @@ namespace WordNet.Linq
 		public IQueryable<SyntaxOfAdjectiveResult> SyntaxOfAdjective([global::System.Data.Linq.Mapping.ParameterAttribute(Name="SynsetID", DbType="Int")] System.Nullable<int> synsetID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="WordNumber", DbType="Int")] System.Nullable<int> wordNumber)
 		{
 			return this.CreateMethodCallQuery<SyntaxOfAdjectiveResult>(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), synsetID, wordNumber);
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SynsetsWithNounSenseMatching", IsComposable=true)]
+		public IQueryable<Synset> SynsetsWithNounSenseMatching([global::System.Data.Linq.Mapping.ParameterAttribute(Name="WordText", DbType="NVarChar(255)")] string wordText)
+		{
+			return this.CreateMethodCallQuery<Synset>(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), wordText);
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SynsetsWithVerbSenseMatching", IsComposable=true)]
+		public IQueryable<Synset> SynsetsWithVerbSenseMatching([global::System.Data.Linq.Mapping.ParameterAttribute(Name="WordText", DbType="NVarChar(255)")] string wordText)
+		{
+			return this.CreateMethodCallQuery<Synset>(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), wordText);
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SynsetsWithAdjectiveSenseMatching", IsComposable=true)]
+		public IQueryable<Synset> SynsetsWithAdjectiveSenseMatching([global::System.Data.Linq.Mapping.ParameterAttribute(Name="WordText", DbType="NVarChar(255)")] string wordText)
+		{
+			return this.CreateMethodCallQuery<Synset>(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), wordText);
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SynsetsWithAdverbSenseMatching", IsComposable=true)]
+		public IQueryable<Synset> SynsetsWithAdverbSenseMatching([global::System.Data.Linq.Mapping.ParameterAttribute(Name="WordText", DbType="NVarChar(255)")] string wordText)
+		{
+			return this.CreateMethodCallQuery<Synset>(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), wordText);
 		}
 	}
 	

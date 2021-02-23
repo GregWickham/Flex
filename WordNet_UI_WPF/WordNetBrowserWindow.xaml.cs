@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using WordNet.Linq;
@@ -57,6 +57,12 @@ namespace WordNet.UserInterface
             }
         }
 
+        public WordNetBrowserWindow SetDroppedWordConverter(DroppedWordConverter converter)
+        {
+            WordToSynsetSelector.ConvertDroppedWordFrom = converter;
+            return this;
+        }
+
         protected override void OnClosing(CancelEventArgs e)
         {
             base.OnClosing(e);
@@ -67,6 +73,8 @@ namespace WordNet.UserInterface
             if (External_WordSenseDragCancelled_EventHandler != null) WordSenseDragCancelled -= External_WordSenseDragCancelled_EventHandler;
             if (External_WordSenseDropCompleted_EventHandler != null) WordSenseDropCompleted -= External_WordSenseDropCompleted_EventHandler;
         }
+
+        private Dictionary<Type, Func<WordSpecification>> DroppedObjectConverters = new Dictionary<Type, Func<WordSpecification>>();
 
         #region External event handlers that can optionally be attached on construction of this Window
 

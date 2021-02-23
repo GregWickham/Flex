@@ -1,13 +1,13 @@
-﻿using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using FlexibleRealization;
 using WordNet.Linq;
 using WordNet.UserInterface.ViewModels;
 
 namespace WordNet.UserInterface
 {
+    public delegate WordSpecification DroppedWordConverter(DragEventArgs e);
+
     internal delegate void SynsetSelected_EventHandler(Synset synset);
 
     /// <summary>Interaction logic for WordToSynsetSelector.xaml</summary>
@@ -29,9 +29,7 @@ namespace WordNet.UserInterface
 
         private void LookupEnteredWord()
         {
-            if ((bool)AnyRadioButton.IsChecked) ViewModel.LookupSynsetsMatching(LookupWordTextBox.Text);
-            else ViewModel.LookupSynsetsMatching(LookupWordTextBox.Text, SelectedPartOfSpeech);
-
+            ViewModel.LookupSynsetsMatching(new WordSpecification(LookupWordTextBox.Text, SelectedPartOfSpeech));
         }
 
         private WordNetData.PartOfSpeech SelectedPartOfSpeech
@@ -46,34 +44,28 @@ namespace WordNet.UserInterface
             }
         }
 
-        private void LookupSynsetsFor(IElementTreeNode node)
+        private void LookupSynsetsFor(WordSpecification wordSpecification)
         {
-            if (node is WordElementBuilder wordBuilder)
+            LookupWordTextBox.Text = wordSpecification.WordText;
+            switch (wordSpecification.POS)
             {
-                switch (wordBuilder)
-                {
-                    case NounBuilder noun:
-                        LookupWordTextBox.Text = noun.WordSource.DefaultWord;
-                        NounRadioButton.IsChecked = true;
-                        ViewModel.LookupSynsetsMatching(noun);
-                        break;
-                    case VerbBuilder verb:
-                        LookupWordTextBox.Text = verb.WordSource.DefaultWord;
-                        VerbRadioButton.IsChecked = true;
-                        ViewModel.LookupSynsetsMatching(verb);
-                        break;
-                    case AdjectiveBuilder adjective:
-                        LookupWordTextBox.Text = adjective.WordSource.DefaultWord;
-                        AdjectiveRadioButton.IsChecked = true;
-                        ViewModel.LookupSynsetsMatching(adjective);
-                        break;
-                    case AdverbBuilder adverb:
-                        LookupWordTextBox.Text = adverb.WordSource.DefaultWord;
-                        AdverbRadioButton.IsChecked = true;
-                        ViewModel.LookupSynsetsMatching(adverb);
-                        break;
-                }
+                case WordNetData.PartOfSpeech.Unspecified:
+                    AnyRadioButton.IsChecked = true;
+                    break;
+                case WordNetData.PartOfSpeech.Noun:
+                    NounRadioButton.IsChecked = true;
+                    break;
+                case WordNetData.PartOfSpeech.Verb:
+                    VerbRadioButton.IsChecked = true;
+                    break;
+                case WordNetData.PartOfSpeech.Adjective:
+                    AdjectiveRadioButton.IsChecked = true;
+                    break;
+                case WordNetData.PartOfSpeech.Adverb:
+                    AdverbRadioButton.IsChecked = true;
+                    break;
             }
+            ViewModel.LookupSynsetsMatching(wordSpecification);
         }
 
         private Synset SelectedSynsetMatchingWord => (Synset)SynsetsMatchingWordList.SelectedItem;
@@ -84,28 +76,18 @@ namespace WordNet.UserInterface
 
         #region Drag / Drop of IElementTreeNode onto WordLookup
 
+        internal DroppedWordConverter ConvertDroppedWordFrom { get; set; }
+
         private void WordLookup_DragEnter(object sender, DragEventArgs e)
         {
             e.Effects = DragDropEffects.Link;
             e.Handled = true;
         }
 
-        private async void WordLookup_Drop(object sender, DragEventArgs e)
+        private void WordLookup_Drop(object sender, DragEventArgs e)
         {
-            IElementTreeNode droppedNode = null;
-            // We could get a dropped IElementTree node in one of two forms:
-            // 1.  It's in the IDataObject as an IElementTreeNode, ready to use; or
-            // 2.  It's in the IDataObject as a Task<ElementBuilder> that we can run to get the IElementTreeNode
-            if (e.Data.GetDataPresent(typeof(IElementTreeNode)))
-            {
-                droppedNode = (IElementTreeNode)e.Data.GetData(typeof(IElementTreeNode));
-            }
-            else if (e.Data.GetDataPresent(typeof(Task)))
-            {
-                Task<IElementTreeNode> getNodeTask = (Task<IElementTreeNode>)e.Data.GetData(typeof(Task));
-                droppedNode = await getNodeTask;
-            }
-            if (droppedNode != null) LookupSynsetsFor(droppedNode);
+            WordSpecification droppedWord = ConvertDroppedWordFrom(e);
+            if (droppedWord != null) LookupSynsetsFor(droppedWord);
         }
 
 

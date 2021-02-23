@@ -10,17 +10,7 @@ namespace WordNet.Linq
 
         public string TelosPartOfSpeechAndWordText => $"({UserFriendlyTelosPartOfSpeech}.) {TelosWordText}";
 
-        //private bool SourceIsNoun => WordNetData.IsNoun(SourcePOS);
-        //private bool SourceIsVerb => WordNetData.IsVerb(SourcePOS);
-        //private bool SourceIsAdjective => WordNetData.IsAdjective(SourcePOS);
-        //private bool SourceIsAdverb => WordNetData.IsAdverb(SourcePOS);
-
         private string UserFriendlySourcePartOfSpeech => WordNetData.UserFriendlyPartOfSpeechFrom(SourcePOS);
-
-        //private bool TelosIsNoun => WordNetData.IsNoun(TelosPOS);
-        //private bool TelosIsVerb => WordNetData.IsVerb(TelosPOS);
-        //private bool TelosIsAdjective => WordNetData.IsAdjective(TelosPOS);
-        //private bool TelosIsAdverb => WordNetData.IsAdverb(TelosPOS);
 
         private string UserFriendlyTelosPartOfSpeech => WordNetData.UserFriendlyPartOfSpeechFrom(TelosPOS);
     }
