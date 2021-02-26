@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 14.25, 10.125" name="Flex">
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 17.25, 11.875" name="Flex">
   <DataContextMoniker Name="/FlexDataContext" />
   <nestedChildShapes>
     <classShape Id="8eeb4f77-c52a-4f34-99cd-efd856027e3e" absoluteBounds="0.5, 4.875, 2, 1.3862939453125">
@@ -198,6 +198,12 @@
       <DataClassMoniker Name="/FlexDataContext/SynsetToElementBinding" />
       <nestedChildShapes>
         <elementListCompartment Id="6133db07-dc66-41d6-b188-7fad77995ed3" absoluteBounds="6.265, 8.21, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="40f63de3-2e50-4abd-ae43-8ea89c9672d7" absoluteBounds="14.375, 0.625, 2.625, 11.001365559895833">
+      <DataClassMoniker Name="/FlexDataContext/UnifiedNode" />
+      <nestedChildShapes>
+        <elementListCompartment Id="0140e09d-f6de-4afc-8c4e-205bf4407d9b" absoluteBounds="14.39, 1.085, 2.5949999999999998, 10.441365559895832" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
   </nestedChildShapes>

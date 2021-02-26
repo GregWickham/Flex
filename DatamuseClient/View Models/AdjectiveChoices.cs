@@ -1,13 +1,13 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace Datamuse.ViewModels
 {
     public class AdjectiveChoices : WordChoices
     {
-        public override sealed Task GetSynonymsFor(string adjective) => Task.Run(() =>
+        public override sealed async Task GetRelatedWords(string adjective, WordRelation relation) => SetLookedUp(relation switch
         {
-            SetLookedUp(Adjective.SynonymsFor(adjective).Result.OrderBy(word => word.Score));
+            WordRelation.Synonym => await Adjective.SynonymsOf(adjective),
+            WordRelation.MeaningLike => await Adjective.MeaningLike(adjective)
         });
     }
 }

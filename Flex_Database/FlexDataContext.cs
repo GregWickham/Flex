@@ -87,15 +87,15 @@ namespace Flex.Database
 
         private IElementTreeNode LoadTree(int rootID)
         {
-            List<GetNodesForTreeResult> nodeResults = GetNodesForTree(rootID).ToList();
+            List<UnifiedNode> nodeResults = GetNodesForTree(rootID).ToList();
             List<GetWeightedWordsForTreeResult> weightedWordResults = GetWeightedWordsForTree(rootID).ToList();
             List<GetChildOrderingsForTreeResult> childOrderingResults = GetChildOrderingsForTree(rootID).ToList();
             return BuildTreeNode(rootID, nodeResults, weightedWordResults, childOrderingResults);
         }
 
-        private IElementTreeNode BuildTreeNode(int nodeID, IEnumerable<GetNodesForTreeResult> nodeResults, IEnumerable<GetWeightedWordsForTreeResult> weightedWordResults, List<GetChildOrderingsForTreeResult> childOrderingResults)
+        private IElementTreeNode BuildTreeNode(int nodeID, IEnumerable<UnifiedNode> nodeResults, IEnumerable<GetWeightedWordsForTreeResult> weightedWordResults, List<GetChildOrderingsForTreeResult> childOrderingResults)
         {
-            GetNodesForTreeResult resultForThisNode = nodeResults.Single(result => result.ID.Equals(nodeID));
+            UnifiedNode resultForThisNode = nodeResults.Single(result => result.ID.Equals(nodeID));
             return (FlexData.ElementType)resultForThisNode.ElementType switch
             {
                 FlexData.ElementType.DB_Word => BuildWord(resultForThisNode, weightedWordResults.Where(weightedWord => weightedWord.WordElement.Equals(resultForThisNode.ID))),

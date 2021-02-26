@@ -332,39 +332,13 @@
       <Column Name="Weight" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
-  <Function Name="dbo.GetWeightedWordsForTree" Method="GetWeightedWordsForTree" IsComposable="true">
-    <Parameter Name="RootID" Parameter="rootID" Type="System.Int32" DbType="Int" />
-    <ElementType Name="GetWeightedWordsForTreeResult">
+  <Table Name="dbo.UnifiedNodes" Member="UnifiedNodes">
+    <Type Name="UnifiedNode" Id="ID1">
       <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="WordElement" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Text" Type="System.String" DbType="VarChar(24) NOT NULL" CanBeNull="false" />
-      <Column Name="Weight" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-    </ElementType>
-  </Function>
-  <Function Name="dbo.GetChildOrderingsForTree" Method="GetChildOrderingsForTree" IsComposable="true">
-    <Parameter Name="RootID" Parameter="rootID" Type="System.Int32" DbType="Int" />
-    <ElementType Name="GetChildOrderingsForTreeResult">
-      <Column Name="Parent" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Child_Before" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Child_After" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-    </ElementType>
-  </Function>
-  <Function Name="dbo.GetSynsetBindingsForTree" Method="GetSynsetBindingsForTree" IsComposable="true">
-    <Parameter Name="RootID" Parameter="rootID" Type="System.Int32" DbType="Int" />
-    <ElementType Name="GetSynsetBindingsForTreeResult">
-      <Column Name="ElementID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="SynsetID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Weight" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
-    </ElementType>
-  </Function>
-  <Function Name="dbo.GetNodesForTree" Method="GetNodesForTree" IsComposable="true">
-    <Parameter Name="RootID" Parameter="rootID" Type="System.Int32" DbType="Int" />
-    <ElementType Name="GetNodesForTreeResult">
-      <Column Name="ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="ParentID" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Role" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
       <Column Name="Weight" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
-      <Column Name="ElementType" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="ElementType" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
       <Column Name="WordType" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
       <Column Name="DefaultWeightedWord" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="ExpletiveSubject" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
@@ -413,7 +387,36 @@
       <Column Name="AdjP_Superlative" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
       <Column Name="AdvP_Comparative" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
       <Column Name="AdvP_Superlative" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Function Name="dbo.GetWeightedWordsForTree" Method="GetWeightedWordsForTree" IsComposable="true">
+    <Parameter Name="RootID" Parameter="rootID" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetWeightedWordsForTreeResult">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="WordElement" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Text" Type="System.String" DbType="VarChar(24) NOT NULL" CanBeNull="false" />
+      <Column Name="Weight" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
     </ElementType>
+  </Function>
+  <Function Name="dbo.GetChildOrderingsForTree" Method="GetChildOrderingsForTree" IsComposable="true">
+    <Parameter Name="RootID" Parameter="rootID" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetChildOrderingsForTreeResult">
+      <Column Name="Parent" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Child_Before" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Child_After" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetSynsetBindingsForTree" Method="GetSynsetBindingsForTree" IsComposable="true">
+    <Parameter Name="RootID" Parameter="rootID" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetSynsetBindingsForTreeResult">
+      <Column Name="ElementID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SynsetID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Weight" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetNodesForTree" Method="GetNodesForTree" IsComposable="true">
+    <Parameter Name="RootID" Parameter="rootID" Type="System.Int32" DbType="Int" />
+    <ElementType IdRef="ID1" />
   </Function>
   <Function Name="dbo.GetNodesIDsForTree" Method="GetNodesIDsForTree" IsComposable="true">
     <Parameter Name="RootID" Parameter="rootID" Type="System.Int32" DbType="Int" />

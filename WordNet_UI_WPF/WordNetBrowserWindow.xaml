@@ -28,6 +28,64 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+        <Style x:Key="ExpandCollapseToggleButtonStyle" TargetType="ToggleButton">
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Gray"/>
+        </Style>
+        <Style x:Key="ExpandCollapseWordFinderTextBlockStyle" TargetType="TextBlock">
+            <Setter Property="Margin" Value="4 0 4 0"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=ExpandCollapseWordFinderButton, Path=IsChecked}" Value="True">
+                    <Setter Property="Text" Value="Hide synset to word finder" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=ExpandCollapseWordFinderButton, Path=IsChecked}" Value="False">
+                    <Setter Property="Text" Value="Find synset from word" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="ExpandCollapseWordFinderImageStyle" TargetType="Image">
+            <Setter Property="Margin" Value="4 0 4 0"/>
+            <Setter Property="Width" Value="18"/>
+            <Setter Property="Height" Value="14"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=ExpandCollapseWordFinderButton, Path=IsChecked}" Value="True">
+                    <Setter Property="Source" Value="./Resources/Images/Chevron_Up.png" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=ExpandCollapseWordFinderButton, Path=IsChecked}" Value="False">
+                    <Setter Property="Source" Value="./Resources/Images/Chevron_Down.png" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="ExpandCollapseWordSensesTextBlockStyle" TargetType="TextBlock">
+            <Setter Property="Margin" Value="4 0 4 0"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=ExpandCollapseWordSensesButton, Path=IsChecked}" Value="True">
+                    <Setter Property="Text" Value="Hide word senses" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=ExpandCollapseWordSensesButton, Path=IsChecked}" Value="False">
+                    <Setter Property="Text" Value="Show word senses" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="ExpandCollapseWordSensesImageStyle" TargetType="Image">
+            <Setter Property="Margin" Value="4 0 4 0"/>
+            <Setter Property="Width" Value="14"/>
+            <Setter Property="Height" Value="12"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=ExpandCollapseWordSensesButton, Path=IsChecked}" Value="True">
+                    <Setter Property="Source" Value="./Resources/Images/Chevron_Left.png" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=ExpandCollapseWordSensesButton, Path=IsChecked}" Value="False">
+                    <Setter Property="Source" Value="./Resources/Images/Chevron_Right.png" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
 
     <Grid>
@@ -43,30 +101,33 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <DockPanel>
-                <Menu DockPanel.Dock="Left">
+            <Grid Grid.Row="0" Name="MenuBarGrid" Height="24">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <Menu Grid.Column="0">
                     <MenuItem Header="Window">
                         <MenuItem Header="New Window" Click="NewWindowMenuItem_Click"/>
                     </MenuItem>
                 </Menu>
-                <Menu DockPanel.Dock="Right" FlowDirection="RightToLeft" FontSize="12" Background="White" Height="24">
-                    <ToggleButton Margin="0 0 0 0" VerticalAlignment="Center" Name="ExpandCollapseWordSensesButton" Background="Transparent" IsChecked="False" BorderBrush="Gray"
-                                    Checked="ExpandCollapseWordSensesButton_Checked" Unchecked="ExpandCollapseWordSensesButton_Unchecked">
+                <Menu Grid.Column="2" FontSize="12" Background="White">
+                    <ToggleButton Name="ExpandCollapseWordFinderButton" IsChecked="True" Style="{StaticResource ExpandCollapseToggleButtonStyle}">
                         <StackPanel Orientation="Horizontal">
-                            <Image Width="14" Height="12" Name="ExpandCollapseWordSensesImage" HorizontalAlignment="Center" VerticalAlignment="Center" Source="./Resources/Images/Chevron_Right.png"/>
-                            <TextBlock Text="Show word senses" Margin="4 0 4 0" Name="ExpandCollapseWordSensesTextBlock"/>
+                            <Image Name="ExpandCollapseWordFinderImage" Style="{StaticResource ExpandCollapseWordFinderImageStyle}"/>
+                            <TextBlock Name="ExpandCollapseWordFinderTextBlock" Style="{StaticResource ExpandCollapseWordFinderTextBlockStyle}"/>
                         </StackPanel>
                     </ToggleButton>
-                    <ToggleButton Margin="0 0 0 0" VerticalAlignment="Center" Name="ExpandCollapseWordFinderButton" Background="Transparent" IsChecked="True" BorderBrush="Gray"
-                                    Checked="ExpandCollapseWordFinderButton_Checked" Unchecked="ExpandCollapseWordFinderButton_Unchecked">
+                    <ToggleButton Name="ExpandCollapseWordSensesButton" IsChecked="False" Style="{StaticResource ExpandCollapseToggleButtonStyle}">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Find synset from word" Margin="4 0 4 0" Name="ExpandCollapseWordFinderTextBlock"/>
-                            <Image Width="18" Height="14" Name="ExpandCollapseWordFinderImage" HorizontalAlignment="Center" VerticalAlignment="Center" Source="./Resources/Images/Chevron_Up.png"/>
+                            <TextBlock Name="ExpandCollapseWordSensesTextBlock" Style="{StaticResource ExpandCollapseWordSensesTextBlockStyle}"/>
+                            <Image Name="ExpandCollapseWordSensesImage" Style="{StaticResource ExpandCollapseWordSensesImageStyle}"/>
                         </StackPanel>
                     </ToggleButton>
                 </Menu>
-            </DockPanel>
-
+            </Grid>
 
             <local:WordToSynsetSelectorControl Grid.Row="1" x:Name="WordToSynsetSelector" SynsetSelected="WordToSynsetSelector_SynsetSelected" Style="{StaticResource WordFinderStyle}"/>
             <local:SynsetNavigatorControl Grid.Row="2" x:Name="SynsetNavigator" Visibility="Hidden"

@@ -47,21 +47,28 @@ namespace FlexibleRealization.UserInterface
 
         #endregion Events
 
-        /// <summary>Allows the PropertiesTabControl to be collapsed</summary>
         public bool ShowProperties
         {
-            set
-            {
-                PropertiesTabControl.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
-                PropertiesColumn.Width = value
-                    ? StarColumnWidth
-                    : GridLength.Auto;
-            }
+            get => (bool)GetValue(ShowPropertiesProperty);
+            set => SetValue(ShowPropertiesProperty, value);
+        }
+
+        public static readonly DependencyProperty ShowPropertiesProperty =
+            DependencyProperty.Register("ShowProperties", typeof(bool), typeof(ElementBuilderTreeEditor), new PropertyMetadata(true, new PropertyChangedCallback(OnShowPropertiesChanged)));
+
+        private static void OnShowPropertiesChanged(DependencyObject d, DependencyPropertyChangedEventArgs args)
+        {
+            ElementBuilderTreeEditor treeEditor = (ElementBuilderTreeEditor)d;
+            treeEditor.PropertiesTabControl.Visibility = (bool)args.NewValue ? Visibility.Visible : Visibility.Collapsed;
+            treeEditor.PropertiesColumn.Width = (bool)args.NewValue
+                ? StarColumnWidth
+                : GridLength.Auto;
         }
 
         private static readonly GridLength StarColumnWidth = new GridLength(1, GridUnitType.Star);
 
         private RootNode ModelRoot;
+
         public IElementTreeNode Model => ModelRoot?.Stem;
 
         /// <summary>Hook a handler to the containing <see cref="Window"/>'s Closing event.</summary>

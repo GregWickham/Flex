@@ -10,6 +10,7 @@
     <RootNamespace>Datamuse</RootNamespace>
     <AssemblyName>Datamuse</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+	  <LangVersion>8.0</LangVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
@@ -56,15 +57,16 @@
     <Compile Include="View Models\VerbChoices.cs" />
     <Compile Include="View Models\WordChoices.cs" />
     <Compile Include="Word.cs" />
+    <Compile Include="WordRelation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-	<Target Name="SpicNSpan" AfterTargets="Clean">
-		<!-- bin -->
-		<RemoveDir Directories="$(TargetDir)" />
-		<!-- obj -->
-		<RemoveDir Directories="$(ProjectDir)$(BaseIntermediateOutputPath)" />
-	</Target>
+  <Target Name="SpicNSpan" AfterTargets="Clean">
+    <!-- bin -->
+    <RemoveDir Directories="$(TargetDir)" />
+    <!-- obj -->
+    <RemoveDir Directories="$(ProjectDir)$(BaseIntermediateOutputPath)" />
+  </Target>
 </Project>

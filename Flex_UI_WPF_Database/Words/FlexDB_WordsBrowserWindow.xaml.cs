@@ -79,7 +79,7 @@ namespace Flex.Database.UserInterface
         #endregion Events
 
 
-
+        /// <summary>The view model for all DB_WordElements in the Flex database.</summary>
         private DB_WordElementsViewModel ViewModel => (DB_WordElementsViewModel)DataContext;
 
         private void NewButton_Click(object sender, RoutedEventArgs e) { }
@@ -88,10 +88,12 @@ namespace Flex.Database.UserInterface
 
         private void SaveButton_Click(object sender, RoutedEventArgs e) => SelectedViewModel?.Save();
 
+        /// <summary>The view model for the ONE selected DB_WordElement.</summary>
         private DB_WordElementViewModel SelectedViewModel => (DB_WordElementViewModel)WordsListBox.SelectedItem;
 
         private DB_Word SelectedWord => SelectedViewModel?.DB_Word;
 
+        /// <summary>The user has selected a word from the list of words in the Flex database.</summary>
         private void WordsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (SelectedWord != null && SelectedWord.SupportsVariations)

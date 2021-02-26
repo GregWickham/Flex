@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -10,7 +9,6 @@ using Flex.Database.UserInterface;
 using Flex.UserInterface.ViewModels;
 using WordNet.Linq;
 using WordNet.UserInterface;
-using System.Windows.Media.Imaging;
 
 namespace Flex.UserInterface
 {
@@ -95,16 +93,8 @@ namespace Flex.UserInterface
             RealizedTextBox.Text = "";
         }
 
-        private void ExpandCollapseTreeEditorPropertiesButton_Checked(object sender, RoutedEventArgs e) 
-        { 
-            if (ExpandCollapseTreeEditorPropertiesImage != null) ExpandCollapseTreeEditorPropertiesImage.Source = ChevronDownImage;
-            TreeEditor.ShowProperties = false;
-        }
-        private void ExpandCollapseTreeEditorPropertiesButton_Unchecked(object sender, RoutedEventArgs e) 
-        { 
-            if (ExpandCollapseTreeEditorPropertiesImage != null) ExpandCollapseTreeEditorPropertiesImage.Source = ChevronUpImage;
-            TreeEditor.ShowProperties = true;
-        }
+        private void ExpandCollapseTreeEditorPropertiesButton_Checked(object sender, RoutedEventArgs e) => TreeEditor.ShowProperties = false;
+        private void ExpandCollapseTreeEditorPropertiesButton_Unchecked(object sender, RoutedEventArgs e) => TreeEditor.ShowProperties = true;
 
         #endregion TreeEditor
 
@@ -229,9 +219,6 @@ namespace Flex.UserInterface
             BoundSynsets.BindSynsetToNode(boundNode, boundSynset);
         }
 
-        private void ExpandCollapseSynsetsButton_Checked(object sender, RoutedEventArgs e) { if (ExpandCollapseSynsetBindingsImage != null) ExpandCollapseSynsetBindingsImage.Source = ChevronDownImage; }
-        private void ExpandCollapseSynsetsButton_Unchecked(object sender, RoutedEventArgs e) { if (ExpandCollapseSynsetBindingsImage != null) ExpandCollapseSynsetBindingsImage.Source = ChevronUpImage; }
-
         #endregion Synset Bindings
 
         #region Variations
@@ -286,9 +273,6 @@ namespace Flex.UserInterface
         }
 
         #endregion Variations
-
-        private static readonly BitmapImage ChevronDownImage = new BitmapImage(new Uri("./Resources/Images/Chevron_Down.png", UriKind.Relative));
-        private static readonly BitmapImage ChevronUpImage = new BitmapImage(new Uri("./Resources/Images/Chevron_Up.png", UriKind.Relative));
 
         /// <summary>A color representing that realization has failed.</summary>
         private static Brush RealizeFailedBrush = new SolidColorBrush(Color.FromArgb(100, 254, 0, 0));

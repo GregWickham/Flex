@@ -263,7 +263,7 @@ namespace Flex.Database
             }
         }
 
-        private WordElementBuilder BuildWord(GetNodesForTreeResult wordResult, IEnumerable<GetWeightedWordsForTreeResult> weightedWordResultsForThisBuilder)
+        private WordElementBuilder BuildWord(UnifiedNode wordResult, IEnumerable<GetWeightedWordsForTreeResult> weightedWordResultsForThisBuilder)
         {
             WordElementBuilder wordBuilder = FlexData.Word.BuilderOfType((FlexData.WordType)wordResult.WordType);
             wordBuilder.FlexDB_ID = (int)wordResult.ID;
@@ -282,7 +282,7 @@ namespace Flex.Database
             return wordBuilder;
         }
 
-        private void BuildWordLayersOf(WordElementBuilder wordBuilder, GetNodesForTreeResult wordResult)
+        private void BuildWordLayersOf(WordElementBuilder wordBuilder, UnifiedNode wordResult)
         {
             wordBuilder.ExpletiveSubjectSpecified = wordResult.ExpletiveSubject != null;
             if (wordBuilder.ExpletiveSubjectSpecified) wordBuilder.ExpletiveSubject = (bool)wordResult.ExpletiveSubject;
@@ -300,7 +300,7 @@ namespace Flex.Database
             }
         }
 
-        private void BuildPronounLayerOf(PronounBuilder pronounBuilder, GetNodesForTreeResult pronounResult)
+        private void BuildPronounLayerOf(PronounBuilder pronounBuilder, UnifiedNode pronounResult)
         {
             pronounBuilder.CaseSpecified = pronounResult.PronounCase != null;
             if (pronounBuilder.CaseSpecified) pronounBuilder.Case = (PronounCase)pronounResult.PronounCase;

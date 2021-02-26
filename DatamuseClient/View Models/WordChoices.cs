@@ -6,21 +6,19 @@ using System.Threading.Tasks;
 namespace Datamuse.ViewModels
 {
     public abstract class WordChoices : INotifyPropertyChanged
-    {
-        
+    {        
         /// <summary>The word currently being used in Datamuse queries to select Potential alternates</summary>
-        private protected string PivotWord { get; set; }
+        //private protected string PivotWord { get; set; }
 
-        internal void SetPivot(string word)
-        {
-            PivotWord = word;
-            GetSynonymsFor(PivotWord);
-        }
+        //internal void SetPivot(string word)
+        //{
+        //    PivotWord = word;
+        //    GetSynonymsFor(PivotWord);
+        //}
 
-        public abstract Task GetSynonymsFor(string word);
+        public abstract Task GetRelatedWords(string word, WordRelation relation);
 
-
-        private List<Word> LookedUp = new List<Word>();
+        private readonly List<Word> LookedUp = new List<Word>();
 
         internal void SetLookedUp(IEnumerable<Datamuse.Word> words)
         {

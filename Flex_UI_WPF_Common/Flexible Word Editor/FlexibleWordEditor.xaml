@@ -6,92 +6,148 @@
              xmlns:local="clr-namespace:Flex.UserInterface"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="240">
-
+    
+    <UserControl.Resources>
+        <Style x:Key="WordListHeaderStyle" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+        <Style x:Key="PotentialControlPanelStyle" TargetType="StackPanel">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=ExpandCollapsePotentialControlButton, Path=IsChecked}" Value="True">
+                    <Setter Property="Visibility" Value="Visible" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=ExpandCollapsePotentialControlButton, Path=IsChecked}" Value="False">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="WeightsStyle" TargetType="ListView">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="SelectionMode" Value="Single"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=WeightsOrColumnsButton, Path=IsChecked}" Value="True">
+                    <Setter Property="Visibility" Value="Visible" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=WeightsOrColumnsButton, Path=IsChecked}" Value="False">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="ColumnsStyle" TargetType="Grid">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=WeightsOrColumnsButton, Path=IsChecked}" Value="True">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=WeightsOrColumnsButton, Path=IsChecked}" Value="False">
+                    <Setter Property="Visibility" Value="Visible" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="WeightsOrColumnsImageStyle" TargetType="Image">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=WeightsOrColumnsButton, Path=IsChecked}" Value="True">
+                    <Setter Property="Source" Value="../Resources/Images/Columns.png" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=WeightsOrColumnsButton, Path=IsChecked}" Value="False">
+                    <Setter Property="Source" Value="../Resources/Images/Weight.png" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="ExpandCollapsePotentialControlImageStyle" TargetType="Image">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=ExpandCollapsePotentialControlButton, Path=IsChecked}" Value="True">
+                    <Setter Property="Source" Value="../Resources/Images/Chevron_Down.png" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=ExpandCollapsePotentialControlButton, Path=IsChecked}" Value="False">
+                    <Setter Property="Source" Value="../Resources/Images/Chevron_Up.png" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <DockPanel Grid.Row="0" Height="Auto" HorizontalAlignment="Center">
-            <TextBlock DockPanel.Dock="Left" Height="20" Text="Alternates for: " FontSize="14" FontWeight="Bold" Foreground="SlateGray"/>
-            <TextBlock DockPanel.Dock="Right" Height="20" Text="{Binding Path=DefaultWord}" FontSize="14" FontWeight="Bold"/>
-        </DockPanel>
-
-        <ListBox Grid.Row="1" Name="Weights" ItemsSource="{Binding Path=Alternates, IsAsync=True}" 
-                 HorizontalContentAlignment="Stretch" SelectionMode="Single" Visibility="Collapsed">
-            <ListBox.ItemTemplate>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Height="Auto" HorizontalAlignment="Center">
+            <TextBlock Height="20" Text="Alternates for: " FontSize="14" FontWeight="Bold" Foreground="SlateGray"/>
+            <TextBlock Height="20" Text="{Binding Path=DefaultWord}" FontSize="14" FontWeight="Bold"/>
+        </StackPanel>
+        <ListView Grid.Row="1" Name="Weights" ItemsSource="{Binding Path=AllChoices, IsAsync=True}" Style="{StaticResource WeightsStyle}">
+            <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Grid Margin="2">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0" Text="{Binding Text}" FontWeight="DemiBold"/>
-                        <Slider Grid.Row="1" Value="{Binding Weight}" Maximum="65535"/>
-                    </Grid>
+                    <StackPanel Orientation="Vertical" Margin="2">
+                        <TextBlock Text="{Binding Text}" FontWeight="DemiBold"/>
+                        <Slider Value="{Binding Weight}" Maximum="65535"/>
+                    </StackPanel>
                 </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        
-        <Grid Grid.Row="1" Name="Columns">
+            </ListView.ItemTemplate>
+        </ListView>
+        <Grid Grid.Row="1" Name="Columns" Style="{StaticResource ColumnsStyle}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <DockPanel Grid.Column="0" LastChildFill="True">
-                <TextBlock DockPanel.Dock="Top" Height="20" Text="Potential" HorizontalAlignment="Center" FontSize="12" FontWeight="Bold"/>
-                <ListBox Name="PotentialList" ItemsSource="{Binding Path=Potential, IsAsync=True}" KeyUp="PotentialList_KeyUp" SelectionMode="Extended">
-                    <ListBox.ItemContainerStyle>
-                        <Style TargetType="{x:Type ListBoxItem}">
-                            <EventSetter Event="MouseDoubleClick" Handler="PotentialListItem_MouseDoubleClick" />
-                        </Style>
-                    </ListBox.ItemContainerStyle>
-                </ListBox>
-            </DockPanel>
-            <DockPanel Grid.Column="1" LastChildFill="True">
-                <TextBlock DockPanel.Dock="Top" Height="20" Text="Actual" HorizontalAlignment="Center" FontSize="12" FontWeight="Bold"/>
-                <ListBox Name="ActualList" ItemsSource="{Binding Path=Actual, IsAsync=True}" KeyUp="ActualList_KeyUp" SelectionMode="Extended">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Text}" />
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </DockPanel>
+
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Potential" Style="{StaticResource WordListHeaderStyle}"/>
+            <ListBox Grid.Row="1" Grid.Column="0" Name="PotentialList" ItemsSource="{Binding Path=PotentialAlternates, IsAsync=True}" KeyUp="PotentialList_KeyUp" SelectionMode="Extended">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListBoxItem}">
+                        <EventSetter Event="MouseDoubleClick" Handler="PotentialListItem_MouseDoubleClick" />
+                    </Style>
+                </ListBox.ItemContainerStyle>
+            </ListBox>
+            <TextBlock Grid.Row="0" Grid.Column="1" Text="Actual" Style="{StaticResource WordListHeaderStyle}"/>
+            <ListBox Grid.Row="1" Grid.Column="1" Name="ActualList" ItemsSource="{Binding Path=ActualAlternates, IsAsync=True}" KeyUp="ActualList_KeyUp" SelectionMode="Extended">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Text}" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </Grid>
-        
-        <Grid Grid.Row="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-
-            <StackPanel Grid.Row="0" Name="PotentialControlPanel" Height="Auto" Visibility="Collapsed">
-                <TextBlock Text="New Pivot:" Margin="4 4 4 0"/>
-                <TextBox Name="NewPivotTextBox" HorizontalAlignment="Stretch" Margin="4"/>
+        <Border Grid.Row="3" BorderBrush="LightGray" BorderThickness="1" Margin="2 2 2 0" Background="WhiteSmoke">
+            <StackPanel Name="PotentialControlPanel" Style="{StaticResource PotentialControlPanelStyle}">
+                <TextBlock Text="Pivot:" FontWeight="DemiBold" Margin="4 2 4 2"/>
+                <TextBox Name="PivotTextBox" Text="{Binding Path=Pivot, Mode=OneWay}" HorizontalAlignment="Stretch" Margin="4 0 4 4" KeyUp="PivotTextBox_KeyUp"/>
+                <RadioButton Name="SynonymsRadioButton" GroupName="WordRelationType" Margin="4 0 4 2" IsChecked="True" Checked="SynonymsRadioButton_Checked">Synonyms</RadioButton>
+                <RadioButton Name="MeaningLikeRadioButton" GroupName="WordRelationType" Margin="4 0 4 4" Checked="MeaningLikeRadioButton_Checked">Related Meaning</RadioButton>
             </StackPanel>
+        </Border>
+        <Grid Grid.Row="4" Name="BottomToolbar" Height="22" Margin="2" Background="WhiteSmoke">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
 
-            <ToolBar Grid.Row="1" Height="25" Background="WhiteSmoke">
-                <Button Background="Transparent">
+            <StackPanel Orientation="Horizontal" Grid.Column="0">
+                <Button Background="White" Margin="0 1 4 1">
                     <Image Source="../Resources/Images/Left.png"/>
                 </Button>
-                <Button Background="Transparent">
+                <Button Background="White" Margin="0 1 0 1">
                     <Image Source="../Resources/Images/Right.png"/>
                 </Button>
-
-            </ToolBar>
-
-            <ToolBar Grid.Row="1" Height="25" HorizontalAlignment="Right" Background="WhiteSmoke">
-                <ToggleButton Name="WeightsOrColumnsButton" Background="Transparent" Checked="WeightsOrColumnsButton_Checked" Unchecked="WeightsOrColumnsButton_Unchecked">
-                    <Image Name="WeightsOrColumnsImage" HorizontalAlignment="Center" VerticalAlignment="Center" Source="../Resources/Images/Weight.png"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Column="2">
+                <ToggleButton Name="WeightsOrColumnsButton" Background="White" Margin="0 1 4 1" IsEnabled="{Binding HasAlternates}">
+                    <Image Name="WeightsOrColumnsImage" Style="{StaticResource WeightsOrColumnsImageStyle}"/>
                 </ToggleButton>
-                <Separator/>
-                <ToggleButton Name="ExpandCollapsePotentialControlButton" Background="Transparent" Checked="ExpandCollapsePotentialControlButton_Checked" Unchecked="ExpandCollapsePotentialControlButton_Unchecked">
-                    <Image Name="ExpandCollapsePotentialControlImage" HorizontalAlignment="Center" VerticalAlignment="Center" Source="../Resources/Images/Chevron_Up.png"/>
+                <ToggleButton Name="ExpandCollapsePotentialControlButton" Background="White" Margin="0 1 0 1" IsChecked="True">
+                    <Image Name="ExpandCollapsePotentialControlImage" Style="{StaticResource ExpandCollapsePotentialControlImageStyle}"/>
                 </ToggleButton>
-            </ToolBar>
+            </StackPanel>
         </Grid>
     </Grid>
     

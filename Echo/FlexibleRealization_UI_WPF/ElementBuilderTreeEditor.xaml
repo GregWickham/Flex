@@ -14,10 +14,10 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*" x:Name="PropertiesColumn"/>
+            <ColumnDefinition x:Name="PropertiesColumn"/>
         </Grid.ColumnDefinitions>
 
-        <graphx:ZoomControl Grid.Column="0" x:Name="ZoomCtrl" Background="White">
+        <graphx:ZoomControl Grid.Column="0" x:Name="ZoomCtrl" Background="White" Mode="Fill">
             <graphx:ZoomControl.Resources>
                 <ResourceDictionary Source="./Templates/ElementBuilderGraphXTemplates.xaml"/>
             </graphx:ZoomControl.Resources>
@@ -25,9 +25,7 @@
                 SelectedNodeChanged="GraphArea_SelectedNodeChanged">
             </graphModels:ElementBuilderGraphArea>
         </graphx:ZoomControl>
-
         <GridSplitter Grid.Column="1" HorizontalAlignment="Center" Width="2"/>
-
         <TabControl Grid.Column="2" TabStripPlacement="Bottom" Name="PropertiesTabControl">
             <TabItem Header="Element Properties">
                 <Grid>
@@ -48,7 +46,6 @@
                 </ScrollViewer>
             </TabItem>
         </TabControl>
-
     </Grid>
 
 </UserControl>

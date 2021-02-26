@@ -137,32 +137,6 @@ namespace WordNet.UserInterface
             .Show();
         }
 
-        private void ExpandCollapseWordFinderButton_Checked(object sender, RoutedEventArgs e) 
-        { 
-            if (ExpandCollapseWordFinderImage != null) ExpandCollapseWordFinderImage.Source = ChevronUpImage;
-            if (ExpandCollapseWordFinderTextBlock != null) ExpandCollapseWordFinderTextBlock.Text = "Hide synset from word finder";
-        }
-        private void ExpandCollapseWordFinderButton_Unchecked(object sender, RoutedEventArgs e) 
-        { 
-            if (ExpandCollapseWordFinderImage != null) ExpandCollapseWordFinderImage.Source = ChevronDownImage;
-            if (ExpandCollapseWordFinderTextBlock != null) ExpandCollapseWordFinderTextBlock.Text = "Find synset from word";
-        }
-        private void ExpandCollapseWordSensesButton_Checked(object sender, RoutedEventArgs e) 
-        { 
-            if (ExpandCollapseWordSensesImage != null) ExpandCollapseWordSensesImage.Source = ChevronLeftImage;
-            if (ExpandCollapseWordSensesTextBlock != null) ExpandCollapseWordSensesTextBlock.Text = "Hide word senses";
-        }
-        private void ExpandCollapseWordSensesButton_Unchecked(object sender, RoutedEventArgs e) 
-        { 
-            if (ExpandCollapseWordSensesImage != null) ExpandCollapseWordSensesImage.Source = ChevronRightImage;
-            if (ExpandCollapseWordSensesTextBlock != null) ExpandCollapseWordSensesTextBlock.Text = "Show word senses";
-        }
-
-        private static readonly BitmapImage ChevronDownImage = new BitmapImage(new Uri("./Resources/Images/Chevron_Down.png", UriKind.Relative));
-        private static readonly BitmapImage ChevronUpImage = new BitmapImage(new Uri("./Resources/Images/Chevron_Up.png", UriKind.Relative));
-        private static readonly BitmapImage ChevronLeftImage = new BitmapImage(new Uri("./Resources/Images/Chevron_Left.png", UriKind.Relative));
-        private static readonly BitmapImage ChevronRightImage = new BitmapImage(new Uri("./Resources/Images/Chevron_Right.png", UriKind.Relative));
-
         #endregion Menu and Toolbar
 
     }

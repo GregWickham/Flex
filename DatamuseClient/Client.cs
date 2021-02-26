@@ -28,5 +28,7 @@ namespace Datamuse
         }
 
         public static async Task<IEnumerable<Word>> MeaningLike(string word) => await ResponseTo($"{WordsEndpoint}?ml={word}");
+
+        public static async Task<IEnumerable<Word>> SynonymsOf(string word) => await ResponseTo($"{WordsEndpoint}?rel_syn={word}&md=p");
     }
 }

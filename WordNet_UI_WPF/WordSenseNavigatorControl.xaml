@@ -102,13 +102,6 @@
                                 </StackPanel>
                             </Border>
                             <StackPanel Orientation="Vertical" Name="NounSpecificRelations" Visibility="Collapsed">
-                                <!--<Border Style="{StaticResource SectionBorderStyle}">
-                                <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="Participle forms" Style="{StaticResource SectionHeaderStyle}"/>
-                                    <ListBox Name="ParticipleFormsList" ItemsSource="{Binding ParticipleForms, IsAsync=True}" DisplayMemberPath="PartOfSpeechAndWordText" Style="{StaticResource WordSensesListBoxStyle}"
-                                     MouseDoubleClick="ParticipleFormsList_MouseDoubleClick"/>
-                                </StackPanel>
-                            </Border>-->
                             </StackPanel>
                             <StackPanel Orientation="Vertical" Name="VerbSpecificRelations" Visibility="Collapsed">
                                 <Border Style="{StaticResource SectionBorderStyle}">

@@ -55,10 +55,6 @@
       <DependentUpon>FlexibleWordEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Flexible Word Editor\View Models\Element Builders\AdjectiveBuilderViewModel.cs" />
-    <Compile Include="Flexible Word Editor\View Models\Element Builders\AdverbBuilderViewModel.cs" />
-    <Compile Include="Flexible Word Editor\View Models\Element Builders\NounBuilderViewModel.cs" />
-    <Compile Include="Flexible Word Editor\View Models\Element Builders\VerbBuilderViewModel.cs" />
     <Compile Include="Flexible Word Editor\View Models\Element Builders\WordBuilderViewModel.cs" />
     <Compile Include="Flexible Word Editor\View Models\IWordEditorViewModel.cs" />
     <Compile Include="Bound Synsets Control\BoundSynsetsViewModel.cs" />

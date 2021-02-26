@@ -40,10 +40,7 @@ namespace Flex.ElementSelectors
             .Single()
             .Weight;
 
-        public void AddAlternates(IEnumerable<string> wordsToAdd)
-        {
-            Alternates.AddRange(wordsToAdd.Select(word => new WeightedWord(word)));
-        }
+        public void AddAlternates(IEnumerable<string> wordsToAdd) => Alternates.AddRange(wordsToAdd.Select(word => new WeightedWord(word)));
 
         public void RemoveAlternates(IEnumerable<WeightedWord> wordsToRemove)
         {

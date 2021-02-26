@@ -80,14 +80,20 @@ namespace WordNet.UserInterface
 
         private void WordLookup_DragEnter(object sender, DragEventArgs e)
         {
-            e.Effects = DragDropEffects.Link;
-            e.Handled = true;
+            if (ConvertDroppedWordFrom != null)
+            {
+                e.Effects = DragDropEffects.Link;
+                e.Handled = true;
+            }
         }
 
         private void WordLookup_Drop(object sender, DragEventArgs e)
         {
-            WordSpecification droppedWord = ConvertDroppedWordFrom(e);
-            if (droppedWord != null) LookupSynsetsFor(droppedWord);
+            if (ConvertDroppedWordFrom != null)
+            {
+                WordSpecification droppedWord = ConvertDroppedWordFrom(e);
+                if (droppedWord != null) LookupSynsetsFor(droppedWord);
+            }
         }
 
 

@@ -374,6 +374,14 @@ namespace Flex.Database
 			}
 		}
 		
+		public System.Data.Linq.Table<UnifiedNode> UnifiedNodes
+		{
+			get
+			{
+				return this.GetTable<UnifiedNode>();
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetWeightedWordsForTree", IsComposable=true)]
 		public IQueryable<GetWeightedWordsForTreeResult> GetWeightedWordsForTree([global::System.Data.Linq.Mapping.ParameterAttribute(Name="RootID", DbType="Int")] System.Nullable<int> rootID)
 		{
@@ -393,9 +401,9 @@ namespace Flex.Database
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetNodesForTree", IsComposable=true)]
-		public IQueryable<GetNodesForTreeResult> GetNodesForTree([global::System.Data.Linq.Mapping.ParameterAttribute(Name="RootID", DbType="Int")] System.Nullable<int> rootID)
+		public IQueryable<UnifiedNode> GetNodesForTree([global::System.Data.Linq.Mapping.ParameterAttribute(Name="RootID", DbType="Int")] System.Nullable<int> rootID)
 		{
-			return this.CreateMethodCallQuery<GetNodesForTreeResult>(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), rootID);
+			return this.CreateMethodCallQuery<UnifiedNode>(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), rootID);
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetNodesIDsForTree", IsComposable=true)]
@@ -5294,214 +5302,11 @@ namespace Flex.Database
 		}
 	}
 	
-	public partial class GetWeightedWordsForTreeResult
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.UnifiedNodes")]
+	public partial class UnifiedNode
 	{
 		
 		private int _ID;
-		
-		private int _WordElement;
-		
-		private string _Text;
-		
-		private int _Weight;
-		
-		public GetWeightedWordsForTreeResult()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", DbType="Int NOT NULL")]
-		public int ID
-		{
-			get
-			{
-				return this._ID;
-			}
-			set
-			{
-				if ((this._ID != value))
-				{
-					this._ID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WordElement", DbType="Int NOT NULL")]
-		public int WordElement
-		{
-			get
-			{
-				return this._WordElement;
-			}
-			set
-			{
-				if ((this._WordElement != value))
-				{
-					this._WordElement = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Text", DbType="VarChar(24) NOT NULL", CanBeNull=false)]
-		public string Text
-		{
-			get
-			{
-				return this._Text;
-			}
-			set
-			{
-				if ((this._Text != value))
-				{
-					this._Text = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Weight", DbType="Int NOT NULL")]
-		public int Weight
-		{
-			get
-			{
-				return this._Weight;
-			}
-			set
-			{
-				if ((this._Weight != value))
-				{
-					this._Weight = value;
-				}
-			}
-		}
-	}
-	
-	public partial class GetChildOrderingsForTreeResult
-	{
-		
-		private int _Parent;
-		
-		private int _Child_Before;
-		
-		private int _Child_After;
-		
-		public GetChildOrderingsForTreeResult()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Parent", DbType="Int NOT NULL")]
-		public int Parent
-		{
-			get
-			{
-				return this._Parent;
-			}
-			set
-			{
-				if ((this._Parent != value))
-				{
-					this._Parent = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Child_Before", DbType="Int NOT NULL")]
-		public int Child_Before
-		{
-			get
-			{
-				return this._Child_Before;
-			}
-			set
-			{
-				if ((this._Child_Before != value))
-				{
-					this._Child_Before = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Child_After", DbType="Int NOT NULL")]
-		public int Child_After
-		{
-			get
-			{
-				return this._Child_After;
-			}
-			set
-			{
-				if ((this._Child_After != value))
-				{
-					this._Child_After = value;
-				}
-			}
-		}
-	}
-	
-	public partial class GetSynsetBindingsForTreeResult
-	{
-		
-		private int _ElementID;
-		
-		private int _SynsetID;
-		
-		private short _Weight;
-		
-		public GetSynsetBindingsForTreeResult()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ElementID", DbType="Int NOT NULL")]
-		public int ElementID
-		{
-			get
-			{
-				return this._ElementID;
-			}
-			set
-			{
-				if ((this._ElementID != value))
-				{
-					this._ElementID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SynsetID", DbType="Int NOT NULL")]
-		public int SynsetID
-		{
-			get
-			{
-				return this._SynsetID;
-			}
-			set
-			{
-				if ((this._SynsetID != value))
-				{
-					this._SynsetID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Weight", DbType="SmallInt NOT NULL")]
-		public short Weight
-		{
-			get
-			{
-				return this._Weight;
-			}
-			set
-			{
-				if ((this._Weight != value))
-				{
-					this._Weight = value;
-				}
-			}
-		}
-	}
-	
-	public partial class GetNodesForTreeResult
-	{
-		
-		private System.Nullable<int> _ID;
 		
 		private System.Nullable<int> _ParentID;
 		
@@ -5509,7 +5314,7 @@ namespace Flex.Database
 		
 		private System.Nullable<short> _Weight;
 		
-		private System.Nullable<byte> _ElementType;
+		private byte _ElementType;
 		
 		private System.Nullable<byte> _WordType;
 		
@@ -5607,12 +5412,12 @@ namespace Flex.Database
 		
 		private System.Nullable<bool> _AdvP_Superlative;
 		
-		public GetNodesForTreeResult()
+		public UnifiedNode()
 		{
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", DbType="Int")]
-		public System.Nullable<int> ID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", DbType="Int NOT NULL")]
+		public int ID
 		{
 			get
 			{
@@ -5675,8 +5480,8 @@ namespace Flex.Database
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ElementType", DbType="TinyInt")]
-		public System.Nullable<byte> ElementType
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ElementType", DbType="TinyInt NOT NULL")]
+		public byte ElementType
 		{
 			get
 			{
@@ -6455,6 +6260,210 @@ namespace Flex.Database
 				if ((this._AdvP_Superlative != value))
 				{
 					this._AdvP_Superlative = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetWeightedWordsForTreeResult
+	{
+		
+		private int _ID;
+		
+		private int _WordElement;
+		
+		private string _Text;
+		
+		private int _Weight;
+		
+		public GetWeightedWordsForTreeResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", DbType="Int NOT NULL")]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this._ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WordElement", DbType="Int NOT NULL")]
+		public int WordElement
+		{
+			get
+			{
+				return this._WordElement;
+			}
+			set
+			{
+				if ((this._WordElement != value))
+				{
+					this._WordElement = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Text", DbType="VarChar(24) NOT NULL", CanBeNull=false)]
+		public string Text
+		{
+			get
+			{
+				return this._Text;
+			}
+			set
+			{
+				if ((this._Text != value))
+				{
+					this._Text = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Weight", DbType="Int NOT NULL")]
+		public int Weight
+		{
+			get
+			{
+				return this._Weight;
+			}
+			set
+			{
+				if ((this._Weight != value))
+				{
+					this._Weight = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetChildOrderingsForTreeResult
+	{
+		
+		private int _Parent;
+		
+		private int _Child_Before;
+		
+		private int _Child_After;
+		
+		public GetChildOrderingsForTreeResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Parent", DbType="Int NOT NULL")]
+		public int Parent
+		{
+			get
+			{
+				return this._Parent;
+			}
+			set
+			{
+				if ((this._Parent != value))
+				{
+					this._Parent = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Child_Before", DbType="Int NOT NULL")]
+		public int Child_Before
+		{
+			get
+			{
+				return this._Child_Before;
+			}
+			set
+			{
+				if ((this._Child_Before != value))
+				{
+					this._Child_Before = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Child_After", DbType="Int NOT NULL")]
+		public int Child_After
+		{
+			get
+			{
+				return this._Child_After;
+			}
+			set
+			{
+				if ((this._Child_After != value))
+				{
+					this._Child_After = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetSynsetBindingsForTreeResult
+	{
+		
+		private int _ElementID;
+		
+		private int _SynsetID;
+		
+		private short _Weight;
+		
+		public GetSynsetBindingsForTreeResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ElementID", DbType="Int NOT NULL")]
+		public int ElementID
+		{
+			get
+			{
+				return this._ElementID;
+			}
+			set
+			{
+				if ((this._ElementID != value))
+				{
+					this._ElementID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SynsetID", DbType="Int NOT NULL")]
+		public int SynsetID
+		{
+			get
+			{
+				return this._SynsetID;
+			}
+			set
+			{
+				if ((this._SynsetID != value))
+				{
+					this._SynsetID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Weight", DbType="SmallInt NOT NULL")]
+		public short Weight
+		{
+			get
+			{
+				return this._Weight;
+			}
+			set
+			{
+				if ((this._Weight != value))
+				{
+					this._Weight = value;
 				}
 			}
 		}

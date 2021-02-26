@@ -484,7 +484,7 @@ namespace Flex.Database
             //SubmitChanges();
         }
 
-        private ParentElementBuilder BuildParent(GetNodesForTreeResult parentResult, IEnumerable<GetNodesForTreeResult> nodeResults, IEnumerable<GetWeightedWordsForTreeResult> weightedWordResults, List<GetChildOrderingsForTreeResult> childOrderingResults)
+        private ParentElementBuilder BuildParent(UnifiedNode parentResult, IEnumerable<UnifiedNode> nodeResults, IEnumerable<GetWeightedWordsForTreeResult> weightedWordResults, List<GetChildOrderingsForTreeResult> childOrderingResults)
         {
             ParentElementBuilder parentBuilder = FlexData.Parent.BuilderOfType((FlexData.ParentType)parentResult.ParentType);
             parentBuilder.FlexDB_ID = (int)parentResult.ID;
@@ -493,7 +493,7 @@ namespace Flex.Database
             return parentBuilder;
         }
 
-        private void BuildParentLayersOf(ParentElementBuilder parentBuilder, GetNodesForTreeResult parentResult)
+        private void BuildParentLayersOf(ParentElementBuilder parentBuilder, UnifiedNode parentResult)
         {
             switch (parentBuilder)
             {
@@ -521,7 +521,7 @@ namespace Flex.Database
             }
         }
 
-        private void BuildPhraseLayersOf(ClauseBuilder clauseBuilder, GetNodesForTreeResult clauseResult)
+        private void BuildPhraseLayersOf(ClauseBuilder clauseBuilder, UnifiedNode clauseResult)
         {
             clauseBuilder.DiscourseFunctionSpecified = clauseResult.DiscourseFunction != null;
             if (clauseBuilder.DiscourseFunctionSpecified) clauseBuilder.DiscourseFunction = (discourseFunction)clauseResult.DiscourseFunction;
@@ -530,7 +530,7 @@ namespace Flex.Database
             BuildClauseLayerOf(clauseBuilder, clauseResult);
         }
 
-        private void BuildClauseLayerOf(ClauseBuilder clauseBuilder, GetNodesForTreeResult clauseResult)
+        private void BuildClauseLayerOf(ClauseBuilder clauseBuilder, UnifiedNode clauseResult)
         {
             clauseBuilder.AggregateAuxiliarySpecified = clauseResult.C_AggregateAuxiliary != null;
             if (clauseBuilder.AggregateAuxiliarySpecified) clauseBuilder.AggregateAuxiliary = (bool)clauseResult.C_AggregateAuxiliary;
@@ -558,7 +558,7 @@ namespace Flex.Database
             if (clauseBuilder.TenseSpecified) clauseBuilder.Tense = (tense)clauseResult.C_Tense;
         }
 
-        private void BuildPhraseLayersOf(PhraseBuilder phraseBuilder, GetNodesForTreeResult phraseResult)
+        private void BuildPhraseLayersOf(PhraseBuilder phraseBuilder, UnifiedNode phraseResult)
         {
             phraseBuilder.DiscourseFunctionSpecified = phraseResult.DiscourseFunction != null;
             if (phraseBuilder.DiscourseFunctionSpecified) phraseBuilder.DiscourseFunction = (discourseFunction)phraseResult.DiscourseFunction;
@@ -581,7 +581,7 @@ namespace Flex.Database
             }
         }
 
-        private void BuildNounPhraseLayerOf(NounPhraseBuilder nounPhraseBuilder, GetNodesForTreeResult phraseResult)
+        private void BuildNounPhraseLayerOf(NounPhraseBuilder nounPhraseBuilder, UnifiedNode phraseResult)
         {
             nounPhraseBuilder.AdjectiveOrderingSpecified = phraseResult.NP_AdjectiveOrdering != null;
             if (nounPhraseBuilder.AdjectiveOrderingSpecified) nounPhraseBuilder.AdjectiveOrdering = (bool)phraseResult.NP_AdjectiveOrdering;
@@ -599,7 +599,7 @@ namespace Flex.Database
             if (nounPhraseBuilder.PronominalSpecified) nounPhraseBuilder.Pronominal = (bool)phraseResult.NP_Pronominal;
         }
 
-        private void BuildVerbPhraseLayerOf(VerbPhraseBuilder verbPhraseBuilder, GetNodesForTreeResult phraseResult)
+        private void BuildVerbPhraseLayerOf(VerbPhraseBuilder verbPhraseBuilder, UnifiedNode phraseResult)
         {
             verbPhraseBuilder.AggregateAuxiliarySpecified = phraseResult.VP_AggregateAuxiliary != null;
             if (verbPhraseBuilder.AggregateAuxiliarySpecified) verbPhraseBuilder.AggregateAuxiliary = (bool)phraseResult.VP_AggregateAuxiliary;
@@ -624,7 +624,7 @@ namespace Flex.Database
             if (verbPhraseBuilder.TenseSpecified) verbPhraseBuilder.Tense = (tense)phraseResult.VP_Tense;
         }
 
-        private void BuildAdjectivePhraseLayerOf(AdjectivePhraseBuilder adjectivePhraseBuilder, GetNodesForTreeResult phraseResult)
+        private void BuildAdjectivePhraseLayerOf(AdjectivePhraseBuilder adjectivePhraseBuilder, UnifiedNode phraseResult)
         {
             adjectivePhraseBuilder.ComparativeSpecified = phraseResult.AdjP_Comparative != null;
             if (adjectivePhraseBuilder.ComparativeSpecified) adjectivePhraseBuilder.Comparative = (bool)phraseResult.AdjP_Comparative;
@@ -632,7 +632,7 @@ namespace Flex.Database
             if (adjectivePhraseBuilder.SuperlativeSpecified) adjectivePhraseBuilder.Superlative = (bool)phraseResult.AdjP_Superlative;
         }
 
-        private void BuildAdverbPhraseLayerOf(AdverbPhraseBuilder adverbPhraseBuilder, GetNodesForTreeResult phraseResult)
+        private void BuildAdverbPhraseLayerOf(AdverbPhraseBuilder adverbPhraseBuilder, UnifiedNode phraseResult)
         {
             adverbPhraseBuilder.ComparativeSpecified = phraseResult.AdvP_Comparative != null;
             if (adverbPhraseBuilder.ComparativeSpecified) adverbPhraseBuilder.Comparative = (bool)phraseResult.AdvP_Comparative;
@@ -640,9 +640,9 @@ namespace Flex.Database
             if (adverbPhraseBuilder.SuperlativeSpecified) adverbPhraseBuilder.Superlative = (bool)phraseResult.AdvP_Superlative;
         }
 
-        private void BuildChildrenOf(ParentElementBuilder parentBuilder, IEnumerable<GetNodesForTreeResult> nodeResults, IEnumerable<GetWeightedWordsForTreeResult> weightedWordResults, List<GetChildOrderingsForTreeResult> childOrderingResults)
+        private void BuildChildrenOf(ParentElementBuilder parentBuilder, IEnumerable<UnifiedNode> nodeResults, IEnumerable<GetWeightedWordsForTreeResult> weightedWordResults, List<GetChildOrderingsForTreeResult> childOrderingResults)
         {
-            foreach (GetNodesForTreeResult eachChildResult in nodeResults.Where(nodeResult => nodeResult.ParentID.Equals(parentBuilder.FlexDB_ID)))
+            foreach (UnifiedNode eachChildResult in nodeResults.Where(nodeResult => nodeResult.ParentID.Equals(parentBuilder.FlexDB_ID)))
             {
                 IElementTreeNode child = BuildTreeNode((int)eachChildResult.ID, nodeResults, weightedWordResults, childOrderingResults);
                 parentBuilder.AddChildWithRole(child, (ParentElementBuilder.ChildRole)eachChildResult.Role);

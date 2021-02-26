@@ -86,9 +86,7 @@
                         <RadioButton GroupName="letter" Margin="4 0 0 2" Checked="Z_Button_Checked">Z</RadioButton>
                     </StackPanel>
                 </ScrollViewer>
-
             </Border>
-            
             <ListBox Grid.Column="2" Name="WordsListBox" ItemsSource="{Binding VisibleWords, IsAsync=True}" 
                      SelectionMode="Single" SelectionChanged="WordsListBox_SelectionChanged"
                      MouseDown="WordsListBox_MouseDown" MouseMove="WordsListBox_MouseMove">
