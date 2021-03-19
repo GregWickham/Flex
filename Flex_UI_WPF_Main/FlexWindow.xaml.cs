@@ -112,38 +112,37 @@ namespace Flex.UserInterface
         /// <summary>The user wants to browse WordNet synsets.</summary>
         private void BrowseWordNetMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            new WordNetBrowserWindow(
-                TreeEditor.OnSynsetDragStarted,
-                TreeEditor.OnSynsetDragCancelled,
-                TreeEditor.OnSynsetDropCompleted,
-                null, null, null)
-                .SetDroppedWordConverter(e =>
+            WordNetBrowserWindow wordNetBrowser = new WordNetBrowserWindow();
+            wordNetBrowser.SynsetDragStarted += TreeEditor.OnSynsetDragStarted;
+            wordNetBrowser.SynsetDragCancelled += TreeEditor.OnSynsetDragCancelled;
+            wordNetBrowser.SynsetDropCompleted += TreeEditor.OnSynsetDropCompleted;
+            wordNetBrowser.AddDroppedWordConverter(e =>
+            {
+                IElementTreeNode droppedNode = null;
+                // We could get a dropped IElementTree node in one of two forms:
+                // 1.  It's in the IDataObject as an IElementTreeNode, ready to use; or
+                // 2.  It's in the IDataObject as a Task<ElementBuilder> that we can run to get the IElementTreeNode
+                if (e.Data.GetDataPresent(typeof(IElementTreeNode)))
                 {
-                    IElementTreeNode droppedNode = null;
-                    // We could get a dropped IElementTree node in one of two forms:
-                    // 1.  It's in the IDataObject as an IElementTreeNode, ready to use; or
-                    // 2.  It's in the IDataObject as a Task<ElementBuilder> that we can run to get the IElementTreeNode
-                    if (e.Data.GetDataPresent(typeof(IElementTreeNode)))
+                    droppedNode = (IElementTreeNode)e.Data.GetData(typeof(IElementTreeNode));
+                }
+                else if (e.Data.GetDataPresent(typeof(Task)))
+                {
+                    Task<IElementTreeNode> getNodeTask = (Task<IElementTreeNode>)e.Data.GetData(typeof(Task));
+                    droppedNode = getNodeTask.Result;
+                }
+                return (droppedNode is WordElementBuilder wordBuilder)
+                    ? new WordSpecification(wordBuilder.WordSource.DefaultWord, wordBuilder switch
                     {
-                        droppedNode = (IElementTreeNode)e.Data.GetData(typeof(IElementTreeNode));
-                    }
-                    else if (e.Data.GetDataPresent(typeof(Task)))
-                    {
-                        Task<IElementTreeNode> getNodeTask = (Task<IElementTreeNode>)e.Data.GetData(typeof(Task));
-                        droppedNode = getNodeTask.Result;
-                    }
-                    return (droppedNode is WordElementBuilder wordBuilder)
-                        ? new WordSpecification(wordBuilder.WordSource.DefaultWord, wordBuilder switch
-                            {
-                                NounBuilder nounBuilder => WordNetData.PartOfSpeech.Noun,
-                                VerbBuilder verbBuilder => WordNetData.PartOfSpeech.Verb,
-                                AdjectiveBuilder adjectiveBuilder => WordNetData.PartOfSpeech.Adjective,
-                                AdverbBuilder adverbBuilder => WordNetData.PartOfSpeech.Adverb,
-                                _ => WordNetData.PartOfSpeech.Unspecified
-                            })
-                        : null;
-                })
-            .Show();
+                        NounBuilder nounBuilder => WordNetData.PartOfSpeech.Noun,
+                        VerbBuilder verbBuilder => WordNetData.PartOfSpeech.Verb,
+                        AdjectiveBuilder adjectiveBuilder => WordNetData.PartOfSpeech.Adjective,
+                        AdverbBuilder adverbBuilder => WordNetData.PartOfSpeech.Adverb,
+                        _ => WordNetData.PartOfSpeech.Unspecified
+                    })
+                    : null;
+            });
+            wordNetBrowser.Show();
         }
 
         /// <summary>The user wants to browse words in the Flex Database</summary>

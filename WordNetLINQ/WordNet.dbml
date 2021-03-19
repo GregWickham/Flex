@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Database Name="wordnet" Class="WordNetDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="ConnectionString" ConnectionString="Data Source=38.192.14.25,49170;Initial Catalog=wordnet;Persist Security Info=True;User ID=sa" Provider="System.Data.SqlClient" />
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="WordNet" Class="WordNetDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=38.192.14.25,49170;Initial Catalog=WordNet;Persist Security Info=True;User ID=sa;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;TrustServerCertificate=False" SettingsObjectName="WordNet.Linq.Properties.Settings" SettingsPropertyName="WordNetConnectionString2" Provider="System.Data.SqlClient" />
   <Table Name="dbo.tblSynsets" Member="Synsets">
     <Type Name="Synset" Id="ID1">
       <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -9,9 +9,8 @@
   </Table>
   <Table Name="dbo.tblSenses" Member="WordSenses">
     <Type Name="WordSense" Id="ID2">
-      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="SynsetID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="WordNumber" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SynsetID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="WordNumber" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="WordText" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
       <Column Name="POS" Type="System.Char" DbType="NChar(1) NOT NULL" CanBeNull="false" />
       <Column Name="SenseNumber" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
@@ -19,27 +18,49 @@
     </Type>
   </Table>
   <Function Name="dbo.HypernymsOf" Method="HypernymsOf" IsComposable="true">
-    <Parameter Name="HyponymID" Parameter="hyponymID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="SynsetID" Parameter="synsetID" Type="System.Int32" DbType="Int" />
     <ElementType IdRef="ID1" />
   </Function>
   <Function Name="dbo.HyponymsOf" Method="HyponymsOf" IsComposable="true">
-    <Parameter Name="HypernymID" Parameter="hypernymID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="SynsetID" Parameter="synsetID" Type="System.Int32" DbType="Int" />
     <ElementType IdRef="ID1" />
   </Function>
   <Function Name="dbo.HolonymsOf" Method="HolonymsOf" IsComposable="true">
-    <Parameter Name="MeronymID" Parameter="meronymID" Type="System.Int32" DbType="Int" />
-    <ElementType IdRef="ID1" />
+    <Parameter Name="SynsetID" Parameter="synsetID" Type="System.Int32" DbType="Int" />
+    <ElementType Name="HolonymsOfResult">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Gloss" Type="System.String" DbType="NVarChar(1000) NOT NULL" CanBeNull="false" />
+      <Column Name="POS" Type="System.Char" DbType="NChar(1) NOT NULL" CanBeNull="false" />
+      <Column Name="RelationType" Type="System.Char" DbType="NChar(1) NOT NULL" CanBeNull="false" />
+    </ElementType>
   </Function>
   <Function Name="dbo.MeronymsOf" Method="MeronymsOf" IsComposable="true">
-    <Parameter Name="HolonymID" Parameter="holonymID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="SynsetID" Parameter="synsetID" Type="System.Int32" DbType="Int" />
+    <ElementType Name="MeronymsOfResult">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Gloss" Type="System.String" DbType="NVarChar(1000) NOT NULL" CanBeNull="false" />
+      <Column Name="POS" Type="System.Char" DbType="NChar(1) NOT NULL" CanBeNull="false" />
+      <Column Name="RelationType" Type="System.Char" DbType="NChar(1) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.TypesOf" Method="TypesOf" IsComposable="true">
+    <Parameter Name="InstanceID" Parameter="instanceID" Type="System.Int32" DbType="Int" />
     <ElementType IdRef="ID1" />
   </Function>
-  <Function Name="dbo.CausedBy" Method="CausedBy" IsComposable="true">
-    <Parameter Name="CauserID" Parameter="causerID" Type="System.Int32" DbType="Int" />
+  <Function Name="dbo.InstancesOf" Method="InstancesOf" IsComposable="true">
+    <Parameter Name="TypeID" Parameter="typeID" Type="System.Int32" DbType="Int" />
+    <ElementType IdRef="ID1" />
+  </Function>
+  <Function Name="dbo.ValuesOfAttribute" Method="ValuesOfAttribute" IsComposable="true">
+    <Parameter Name="AttributeID" Parameter="attributeID" Type="System.Int32" DbType="Int" />
     <ElementType IdRef="ID1" />
   </Function>
   <Function Name="dbo.CausesOf" Method="CausesOf" IsComposable="true">
     <Parameter Name="CausedID" Parameter="causedID" Type="System.Int32" DbType="Int" />
+    <ElementType IdRef="ID1" />
+  </Function>
+  <Function Name="dbo.CausedBy" Method="CausedBy" IsComposable="true">
+    <Parameter Name="CauserID" Parameter="causerID" Type="System.Int32" DbType="Int" />
     <ElementType IdRef="ID1" />
   </Function>
   <Function Name="dbo.EntailedBy" Method="EntailedBy" IsComposable="true">
@@ -50,110 +71,40 @@
     <Parameter Name="EntailedID" Parameter="entailedID" Type="System.Int32" DbType="Int" />
     <ElementType IdRef="ID1" />
   </Function>
-  <Function Name="dbo.InstancesOf" Method="InstancesOf" IsComposable="true">
-    <Parameter Name="TypeID" Parameter="typeID" Type="System.Int32" DbType="Int" />
-    <ElementType IdRef="ID1" />
-  </Function>
-  <Function Name="dbo.TypesOf" Method="TypesOf" IsComposable="true">
-    <Parameter Name="InstanceID" Parameter="instanceID" Type="System.Int32" DbType="Int" />
-    <ElementType IdRef="ID1" />
-  </Function>
-  <Function Name="dbo.SatellitesOf" Method="SatellitesOf" IsComposable="true">
-    <Parameter Name="HeadID" Parameter="headID" Type="System.Int32" DbType="Int" />
-    <ElementType IdRef="ID1" />
-  </Function>
-  <Function Name="dbo.ClusterHeadsOf" Method="ClusterHeadsOf" IsComposable="true">
-    <Parameter Name="SatelliteID" Parameter="satelliteID" Type="System.Int32" DbType="Int" />
-    <ElementType IdRef="ID1" />
-  </Function>
-  <Function Name="dbo.AttributesWithValue" Method="AttributesWithValue" IsComposable="true">
-    <Parameter Name="ValueID" Parameter="valueID" Type="System.Int32" DbType="Int" />
-    <ElementType IdRef="ID1" />
-  </Function>
-  <Function Name="dbo.ValuesOfAttribute" Method="ValuesOfAttribute" IsComposable="true">
-    <Parameter Name="AttributeID" Parameter="attributeID" Type="System.Int32" DbType="Int" />
-    <ElementType IdRef="ID1" />
-  </Function>
-  <Function Name="dbo.WordSensesForSynset" Method="WordSensesForSynset" IsComposable="true">
-    <Parameter Name="SynsetID" Parameter="synsetID" Type="System.Int32" DbType="Int" />
-    <ElementType IdRef="ID2" />
-  </Function>
-  <Function Name="dbo.DerivationsOf" Method="DerivationsOf" IsComposable="true">
-    <Parameter Name="SynsetID" Parameter="synsetID" Type="System.Int32" DbType="Int" />
-    <Parameter Name="WordNumber" Parameter="wordNumber" Type="System.Int32" DbType="Int" />
-    <ElementType IdRef="ID2" />
-  </Function>
-  <Function Name="dbo.PertainsTo" Method="PertainsTo" IsComposable="true">
-    <Parameter Name="SynsetID" Parameter="synsetID" Type="System.Int32" DbType="Int" />
-    <Parameter Name="WordNumber" Parameter="wordNumber" Type="System.Int32" DbType="Int" />
-    <ElementType IdRef="ID2" />
-  </Function>
-  <Function Name="dbo.PertainedBy" Method="PertainedBy" IsComposable="true">
-    <Parameter Name="SynsetID" Parameter="synsetID" Type="System.Int32" DbType="Int" />
-    <Parameter Name="WordNumber" Parameter="wordNumber" Type="System.Int32" DbType="Int" />
-    <ElementType IdRef="ID2" />
-  </Function>
-  <Function Name="dbo.AntonymsOf" Method="AntonymsOf" IsComposable="true">
-    <Parameter Name="SynsetID" Parameter="synsetID" Type="System.Int32" DbType="Int" />
-    <Parameter Name="WordNumber" Parameter="wordNumber" Type="System.Int32" DbType="Int" />
-    <ElementType IdRef="ID2" />
-  </Function>
-  <Function Name="dbo.PertainersOf" Method="PertainersOf" IsComposable="true">
-    <Parameter Name="SynsetID" Parameter="synsetID" Type="System.Int32" DbType="Int" />
-    <Parameter Name="WordNumber" Parameter="wordNumber" Type="System.Int32" DbType="Int" />
-    <ElementType IdRef="ID2" />
-  </Function>
-  <Function Name="dbo.SeeAlso" Method="SeeAlso" IsComposable="true">
-    <Parameter Name="SynsetID" Parameter="synsetID" Type="System.Int32" DbType="Int" />
-    <Parameter Name="WordNumber" Parameter="wordNumber" Type="System.Int32" DbType="Int" />
-    <ElementType IdRef="ID2" />
-  </Function>
-  <Function Name="dbo.AdverbsDerivedFrom" Method="AdverbsDerivedFrom" IsComposable="true">
-    <Parameter Name="SynsetID" Parameter="synsetID" Type="System.Int32" DbType="Int" />
-    <Parameter Name="WordNumber" Parameter="wordNumber" Type="System.Int32" DbType="Int" />
-    <ElementType IdRef="ID2" />
-  </Function>
-  <Function Name="dbo.SynsetsWithSenseMatchingWord" Method="SynsetsWithSenseMatchingWord" IsComposable="true">
-    <Parameter Name="WordText" Parameter="wordText" Type="System.String" DbType="NVarChar(255)" />
-    <ElementType IdRef="ID1" />
-  </Function>
-  <Function Name="dbo.ParticipleFormsOf" Method="ParticipleFormsOf" IsComposable="true">
-    <Parameter Name="SynsetID" Parameter="synsetID" Type="System.Int32" DbType="Int" />
-    <Parameter Name="WordNumber" Parameter="wordNumber" Type="System.Int32" DbType="Int" />
-    <ElementType IdRef="ID2" />
-  </Function>
-  <Function Name="dbo.BaseVerbFormsOfParticiple" Method="BaseVerbFormsOfParticiple" IsComposable="true">
-    <Parameter Name="SynsetID" Parameter="synsetID" Type="System.Int32" DbType="Int" />
-    <Parameter Name="WordNumber" Parameter="wordNumber" Type="System.Int32" DbType="Int" />
-    <ElementType IdRef="ID2" />
-  </Function>
-  <Function Name="dbo.TeleologyFor" Method="TeleologyFor" IsComposable="true">
-    <Parameter Name="SynsetID" Parameter="synsetID" Type="System.Int32" DbType="Int" />
-    <Parameter Name="WordNumber" Parameter="wordNumber" Type="System.Int32" DbType="Int" />
-    <ElementType Name="TeleologyForResult2">
-      <Column Name="SourceWordText" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
-      <Column Name="SourcePOS" Type="System.Char" DbType="NChar(1) NOT NULL" CanBeNull="false" />
-      <Column Name="Relation" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="TelosWordText" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
-      <Column Name="TelosPOS" Type="System.Char" DbType="NChar(1) NOT NULL" CanBeNull="false" />
-    </ElementType>
-  </Function>
   <Function Name="dbo.VerbFramesForSynset" Method="VerbFramesForSynset" IsComposable="true">
     <Parameter Name="SynsetID" Parameter="synsetID" Type="System.Int32" DbType="Int" />
     <ElementType Name="VerbFramesForSynsetResult">
       <Column Name="VerbFrame" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
     </ElementType>
   </Function>
-  <Function Name="dbo.VerbFramesForWordSense" Method="VerbFramesForWordSense" IsComposable="true">
-    <Parameter Name="SynsetID" Parameter="synsetID" Type="System.Int32" DbType="Int" />
-    <Parameter Name="WordNumber" Parameter="wordNumber" Type="System.Int32" DbType="Int" />
-    <ElementType Name="VerbFramesForWordSenseResult">
-      <Column Name="VerbFrame" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
-    </ElementType>
-  </Function>
   <Function Name="dbo.SynsetsInVerbGroupWith" Method="SynsetsInVerbGroupWith" IsComposable="true">
     <Parameter Name="SynsetID" Parameter="synsetID" Type="System.Int32" DbType="Int" />
     <ElementType IdRef="ID1" />
+  </Function>
+  <Function Name="dbo.AttributesWithValue" Method="AttributesWithValue" IsComposable="true">
+    <Parameter Name="ValueID" Parameter="valueID" Type="System.Int32" DbType="Int" />
+    <ElementType IdRef="ID1" />
+  </Function>
+  <Function Name="dbo.AddHyponymyRelation" Method="AddHyponymyRelation">
+    <Parameter Name="HypernymID" Parameter="hypernymID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="HyponymID" Parameter="hyponymID" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.DeleteHyponymyRelation" Method="DeleteHyponymyRelation">
+    <Parameter Name="HypernymID" Parameter="hypernymID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="HyponymID" Parameter="hyponymID" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.TeleologyFor" Method="TeleologyFor" IsComposable="true">
+    <Parameter Name="SynsetID" Parameter="synsetID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="WordNumber" Parameter="wordNumber" Type="System.Int32" DbType="Int" />
+    <ElementType Name="TeleologyForResult">
+      <Column Name="SourceWordText" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="SourcePOS" Type="System.Char" DbType="NChar(1) NOT NULL" CanBeNull="false" />
+      <Column Name="Relation" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="TelosWordText" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="TelosPOS" Type="System.Char" DbType="NChar(1) NOT NULL" CanBeNull="false" />
+    </ElementType>
   </Function>
   <Function Name="dbo.MorphosemanticRelationsFor" Method="MorphosemanticRelationsFor" IsComposable="true">
     <Parameter Name="SynsetID" Parameter="synsetID" Type="System.Int32" DbType="Int" />
@@ -166,10 +117,12 @@
       <Column Name="TargetPOS" Type="System.Char" DbType="NChar(1) NOT NULL" CanBeNull="false" />
     </ElementType>
   </Function>
-  <Function Name="dbo.AdjectivesBasesOfDerivedAdverb" Method="AdjectivesBasesOfDerivedAdverb" IsComposable="true">
+  <Function Name="dbo.VerbFramesForWordSense" Method="VerbFramesForWordSense" IsComposable="true">
     <Parameter Name="SynsetID" Parameter="synsetID" Type="System.Int32" DbType="Int" />
     <Parameter Name="WordNumber" Parameter="wordNumber" Type="System.Int32" DbType="Int" />
-    <ElementType IdRef="ID2" />
+    <ElementType Name="VerbFramesForWordSenseResult">
+      <Column Name="VerbFrame" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+    </ElementType>
   </Function>
   <Function Name="dbo.SyntaxOfAdjective" Method="SyntaxOfAdjective" IsComposable="true">
     <Parameter Name="SynsetID" Parameter="synsetID" Type="System.Int32" DbType="Int" />
@@ -186,6 +139,10 @@
     <Parameter Name="WordText" Parameter="wordText" Type="System.String" DbType="NVarChar(255)" />
     <ElementType IdRef="ID1" />
   </Function>
+  <Function Name="dbo.SynsetsWithSenseMatchingWord" Method="SynsetsWithSenseMatchingWord" IsComposable="true">
+    <Parameter Name="WordText" Parameter="wordText" Type="System.String" DbType="NVarChar(255)" />
+    <ElementType IdRef="ID1" />
+  </Function>
   <Function Name="dbo.SynsetsWithAdjectiveSenseMatching" Method="SynsetsWithAdjectiveSenseMatching" IsComposable="true">
     <Parameter Name="WordText" Parameter="wordText" Type="System.String" DbType="NVarChar(255)" />
     <ElementType IdRef="ID1" />
@@ -193,5 +150,258 @@
   <Function Name="dbo.SynsetsWithAdverbSenseMatching" Method="SynsetsWithAdverbSenseMatching" IsComposable="true">
     <Parameter Name="WordText" Parameter="wordText" Type="System.String" DbType="NVarChar(255)" />
     <ElementType IdRef="ID1" />
+  </Function>
+  <Function Name="dbo.GetNewWordSenseRelationConstraints" Method="GetNewWordSenseRelationConstraints" IsComposable="true">
+    <Parameter Name="RootSynsetID" Parameter="rootSynsetID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="RootWordNumber" Parameter="rootWordNumber" Type="System.Int32" DbType="Int" />
+    <Parameter Name="QuerySynsetID" Parameter="querySynsetID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="QueryWordNumber" Parameter="queryWordNumber" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetNewWordSenseRelationConstraintsResult">
+      <Column Name="CanAddAntonym" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="CanAddDerivation" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="CanAddSeeAlso" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="CanAddPertainer" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="CanAddParticipleForm" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="CanAddPertainedTo" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="CanAddBaseFormOfParticiple" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="CanAddDerivedAdverb" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="CanAddAdjectiveBaseOfDerivedAdverb" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.AddMeronymyRelation" Method="AddMeronymyRelation">
+    <Parameter Name="HolonymID" Parameter="holonymID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="MeronymID" Parameter="meronymID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Type" Parameter="type" Type="System.Char" DbType="NChar(1)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.DeleteMeronymyRelation" Method="DeleteMeronymyRelation">
+    <Parameter Name="HolonymID" Parameter="holonymID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="MeronymID" Parameter="meronymID" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.AddInstanceRelation" Method="AddInstanceRelation">
+    <Parameter Name="TypeID" Parameter="typeID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="InstanceID" Parameter="instanceID" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.DeleteInstanceRelation" Method="DeleteInstanceRelation">
+    <Parameter Name="TypeID" Parameter="typeID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="InstanceID" Parameter="instanceID" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.AddAttributeRelation" Method="AddAttributeRelation">
+    <Parameter Name="AttributeID" Parameter="attributeID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="ValueID" Parameter="valueID" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.DeleteAttributeRelation" Method="DeleteAttributeRelation">
+    <Parameter Name="AttributeID" Parameter="attributeID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="ValueID" Parameter="valueID" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.AddCausationRelation" Method="AddCausationRelation">
+    <Parameter Name="CauserID" Parameter="causerID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="CausedID" Parameter="causedID" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.DeleteCausationRelation" Method="DeleteCausationRelation">
+    <Parameter Name="CauserID" Parameter="causerID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="CausedID" Parameter="causedID" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.AddEntailmentRelation" Method="AddEntailmentRelation">
+    <Parameter Name="EntailerID" Parameter="entailerID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="EntailedID" Parameter="entailedID" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.DeleteEntailmentRelation" Method="DeleteEntailmentRelation">
+    <Parameter Name="EntailerID" Parameter="entailerID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="EntailedID" Parameter="entailedID" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.AddAntonymyRelation" Method="AddAntonymyRelation">
+    <Parameter Name="SourceSynsetID" Parameter="sourceSynsetID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="SourceWordNumber" Parameter="sourceWordNumber" Type="System.Int32" DbType="Int" />
+    <Parameter Name="TargetSynsetID" Parameter="targetSynsetID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="TargetWordNumber" Parameter="targetWordNumber" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.DeleteAntonymyRelation" Method="DeleteAntonymyRelation">
+    <Parameter Name="SourceSynsetID" Parameter="sourceSynsetID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="SourceWordNumber" Parameter="sourceWordNumber" Type="System.Int32" DbType="Int" />
+    <Parameter Name="TargetSynsetID" Parameter="targetSynsetID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="TargetWordNumber" Parameter="targetWordNumber" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.AddPertainymyRelation" Method="AddPertainymyRelation">
+    <Parameter Name="PertainerSynsetID" Parameter="pertainerSynsetID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="PertainerWordNumber" Parameter="pertainerWordNumber" Type="System.Int32" DbType="Int" />
+    <Parameter Name="PertainedToSynsetID" Parameter="pertainedToSynsetID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="PertainedToWordNumber" Parameter="pertainedToWordNumber" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.DeletePertainymyRelation" Method="DeletePertainymyRelation">
+    <Parameter Name="PertainerSynsetID" Parameter="pertainerSynsetID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="PertainerWordNumber" Parameter="pertainerWordNumber" Type="System.Int32" DbType="Int" />
+    <Parameter Name="PertainedToSynsetID" Parameter="pertainedToSynsetID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="PertainedToWordNumber" Parameter="pertainedToWordNumber" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.AddDerivationRelation" Method="AddDerivationRelation">
+    <Parameter Name="SourceSynsetID" Parameter="sourceSynsetID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="SourceWordNumber" Parameter="sourceWordNumber" Type="System.Int32" DbType="Int" />
+    <Parameter Name="TargetSynsetID" Parameter="targetSynsetID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="TargetWordNumber" Parameter="targetWordNumber" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.DeleteDerivationRelation" Method="DeleteDerivationRelation">
+    <Parameter Name="SourceSynsetID" Parameter="sourceSynsetID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="SourceWordNumber" Parameter="sourceWordNumber" Type="System.Int32" DbType="Int" />
+    <Parameter Name="TargetSynsetID" Parameter="targetSynsetID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="TargetWordNumber" Parameter="targetWordNumber" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.AddAdverbDerivationRelation" Method="AddAdverbDerivationRelation">
+    <Parameter Name="AdjSynsetID" Parameter="adjSynsetID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="AdjWordNumber" Parameter="adjWordNumber" Type="System.Int32" DbType="Int" />
+    <Parameter Name="AdvSynsetID" Parameter="advSynsetID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="AdvWordNumber" Parameter="advWordNumber" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.DeleteAdverbDerivationRelation" Method="DeleteAdverbDerivationRelation">
+    <Parameter Name="AdjSynsetID" Parameter="adjSynsetID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="AdjWordNumber" Parameter="adjWordNumber" Type="System.Int32" DbType="Int" />
+    <Parameter Name="AdvSynsetID" Parameter="advSynsetID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="AdvWordNumber" Parameter="advWordNumber" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.AddParticipleRelation" Method="AddParticipleRelation">
+    <Parameter Name="VerbSynsetID" Parameter="verbSynsetID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="VerbWordNumber" Parameter="verbWordNumber" Type="System.Int32" DbType="Int" />
+    <Parameter Name="AdjSynsetID" Parameter="adjSynsetID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="AdjWordNumber" Parameter="adjWordNumber" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.DeleteParticipleRelation" Method="DeleteParticipleRelation">
+    <Parameter Name="VerbSynsetID" Parameter="verbSynsetID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="VerbWordNumber" Parameter="verbWordNumber" Type="System.Int32" DbType="Int" />
+    <Parameter Name="AdjSynsetID" Parameter="adjSynsetID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="AdjWordNumber" Parameter="adjWordNumber" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.ClusterHeadOf" Method="ClusterHeadOf" IsComposable="true">
+    <Parameter Name="SynsetID" Parameter="synsetID" Type="System.Int32" DbType="Int" />
+    <ElementType IdRef="ID1" />
+  </Function>
+  <Function Name="dbo.SatellitesOf" Method="SatellitesOf" IsComposable="true">
+    <Parameter Name="HeadID" Parameter="headID" Type="System.Int32" DbType="Int" />
+    <ElementType IdRef="ID1" />
+  </Function>
+  <Function Name="dbo.MembersOfSameAdjectiveClusterAs" Method="MembersOfSameAdjectiveClusterAs" IsComposable="true">
+    <Parameter Name="SatelliteID" Parameter="satelliteID" Type="System.Int32" DbType="Int" />
+    <ElementType IdRef="ID1" />
+  </Function>
+  <Function Name="dbo.AdjectiveBasesOfDerivedAdverb" Method="AdjectiveBasesOfDerivedAdverb" IsComposable="true">
+    <Parameter Name="SynsetID" Parameter="synsetID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="WordNumber" Parameter="wordNumber" Type="System.Int32" DbType="Int" />
+    <ElementType IdRef="ID2" />
+  </Function>
+  <Function Name="dbo.AdverbsDerivedFrom" Method="AdverbsDerivedFrom" IsComposable="true">
+    <Parameter Name="SynsetID" Parameter="synsetID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="WordNumber" Parameter="wordNumber" Type="System.Int32" DbType="Int" />
+    <ElementType IdRef="ID2" />
+  </Function>
+  <Function Name="dbo.AntonymsOf" Method="AntonymsOf" IsComposable="true">
+    <Parameter Name="SynsetID" Parameter="synsetID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="WordNumber" Parameter="wordNumber" Type="System.Int32" DbType="Int" />
+    <ElementType IdRef="ID2" />
+  </Function>
+  <Function Name="dbo.BaseVerbFormsOfParticiple" Method="BaseVerbFormsOfParticiple" IsComposable="true">
+    <Parameter Name="SynsetID" Parameter="synsetID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="WordNumber" Parameter="wordNumber" Type="System.Int32" DbType="Int" />
+    <ElementType IdRef="ID2" />
+  </Function>
+  <Function Name="dbo.DerivationsOf" Method="DerivationsOf" IsComposable="true">
+    <Parameter Name="SynsetID" Parameter="synsetID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="WordNumber" Parameter="wordNumber" Type="System.Int32" DbType="Int" />
+    <ElementType IdRef="ID2" />
+  </Function>
+  <Function Name="dbo.ParticipleFormsOf" Method="ParticipleFormsOf" IsComposable="true">
+    <Parameter Name="SynsetID" Parameter="synsetID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="WordNumber" Parameter="wordNumber" Type="System.Int32" DbType="Int" />
+    <ElementType IdRef="ID2" />
+  </Function>
+  <Function Name="dbo.PertainedToBy" Method="PertainedToBy" IsComposable="true">
+    <Parameter Name="SynsetID" Parameter="synsetID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="WordNumber" Parameter="wordNumber" Type="System.Int32" DbType="Int" />
+    <ElementType IdRef="ID2" />
+  </Function>
+  <Function Name="dbo.PertainersTo" Method="PertainersTo" IsComposable="true">
+    <Parameter Name="SynsetID" Parameter="synsetID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="WordNumber" Parameter="wordNumber" Type="System.Int32" DbType="Int" />
+    <ElementType IdRef="ID2" />
+  </Function>
+  <Function Name="dbo.WordSensesForSynset" Method="WordSensesForSynset" IsComposable="true">
+    <Parameter Name="SynsetID" Parameter="synsetID" Type="System.Int32" DbType="Int" />
+    <ElementType IdRef="ID2" />
+  </Function>
+  <Function Name="dbo.WordSensesInVerbGroupWith" Method="WordSensesInVerbGroupWith" IsComposable="true">
+    <Parameter Name="SynsetID" Parameter="synsetID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="WordNumber" Parameter="wordNumber" Type="System.Int32" DbType="Int" />
+    <ElementType IdRef="ID2" />
+  </Function>
+  <Function Name="dbo.AddSeeAlsoWordSenseRelation" Method="AddSeeAlsoWordSenseRelation">
+    <Parameter Name="SourceSynsetID" Parameter="sourceSynsetID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="SourceWordNumber" Parameter="sourceWordNumber" Type="System.Int32" DbType="Int" />
+    <Parameter Name="TargetSynsetID" Parameter="targetSynsetID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="TargetWordNumber" Parameter="targetWordNumber" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.DeleteSeeAlsoWordSenseRelation" Method="DeleteSeeAlsoWordSenseRelation">
+    <Parameter Name="SourceSynsetID" Parameter="sourceSynsetID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="SourceWordNumber" Parameter="sourceWordNumber" Type="System.Int32" DbType="Int" />
+    <Parameter Name="TargetSynsetID" Parameter="targetSynsetID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="TargetWordNumber" Parameter="targetWordNumber" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.DeleteSeeAlsoSynsetRelation" Method="DeleteSeeAlsoSynsetRelation">
+    <Parameter Name="SourceSynsetID" Parameter="sourceSynsetID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="TargetSynsetID" Parameter="targetSynsetID" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.AddSeeAlsoSynsetRelation" Method="AddSeeAlsoSynsetRelation">
+    <Parameter Name="SourceSynsetID" Parameter="sourceSynsetID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="TargetSynsetID" Parameter="targetSynsetID" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.SynsetsWithSeeAlsoRelationTo" Method="SynsetsWithSeeAlsoRelationTo" IsComposable="true">
+    <Parameter Name="SynsetID" Parameter="synsetID" Type="System.Int32" DbType="Int" />
+    <ElementType IdRef="ID1" />
+  </Function>
+  <Function Name="dbo.WordSensesWithSeeAlsoRelationTo" Method="WordSensesWithSeeAlsoRelationTo" IsComposable="true">
+    <Parameter Name="SynsetID" Parameter="synsetID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="WordNumber" Parameter="wordNumber" Type="System.Int32" DbType="Int" />
+    <ElementType IdRef="ID2" />
+  </Function>
+  <Function Name="dbo.GetNewSynsetRelationConstraints" Method="GetNewSynsetRelationConstraints" IsComposable="true">
+    <Parameter Name="RootSynsetID" Parameter="rootSynsetID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="QuerySynsetID" Parameter="querySynsetID" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetNewSynsetRelationConstraintsResult">
+      <Column Name="CanAddHypernym" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="CanAddHyponym" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="CanAddHolonym" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="CanAddMeronym" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="CanAddType" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="CanAddInstance" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="CanAddSeeAlso" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="CanAddValueOfAttribute" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="CanAddCausedBy" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="CanAddCauseOf" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="CanAddEntailedBy" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="CanAddEntails" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="CanAddVerbGroupMember" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="CanAddSatellite" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="CanAddAttributeWithValue" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </ElementType>
   </Function>
 </Database>

@@ -8,30 +8,6 @@
              d:DesignHeight="600" d:DesignWidth="300">
 
     <UserControl.Resources>
-        <Style x:Key="WordSensesHighlightBorderStyle" TargetType="Border">
-            <Setter Property="BorderBrush" Value="LightBlue"/>
-            <Setter Property="BorderThickness" Value="2"/>
-            <Setter Property="Margin" Value="2 2 2 0"/>
-        </Style>
-        <Style x:Key="WordSensesBorderStyle" TargetType="Border">
-            <Setter Property="BorderBrush" Value="LightGray"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Margin" Value="2 2 2 0"/>
-        </Style>
-        <Style x:Key="WordSensesListBoxStyle" TargetType="ListBox">
-            <Setter Property="Margin" Value="2"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
-            <Setter Property="SelectionMode" Value="Single"/>
-            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled"/>
-            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
-        </Style>
-        <!--<Style x:Key="WordSensesListViewStyle" TargetType="ListView">
-            <Setter Property="Margin" Value="2"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
-            <Setter Property="SelectionMode" Value="Single"/>
-            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled"/>
-            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
-        </Style>-->
         <Style x:Key="SectionHeaderStyle" TargetType="TextBlock">
             <Setter Property="Margin" Value="4 2 4 0"/>
             <Setter Property="FontWeight" Value="DemiBold"/>
@@ -46,14 +22,16 @@
         </Grid.RowDefinitions>
 
         <TextBlock Grid.Row="0" Text="Word Senses" Margin="0 2 0 0" HorizontalAlignment="Center" FontWeight="Bold"/>
-        <Border Grid.Row="1" Style="{StaticResource WordSensesHighlightBorderStyle}" Margin="2 8 2 0">
-            <StackPanel Orientation="Vertical">
+        <Border Grid.Row="1" BorderBrush="LightBlue" BorderThickness="2" Margin="2 8 2 0">
+            <StackPanel Orientation="Vertical" MaxHeight="200">
                 <TextBlock Text="Linked to synset" Style="{StaticResource SectionHeaderStyle}"/>
-                <ListBox Name="WordSensesForSynsetList" ItemsSource="{Binding WordSensesForSynset, IsAsync=True}" DisplayMemberPath="PartOfSpeechAndWordText" Style="{StaticResource WordSensesListBoxStyle}"
-                                MouseDoubleClick="WordSensesForSynsetList_MouseDoubleClick"/>
+                <ListBox Name="WordSensesForSynsetList" ItemsSource="{Binding WordSensesForSynset, IsAsync=True}" DisplayMemberPath="PartOfSpeechAndWordText" 
+                         Margin="2" BorderBrush="Transparent" SelectionMode="Single" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                         MouseDoubleClick="WordSensesForSynsetList_MouseDoubleClick"/>
             </StackPanel>
         </Border>
-        <local:WordSenseNavigatorControl Grid.Row="2" x:Name="WordSenseNavigator" Visibility="Hidden"/>
+        <local:WordSenseNavigatorControl Grid.Row="2" x:Name="WordSenseNavigator" Visibility="Hidden"
+            WordSenseDragStarted="WordSenseNavigator_WordSenseDragStarted" WordSenseDragCancelled="WordSenseNavigator_WordSenseDragCancelled" WordSenseDropCompleted="WordSenseNavigator_WordSenseDropCompleted"/>
     </Grid>
 
 </UserControl>

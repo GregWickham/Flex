@@ -57,6 +57,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="SharedDelegates.cs" />
+    <Compile Include="View Models\Synset Navigator\RelatedSynsetsGroupEditHelper.cs" />
+    <Compile Include="View Models\Synset Navigator\SynsetNavigatorEditHelper.cs" />
+    <Compile Include="View Models\Synset Navigator\SynsetNavigatorViewModel.cs" />
+    <Compile Include="View Models\Word Sense Navigator\RelatedWordSensesGroupEditHelper.cs" />
+    <Compile Include="View Models\Word Sense Navigator\WordSenseNavigatorEditHelper.cs" />
+    <Compile Include="View Models\Word Sense Navigator\WordSenseNavigatorViewModel.cs" />
     <Compile Include="WordSenseNavigatorControl.xaml.cs">
       <DependentUpon>WordSenseNavigatorControl.xaml</DependentUpon>
     </Compile>
@@ -144,6 +151,14 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\Link.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Edit_disabled.png" />
+    <Resource Include="Resources\Images\Edit_enabled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Left.png" />
+    <Resource Include="Resources\Images\Right.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="SpicNSpan" AfterTargets="Clean">

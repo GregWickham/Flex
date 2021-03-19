@@ -4,7 +4,7 @@ namespace WordNet.Linq
 {
     // The Table attribute fixes a weird problem in Linq-to-SQL with generated classes that get their contents from a SQL Server function
     [Table]
-    public partial class TeleologyForResult2
+    public partial class TeleologyForResult
     {
         public string SourcePartOfSpeechAndWordText => $"({UserFriendlySourcePartOfSpeech}.) {SourceWordText}";
 

@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
-using System.Windows.Media.Imaging;
 using WordNet.Linq;
 
 namespace WordNet.UserInterface
 {
-    /// <summary>Interaction logic for MainWindow.xaml</summary>
+    /// <summary>Interaction logic for WordNetBrowserWindow.xaml</summary>
     public partial class WordNetBrowserWindow : Window
     {
         public WordNetBrowserWindow()
@@ -15,77 +14,24 @@ namespace WordNet.UserInterface
             InitializeComponent();
         }
 
-        public WordNetBrowserWindow(
-            SynsetDragStarted_EventHandler synsetDragStartedHandler, 
-            SynsetDragCancelled_EventHandler synsetDragCancelledHandler,
-            SynsetDropCompleted_EventHandler synsetDropCompletedHandler,
-            WordSenseDragStarted_EventHandler wordSenseDragStartedHandler,
-            WordSenseDragCancelled_EventHandler wordSenseDragCancelledHandler,
-            WordSenseDropCompleted_EventHandler wordSenseDropCompletedHandler)
-        {
-            InitializeComponent();
-            // Hook up external event handlers supplied to the constructor, and keep track of them
-            if (synsetDragStartedHandler != null)
-            {
-                SynsetDragStarted += synsetDragStartedHandler;
-                External_SynsetDragStarted_EventHandler = synsetDragStartedHandler;
-            }
-            if (synsetDragCancelledHandler != null)
-            {
-                SynsetDragCancelled += synsetDragCancelledHandler;
-                External_SynsetDragCancelled_EventHandler = synsetDragCancelledHandler;
-            }
-            if (synsetDragStartedHandler != null)
-            {
-                SynsetDragStarted += synsetDragStartedHandler;
-                External_SynsetDropCompleted_EventHandler = synsetDropCompletedHandler;
-            }
-            if (wordSenseDragStartedHandler != null)
-            {
-                WordSenseDragStarted += wordSenseDragStartedHandler;
-                External_WordSenseDragStarted_EventHandler = wordSenseDragStartedHandler;
-            }
-            if (wordSenseDragCancelledHandler != null)
-            {
-                WordSenseDragCancelled += wordSenseDragCancelledHandler;
-                External_WordSenseDragCancelled_EventHandler = wordSenseDragCancelledHandler;
-            }
-            if (wordSenseDragStartedHandler != null)
-            {
-                WordSenseDropCompleted += wordSenseDropCompletedHandler;
-                External_WordSenseDropCompleted_EventHandler = wordSenseDropCompletedHandler;
-            }
-        }
-
-        public WordNetBrowserWindow SetDroppedWordConverter(DroppedWordConverter converter)
+        public WordNetBrowserWindow AddDroppedWordConverter(DroppedWordConverter converter)
         {
             WordToSynsetSelector.ConvertDroppedWordFrom = converter;
             return this;
         }
 
-        protected override void OnClosing(CancelEventArgs e)
+        internal void RegisterForEventsFrom(WordNetBrowserWindow anotherWordNetBrowser)
         {
-            base.OnClosing(e);
-            if (External_SynsetDragStarted_EventHandler != null) SynsetDragStarted -= External_SynsetDragStarted_EventHandler;
-            if (External_SynsetDragCancelled_EventHandler != null) SynsetDragCancelled -= External_SynsetDragCancelled_EventHandler;
-            if (External_SynsetDropCompleted_EventHandler != null) SynsetDropCompleted -= External_SynsetDropCompleted_EventHandler;
-            if (External_WordSenseDragStarted_EventHandler != null) WordSenseDragStarted -= External_WordSenseDragStarted_EventHandler;
-            if (External_WordSenseDragCancelled_EventHandler != null) WordSenseDragCancelled -= External_WordSenseDragCancelled_EventHandler;
-            if (External_WordSenseDropCompleted_EventHandler != null) WordSenseDropCompleted -= External_WordSenseDropCompleted_EventHandler;
+            anotherWordNetBrowser.SynsetDragStarted += WordNetBrowser_SynsetDragStarted;
+            anotherWordNetBrowser.SynsetDragCancelled += WordNetBrowser_SynsetDragCancelled;
+            anotherWordNetBrowser.SynsetDropCompleted += WordNetBrowser_SynsetDropCompleted;
+
+            anotherWordNetBrowser.WordSenseDragStarted += WordNetBrowser_WordSenseDragStarted;
+            anotherWordNetBrowser.WordSenseDragCancelled += WordNetBrowser_WordSenseDragCancelled;
+            anotherWordNetBrowser.WordSenseDropCompleted += WordNetBrowser_WordSenseDropCompleted;
+
+            anotherWordNetBrowser.EditingEnabledChanged += WordNetBrowser_EditingEnabledChanged;
         }
-
-        private Dictionary<Type, Func<WordSpecification>> DroppedObjectConverters = new Dictionary<Type, Func<WordSpecification>>();
-
-        #region External event handlers that can optionally be attached on construction of this Window
-
-        private SynsetDragStarted_EventHandler External_SynsetDragStarted_EventHandler;
-        private SynsetDragCancelled_EventHandler External_SynsetDragCancelled_EventHandler;
-        private SynsetDropCompleted_EventHandler External_SynsetDropCompleted_EventHandler;
-        private WordSenseDragStarted_EventHandler External_WordSenseDragStarted_EventHandler;
-        private WordSenseDragCancelled_EventHandler External_WordSenseDragCancelled_EventHandler;
-        private WordSenseDropCompleted_EventHandler External_WordSenseDropCompleted_EventHandler;
-
-        #endregion External event handlers that can optionally be attached on construction of this Window
 
         #region Events
 
@@ -97,45 +43,101 @@ namespace WordNet.UserInterface
         public event WordSenseDragCancelled_EventHandler WordSenseDragCancelled;
         public event WordSenseDropCompleted_EventHandler WordSenseDropCompleted;
 
+        internal event EditingEnabledChanged_EventHandler EditingEnabledChanged;
+        private void OnEditingEnabledChanged(bool editingEnabled)
+        {
+            SynsetNavigator.EditingIsEnabled = editingEnabled;
+            WordSensesControl.WordSenseNavigator.EditingIsEnabled = editingEnabled;
+            EditingEnabledChanged?.Invoke(editingEnabled);
+        }
+
         #endregion Events
 
         #region Control Event Handlers
+
+        private void EditEnabledButton_Checked(object sender, RoutedEventArgs e) => OnEditingEnabledChanged(true);
+        private void EditEnabledButton_Unchecked(object sender, RoutedEventArgs e) => OnEditingEnabledChanged(false);
 
         private void SynsetNavigator_SynsetDragStarted(Synset synset) => SynsetDragStarted?.Invoke(synset);
         private void SynsetNavigator_SynsetDragCancelled(Synset synset) => SynsetDragCancelled?.Invoke(synset);
         private void SynsetNavigator_SynsetDropCompleted(Synset synset) => SynsetDropCompleted?.Invoke(synset);
 
-        private void WordToSynsetSelector_SynsetSelected(Synset synset)
+        private void WordToSynsetSelector_SynsetSelected(Synset selectedSynset)
         {
             SynsetNavigator.Visibility = Visibility.Visible;
             ExpandCollapseWordFinderButton.IsChecked = false;
-            OnSelectedSynsetChanged(synset);
+            SynsetNavigator.ViewModel.SetCurrentSynset(selectedSynset);
         }
 
-        private void SynsetNavigator_SynsetSelected(Synset synset) => OnSelectedSynsetChanged(synset);
+        private void SynsetNavigator_SynsetSelected(Synset selectedSynset) => WordSensesControl.SetCurrentSynset(selectedSynset);
 
-        private void OnSelectedSynsetChanged(Synset selectedSynset)
+        private void WordSensesControl_WordSenseDragStarted(WordSense wordSense)
         {
-            SynsetNavigator.CurrentSynset = selectedSynset;
-            WordSensesControl.CurrentSynset = selectedSynset;
+            SynsetNavigator.ViewModel.SetDropTargets_ForWordSense(wordSense);
+            WordSenseDragStarted?.Invoke(wordSense);
+        }
+
+        private void WordSensesControl_WordSenseDragCancelled(WordSense wordSense)
+        {
+            SynsetNavigator.ViewModel.ClearDropTargets();
+            WordSenseDragCancelled?.Invoke(wordSense);
+        }
+
+        private void WordSensesControl_WordSenseDropCompleted(WordSense wordSense)
+        {
+            SynsetNavigator.ViewModel.ClearDropTargets();
+            WordSenseDropCompleted?.Invoke(wordSense);
         }
 
         #endregion Control Event Handlers
+
+        #region Handlers for events from other windows
+
+        private void WordNetBrowser_SynsetDragStarted(Synset synset) => SynsetNavigator.ViewModel.Edit.SetDropTargets_ForSynset(synset);
+        private void WordNetBrowser_SynsetDragCancelled(Synset synset) => SynsetNavigator.ViewModel.Edit.ClearDropTargets();
+        private void WordNetBrowser_SynsetDropCompleted(Synset synset) => SynsetNavigator.ViewModel.Edit.ClearDropTargets();
+
+        private void WordNetBrowser_WordSenseDragStarted(WordSense wordSense)
+        {
+            if (WordSensesControl.WordSenseNavigator.EditingIsEnabled)
+            {
+                WordSensesControl.WordSenseNavigator.ViewModel.Edit.SetDropTargets_ForWordSense(wordSense);
+            }
+        }
+        private void WordNetBrowser_WordSenseDragCancelled(WordSense wordSense) => WordSensesControl.WordSenseNavigator.ViewModel.Edit.ClearDropTargets();
+        private void WordNetBrowser_WordSenseDropCompleted(WordSense wordSense) => WordSensesControl.WordSenseNavigator.ViewModel.Edit.ClearDropTargets();
+
+        private void WordNetBrowser_EditingEnabledChanged(bool editingEnabled) 
+        { 
+            if (editingEnabled != EditEnabledButton.IsChecked) EditEnabledButton.IsChecked = editingEnabled; 
+        }
+
+        #endregion Handlers for events from other windows
 
         #region Menu and Toolbar
 
         private void NewWindowMenuItem_Click(object sender, RoutedEventArgs e)
         {
+            WordNetBrowserWindow newWindow = new WordNetBrowserWindow();
+
             // Duplicate the external events handlers from this window to the new window.
-            new WordNetBrowserWindow(
-                External_SynsetDragStarted_EventHandler,
-                External_SynsetDragCancelled_EventHandler,
-                External_SynsetDropCompleted_EventHandler,
-                External_WordSenseDragStarted_EventHandler,
-                External_WordSenseDragCancelled_EventHandler,
-                External_WordSenseDropCompleted_EventHandler)
-            .Show();
+            newWindow.SynsetDragStarted += SynsetDragStarted;
+            newWindow.SynsetDragCancelled += SynsetDragCancelled;
+            newWindow.SynsetDropCompleted += SynsetDropCompleted;
+            newWindow.WordSenseDragStarted += WordSenseDragStarted;
+            newWindow.WordSenseDragCancelled += WordSenseDragCancelled;
+            newWindow.WordSenseDropCompleted += WordSenseDropCompleted;
+
+            // Register to receive events from the new window
+            RegisterForEventsFrom(newWindow);
+            // Have the new window register to receive drag drop events from this window
+            newWindow.RegisterForEventsFrom(this);
+
+            newWindow.Show();
         }
+
+        private void PreviousButton_Click(object sender, RoutedEventArgs e) => SynsetNavigator.GoToPrevious();
+        private void NextButton_Click(object sender, RoutedEventArgs e) => SynsetNavigator.GoToNext();
 
         #endregion Menu and Toolbar
 

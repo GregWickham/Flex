@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using WordNet.Linq;
+using WordNet.UserInterface.ViewModels;
 
 namespace WordNet.UserInterface
 {
@@ -12,38 +13,30 @@ namespace WordNet.UserInterface
         public WordSenseNavigatorControl()
         {
             InitializeComponent();
+            DataContext = ViewModel;
         }
 
-        public WordSense CurrentWordSense
-        {
-            get => (WordSense)DataContext;
-            set
-            {
-                if (value != null & value != DataContext)
-                {
-                    DataContext = value;
-                    NounSpecificRelations.Visibility = value.IsNoun ? Visibility.Visible : Visibility.Collapsed;
-                    VerbSpecificRelations.Visibility = value.IsVerb ? Visibility.Visible : Visibility.Collapsed;
-                    FullWidthVerbSpecificRelations.Visibility = value.IsVerb ? Visibility.Visible : Visibility.Collapsed;
-                    AdjectiveSpecificRelations.Visibility = value.IsAdjective ? Visibility.Visible : Visibility.Collapsed;
-                    AdverbSpecificRelations.Visibility = value.IsAdverb ? Visibility.Visible : Visibility.Collapsed;
-                }
-            }
-        }
+        internal WordSenseNavigatorViewModel ViewModel { get; } = new WordSenseNavigatorViewModel();
 
-        private static readonly GridLength StarColumnWidth = new GridLength(1, GridUnitType.Star);
-
+        internal bool EditingIsEnabled { get; set; } = false;
 
         #region Events
 
-        internal event WordSenseDragStarted_EventHandler WordSenseDragStarted;
+        public event WordSenseDragStarted_EventHandler WordSenseDragStarted;
         private void OnWordSenseDragStarted(WordSense wordSense) => WordSenseDragStarted?.Invoke(wordSense);
 
-        internal event WordSenseDragCancelled_EventHandler WordSenseDragCancelled;
+        public event WordSenseDragCancelled_EventHandler WordSenseDragCancelled;
         private void OnWordSenseDragCancelled(WordSense wordSense) => WordSenseDragCancelled?.Invoke(wordSense);
 
-        internal event WordSenseDropCompleted_EventHandler WordSenseDropCompleted;
+        public event WordSenseDropCompleted_EventHandler WordSenseDropCompleted;
         private void OnWordSenseDropCompleted(WordSense wordSense) => WordSenseDropCompleted?.Invoke(wordSense);
+
+        public event WordSenseSelected_EventHandler WordSenseSelected;
+        private void OnWordSenseSelected(WordSense wordSense)
+        {
+            ViewModel.CurrentWordSense = wordSense;
+            WordSenseSelected?.Invoke(wordSense);
+        }
 
         #endregion Events
 
@@ -51,51 +44,48 @@ namespace WordNet.UserInterface
         #region Word Sense Navigation
 
         #region Common to all word sense parts of speech
-
         private WordSense SelectedAntonym => (WordSense)AntonymsList.SelectedItem;
-        private void AntonymsList_MouseDoubleClick(object sender, MouseButtonEventArgs e) => CurrentWordSense = SelectedAntonym;
+        private void AntonymsList_MouseDoubleClick(object sender, MouseButtonEventArgs e) => ViewModel.CurrentWordSense = SelectedAntonym;
 
         private WordSense SelectedDerivation => (WordSense)DerivationsList.SelectedItem;
-        private void DerivationsList_MouseDoubleClick(object sender, MouseButtonEventArgs e) => CurrentWordSense = SelectedDerivation;
+        private void DerivationsList_MouseDoubleClick(object sender, MouseButtonEventArgs e) => ViewModel.CurrentWordSense = SelectedDerivation;
 
-        private WordSense SelectedPertainsTo => (WordSense)PertainsToList.SelectedItem;
-        private void PertainsToList_MouseDoubleClick(object sender, MouseButtonEventArgs e) => CurrentWordSense = SelectedPertainsTo;
-
-        private WordSense SelectedPertainer => (WordSense)AntonymsList.SelectedItem;
-        private void PertainersList_MouseDoubleClick(object sender, MouseButtonEventArgs e) => CurrentWordSense = SelectedPertainer;
-
-        private WordSense SelectedSeeAlso => (WordSense)AntonymsList.SelectedItem;
-        private void SeeAlsoList_MouseDoubleClick(object sender, MouseButtonEventArgs e) => CurrentWordSense = SelectedSeeAlso;
+        private WordSense SelectedSeeAlso => (WordSense)SeeAlsoList.SelectedItem;
+        private void SeeAlsoList_MouseDoubleClick(object sender, MouseButtonEventArgs e) => ViewModel.CurrentWordSense = SelectedSeeAlso;
 
         #endregion Common to all word sense parts of speech
 
 
-        #region Noun-specific relations
+        #region Noun- or Adjective-specific relations
+        private WordSense SelectedPertainer => (WordSense)PertainersList.SelectedItem;
+        private void PertainersList_MouseDoubleClick(object sender, MouseButtonEventArgs e) => ViewModel.CurrentWordSense = SelectedPertainer;
 
-
-        #endregion Noun-specific relations
+        #endregion Noun- or Adjective-specific relations
 
 
         #region Verb-specific relations
         private WordSense SelectedParticipleForm => (WordSense)ParticipleFormsList.SelectedItem;
-        private void ParticipleFormsList_MouseDoubleClick(object sender, MouseButtonEventArgs e) => CurrentWordSense = SelectedParticipleForm;
+        private void ParticipleFormsList_MouseDoubleClick(object sender, MouseButtonEventArgs e) => ViewModel.CurrentWordSense = SelectedParticipleForm;
 
         #endregion Verb-specific relations
 
 
         #region Adjective-specific relations
+        private WordSense SelectedPertainsTo => (WordSense)PertainsToList.SelectedItem;
+        private void PertainsToList_MouseDoubleClick(object sender, MouseButtonEventArgs e) => ViewModel.CurrentWordSense = SelectedPertainsTo;
+
         private WordSense SelectedDerivedAdverb => (WordSense)DerivedAdverbsList.SelectedItem;
-        private void DerivedAdverbsList_MouseDoubleClick(object sender, MouseButtonEventArgs e) => CurrentWordSense = SelectedDerivedAdverb;
+        private void DerivedAdverbsList_MouseDoubleClick(object sender, MouseButtonEventArgs e) => ViewModel.CurrentWordSense = SelectedDerivedAdverb;
 
         private WordSense SelectedBaseVerbFormOfParticiple => (WordSense)BaseVerbFormsOfParticipleList.SelectedItem;
-        private void BaseVerbFormsOfParticipleList_MouseDoubleClick(object sender, MouseButtonEventArgs e) => CurrentWordSense = SelectedBaseVerbFormOfParticiple;
+        private void BaseVerbFormsOfParticipleList_MouseDoubleClick(object sender, MouseButtonEventArgs e) => ViewModel.CurrentWordSense = SelectedBaseVerbFormOfParticiple;
 
         #endregion Adjective-specific relations
 
 
         #region Adverb-specific relations
-        private WordSense SelectedDerivedFromAdjective => (WordSense)DerivedFromAdjectivesList.SelectedItem;
-        private void DerivedFromAdjectivesList_MouseDoubleClick(object sender, MouseButtonEventArgs e) => CurrentWordSense = SelectedDerivedFromAdjective;
+        private WordSense SelectedAdjectiveBaseOfDerivedAdverb => (WordSense)AdjectiveBasesOfDerivedAdverbList.SelectedItem;
+        private void AdjectiveBasesOfDerivedAdverbList_MouseDoubleClick(object sender, MouseButtonEventArgs e) => ViewModel.CurrentWordSense = SelectedAdjectiveBaseOfDerivedAdverb;
 
         #endregion Adverb-specific relations
 
@@ -116,27 +106,52 @@ namespace WordNet.UserInterface
             if (e.LeftButton == MouseButtonState.Pressed &&
                 (Math.Abs(mouseDownDistanceMoved.X) > SystemParameters.MinimumHorizontalDragDistance || Math.Abs(mouseDownDistanceMoved.Y) > SystemParameters.MinimumVerticalDragDistance))
             {
-                if (CurrentWordSense != null)
+                if (ViewModel.CurrentWordSense != null)
                 {
-                    //OnWordSenseDragStarted(CurrentWordSense.SynsetID, CurrentWordSense.WordNumber);
-                    //DataObject dataObject = new DataObject();
-                    //dataObject.SetData(typeof(int), CurrentWordSense.ID);
-                    //DragDropEffects dragResult = DragDrop.DoDragDrop(this, dataObject, DragDropEffects.Link | DragDropEffects.None);
-                    //switch (dragResult)
-                    //{
-                    //    case DragDropEffects.None:
-                    //        OnSynsetDragCancelled(CurrentSynset.ID);
-                    //        break;
-                    //    case DragDropEffects.Link:
-                    //        OnSynsetDropCompleted(CurrentSynset.ID);
-                    //        break;
-                    //    default: break;
-                    //}
+                    OnWordSenseDragStarted(ViewModel.CurrentWordSense);
+                    DataObject dataObject = new DataObject();
+                    dataObject.SetData(typeof(WordSense), ViewModel.CurrentWordSense);
+                    DragDropEffects dragResult = DragDrop.DoDragDrop(this, dataObject, DragDropEffects.Move | DragDropEffects.None);
+                    switch (dragResult)
+                    {
+                        case DragDropEffects.None:
+                            OnWordSenseDragCancelled(ViewModel.CurrentWordSense);
+                            break;
+                        case DragDropEffects.Move:
+                            OnWordSenseDropCompleted(ViewModel.CurrentWordSense);
+                            break;
+                        default: break;
+                    }
                 }
             }
         }
 
         #endregion Drag / Drop of Word Senses from this control
 
+        #region Dragging and Dropping WordSenses onto this control
+        private void AntonymsBorder_Drop(object sender, DragEventArgs e) => ViewModel.Edit.OnAntonymsDrop(e);
+        private void DerivationsBorder_Drop(object sender, DragEventArgs e) => ViewModel.Edit.OnDerivationsDrop(e);
+        private void SeeAlsoBorder_Drop(object sender, DragEventArgs e) => ViewModel.Edit.OnSeeAlsoDrop(e);
+        private void BaseVerbFormsOfParticipleBorder_Drop(object sender, DragEventArgs e) => ViewModel.Edit.OnBaseVerbFormsOfParticipleDrop(e);
+        private void ParticipleFormsBorder_Drop(object sender, DragEventArgs e) => ViewModel.Edit.OnParticipleFormsDrop(e);
+        private void AdjectiveBasesOfDerivedAdverbBorder_Drop(object sender, DragEventArgs e) => ViewModel.Edit.OnAdjectiveBasesOfDerivedAdverbDrop(e);
+        private void DerivedAdverbsBorder_Drop(object sender, DragEventArgs e) => ViewModel.Edit.OnDerivedAdverbsDrop(e);
+        private void PertainersBorder_Drop(object sender, DragEventArgs e) => ViewModel.Edit.OnPertainersDrop(e);
+        private void PertainsToBorder_Drop(object sender, DragEventArgs e) => ViewModel.Edit.OnPertainsToDrop(e);
+
+        #endregion Dragging and Dropping WordSenses onto this control
+
+        #region Editing related word senses
+        private void AntonymsBorder_KeyUp(object sender, KeyEventArgs e) { if (e.Key == Key.Delete && EditingIsEnabled) ViewModel.Edit.DeleteAntonym(SelectedAntonym); }
+        private void DerivationsBorder_KeyUp(object sender, KeyEventArgs e) { if (e.Key == Key.Delete && EditingIsEnabled) ViewModel.Edit.DeleteDerivation(SelectedDerivation); }
+        private void SeeAlsoBorder_KeyUp(object sender, KeyEventArgs e) { if (e.Key == Key.Delete && EditingIsEnabled) ViewModel.Edit.DeleteSeeAlso(SelectedSeeAlso); }
+        private void BaseVerbFormsOfParticipleBorder_KeyUp(object sender, KeyEventArgs e) { if (e.Key == Key.Delete && EditingIsEnabled) ViewModel.Edit.DeleteBaseVerbFormOfParticiple(SelectedBaseVerbFormOfParticiple); }
+        private void ParticipleFormsBorder_KeyUp(object sender, KeyEventArgs e) { if (e.Key == Key.Delete && EditingIsEnabled) ViewModel.Edit.DeleteParticipleForm(SelectedParticipleForm); }
+        private void AdjectiveBasesOfDerivedAdverbBorder_KeyUp(object sender, KeyEventArgs e) { if (e.Key == Key.Delete && EditingIsEnabled) ViewModel.Edit.DeleteAdjectiveBaseOfDerivedAdverb(SelectedAdjectiveBaseOfDerivedAdverb); }
+        private void DerivedAdverbsBorder_KeyUp(object sender, KeyEventArgs e) { if (e.Key == Key.Delete && EditingIsEnabled) ViewModel.Edit.DeleteDerivedAdverb(SelectedDerivedAdverb); }
+        private void PertainersBorder_KeyUp(object sender, KeyEventArgs e) { if (e.Key == Key.Delete && EditingIsEnabled) ViewModel.Edit.DeletePertainer(SelectedPertainer); }
+        private void PertainsToBorder_KeyUp(object sender, KeyEventArgs e) { if (e.Key == Key.Delete && EditingIsEnabled) ViewModel.Edit.DeletePertainsTo(SelectedPertainsTo); }
+
+        #endregion Editing related word senses
     }
 }

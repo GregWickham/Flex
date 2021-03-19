@@ -14,8 +14,6 @@
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
         <Style x:Key="SectionBorderStyle" TargetType="Border">
-            <Setter Property="BorderBrush" Value="LightGray"/>
-            <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Margin" Value="2 2 2 0"/>
         </Style>
         <Style x:Key="WordSensesListBoxStyle" TargetType="ListBox">
@@ -24,6 +22,20 @@
             <Setter Property="SelectionMode" Value="Single"/>
             <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled"/>
             <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+        </Style>
+        <Style x:Key="WordSensesDataGridStyle" TargetType="DataGrid">
+            <Setter Property="Margin" Value="0 4 0 0"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="SelectionMode" Value="Single"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="HorizontalGridLinesBrush" Value="Transparent"/>
+            <Setter Property="VerticalGridLinesBrush" Value="DarkGray"/>
+            <Setter Property="SelectionMode" Value="Single"/>
+            <Setter Property="CanUserAddRows" Value="False"/>
         </Style>
         <Style x:Key="SectionHeaderStyle" TargetType="TextBlock">
             <Setter Property="Margin" Value="4 2 4 0"/>
@@ -47,113 +59,135 @@
 
             <Border Grid.Row="0" BorderBrush="LightBlue" BorderThickness="2" HorizontalAlignment="Center" Margin="0 2 0 0">
                 <StackPanel Orientation="Horizontal" Margin="12 2 12 2" HorizontalAlignment="Center" MouseDown="CurrentWordSenseHeader_MouseDown" MouseMove="CurrentWordSenseHeader_MouseMove">
-                    <TextBlock Name="CurrentWordSenseHeaderTextBlock" Text="{Binding Path=PartOfSpeechAndWordText, IsAsync=True}" Style="{StaticResource WordSenseHeaderStyle}"/>
+                    <TextBlock Name="CurrentWordSenseHeaderTextBlock" Text="{Binding Path=CurrentWordSense.PartOfSpeechAndWordText}" Style="{StaticResource WordSenseHeaderStyle}"/>
                 </StackPanel>
             </Border>
-
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Border Grid.Column="0">
-                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                <StackPanel Grid.Column="0" Orientation="Vertical" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                    <Border Name="AntonymsBorder" Visibility="Visible" 
+                            BorderBrush="{Binding Path=Edit.Antonyms.RelatedWordSensesBorderBrush}" BorderThickness="{Binding Path=Edit.Antonyms.RelatedWordSensesBorderThickness}" 
+                            AllowDrop="{Binding Path=Edit.Antonyms.DropIsEnabled}" Drop="AntonymsBorder_Drop"
+                            KeyUp="AntonymsBorder_KeyUp"
+                            Style="{StaticResource SectionBorderStyle}">
                         <StackPanel Orientation="Vertical">
-                            <Border Style="{StaticResource SectionBorderStyle}">
-                                <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="Antonyms" Style="{StaticResource SectionHeaderStyle}"/>
-                                    <ListBox Name="AntonymsList" ItemsSource="{Binding Antonyms, IsAsync=True}" DisplayMemberPath="PartOfSpeechAndWordText" Style="{StaticResource WordSensesListBoxStyle}"
-                                         MouseDoubleClick="AntonymsList_MouseDoubleClick"/>
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource SectionBorderStyle}">
-                                <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="Derivations" Style="{StaticResource SectionHeaderStyle}"/>
-                                    <ListBox Name="DerivationsList" ItemsSource="{Binding Derivations, IsAsync=True}" DisplayMemberPath="PartOfSpeechAndWordText" Style="{StaticResource WordSensesListBoxStyle}"
-                                         MouseDoubleClick="DerivationsList_MouseDoubleClick"/>
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource SectionBorderStyle}">
-                                <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="Pertains to" Style="{StaticResource SectionHeaderStyle}"/>
-                                    <ListBox Name="PertainsToList" ItemsSource="{Binding PertainsTo, IsAsync=True}" DisplayMemberPath="PartOfSpeechAndWordText" Style="{StaticResource WordSensesListBoxStyle}"
-                                         MouseDoubleClick="PertainsToList_MouseDoubleClick"/>
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource SectionBorderStyle}">
-                                <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="Pertainers" Style="{StaticResource SectionHeaderStyle}"/>
-                                    <ListBox Name="PertainersList" ItemsSource="{Binding Pertainers, IsAsync=True}" DisplayMemberPath="PartOfSpeechAndWordText" Style="{StaticResource WordSensesListBoxStyle}"
-                                         MouseDoubleClick="PertainersList_MouseDoubleClick"/>
-                                </StackPanel>
-                            </Border>
+                            <TextBlock Text="Antonyms" Style="{StaticResource SectionHeaderStyle}"/>
+                            <ListBox Name="AntonymsList" ItemsSource="{Binding Path=CurrentWordSense.Antonyms, IsAsync=True}" DisplayMemberPath="PartOfSpeechAndWordText" 
+                                     MouseDoubleClick="AntonymsList_MouseDoubleClick" Style="{StaticResource WordSensesListBoxStyle}"/>
                         </StackPanel>
-                    </ScrollViewer>
-                </Border>
-                <Border Grid.Column="1">
-                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                    </Border>
+                    <Border Name="DerivationsBorder" Visibility="Visible" 
+                            BorderBrush="{Binding Path=Edit.Derivations.RelatedWordSensesBorderBrush}" BorderThickness="{Binding Path=Edit.Derivations.RelatedWordSensesBorderThickness}" 
+                            AllowDrop="{Binding Path=Edit.Derivations.DropIsEnabled}" Drop="DerivationsBorder_Drop"
+                            KeyUp="DerivationsBorder_KeyUp"
+                            Style="{StaticResource SectionBorderStyle}">
                         <StackPanel Orientation="Vertical">
-                            <Border Style="{StaticResource SectionBorderStyle}">
-                                <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="See also" Style="{StaticResource SectionHeaderStyle}"/>
-                                    <ListBox Name="SeeAlsoList" ItemsSource="{Binding SeeAlso, IsAsync=True}" DisplayMemberPath="PartOfSpeechAndWordText" Style="{StaticResource WordSensesListBoxStyle}"
-                                         MouseDoubleClick="SeeAlsoList_MouseDoubleClick"/>
-                                </StackPanel>
-                            </Border>
-                            <StackPanel Orientation="Vertical" Name="NounSpecificRelations" Visibility="Collapsed">
-                            </StackPanel>
-                            <StackPanel Orientation="Vertical" Name="VerbSpecificRelations" Visibility="Collapsed">
-                                <Border Style="{StaticResource SectionBorderStyle}">
-                                    <StackPanel Orientation="Vertical">
-                                        <TextBlock Text="Participle forms" Style="{StaticResource SectionHeaderStyle}"/>
-                                        <ListBox Name="ParticipleFormsList" ItemsSource="{Binding ParticipleForms, IsAsync=True}" DisplayMemberPath="PartOfSpeechAndWordText" Style="{StaticResource WordSensesListBoxStyle}"
-                                     MouseDoubleClick="ParticipleFormsList_MouseDoubleClick"/>
-                                    </StackPanel>
-                                </Border>
-                            </StackPanel>
-                            <StackPanel Orientation="Vertical" Name="AdjectiveSpecificRelations" Visibility="Collapsed">
-                                <Border Style="{StaticResource SectionBorderStyle}">
-                                    <StackPanel Orientation="Vertical">
-                                        <TextBlock Text="Adjective syntax" Style="{StaticResource SectionHeaderStyle}"/>
-                                        <TextBlock Text="{Binding AdjectiveSyntax}" Margin="4 0 0 4"/>
-                                    </StackPanel>
-                                </Border>
-                                <Border Style="{StaticResource SectionBorderStyle}">
-                                    <StackPanel Orientation="Vertical">
-                                        <TextBlock Text="Derived adverbs" Style="{StaticResource SectionHeaderStyle}"/>
-                                        <ListBox Name="DerivedAdverbsList" ItemsSource="{Binding DerivedAdverbs, IsAsync=True}" DisplayMemberPath="PartOfSpeechAndWordText" Style="{StaticResource WordSensesListBoxStyle}"
-                                     MouseDoubleClick="DerivedAdverbsList_MouseDoubleClick"/>
-                                    </StackPanel>
-                                </Border>
-                                <Border Style="{StaticResource SectionBorderStyle}">
-                                    <StackPanel Orientation="Vertical">
-                                        <TextBlock Text="Base forms of participle" Style="{StaticResource SectionHeaderStyle}"/>
-                                        <ListBox Name="BaseVerbFormsOfParticipleList" ItemsSource="{Binding BaseVerbFormsOfParticiple, IsAsync=True}" DisplayMemberPath="PartOfSpeechAndWordText" Style="{StaticResource WordSensesListBoxStyle}"
+                            <TextBlock Text="Derivations" Style="{StaticResource SectionHeaderStyle}"/>
+                            <ListBox Name="DerivationsList" ItemsSource="{Binding Path=CurrentWordSense.Derivations, IsAsync=True}" DisplayMemberPath="PartOfSpeechAndWordText" 
+                                     MouseDoubleClick="DerivationsList_MouseDoubleClick" Style="{StaticResource WordSensesListBoxStyle}"/>
+                        </StackPanel>
+                    </Border>
+                    <Border Name="AdjectiveSyntaxBorder" Visibility="{Binding AdjectiveSpecificRelationsVisibility}" 
+                            BorderBrush="{Binding Path=Edit.AdjectiveSyntax.RelatedWordSensesBorderBrush}" BorderThickness="{Binding Path=Edit.AdjectiveSyntax.RelatedWordSensesBorderThickness}" 
+                            Style="{StaticResource SectionBorderStyle}">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="Adjective syntax" Style="{StaticResource SectionHeaderStyle}"/>
+                            <TextBlock Text="{Binding Path=CurrentWordSense.AdjectiveSyntax}" Margin="4 0 0 4"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <Border Name="SeeAlsoBorder" Visibility="Visible" 
+                            BorderBrush="{Binding Path=Edit.SeeAlso.RelatedWordSensesBorderBrush}" BorderThickness="{Binding Path=Edit.SeeAlso.RelatedWordSensesBorderThickness}" 
+                            AllowDrop="{Binding Path=Edit.SeeAlso.DropIsEnabled}" Drop="SeeAlsoBorder_Drop"
+                            KeyUp="SeeAlsoBorder_KeyUp"
+                            Style="{StaticResource SectionBorderStyle}">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="See also" Style="{StaticResource SectionHeaderStyle}"/>
+                            <ListBox Name="SeeAlsoList" ItemsSource="{Binding Path=CurrentWordSense.SeeAlso, IsAsync=True}" DisplayMemberPath="PartOfSpeechAndWordText" Style="{StaticResource WordSensesListBoxStyle}"
+                                     MouseDoubleClick="SeeAlsoList_MouseDoubleClick"/>
+                        </StackPanel>
+                    </Border>
+                    <Border Name="AdjectiveBasesOfDerivedAdverbBorder" Visibility="{Binding AdverbSpecificRelationsVisibility}"
+                            BorderBrush="{Binding Path=Edit.AdjectiveBasesOfDerivedAdverb.RelatedWordSensesBorderBrush}" BorderThickness="{Binding Path=Edit.AdjectiveBasesOfDerivedAdverb.RelatedWordSensesBorderThickness}"
+                            AllowDrop="{Binding Path=Edit.AdjectiveBasesOfDerivedAdverb.DropIsEnabled}" Drop="AdjectiveBasesOfDerivedAdverbBorder_Drop"
+                            KeyUp="AdjectiveBasesOfDerivedAdverbBorder_KeyUp"  
+                            Style="{StaticResource SectionBorderStyle}">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="Adjective base" Style="{StaticResource SectionHeaderStyle}"/>
+                            <ListBox Name="AdjectiveBasesOfDerivedAdverbList" ItemsSource="{Binding Path=CurrentWordSense.AdjectiveBasesOfDerivedAdverb, IsAsync=True}" DisplayMemberPath="PartOfSpeechAndWordText" Style="{StaticResource WordSensesListBoxStyle}"
+                                     MouseDoubleClick="AdjectiveBasesOfDerivedAdverbList_MouseDoubleClick"/>
+                        </StackPanel>
+                    </Border>
+                    <Border Name="DerivedAdverbsBorder" Visibility="{Binding AdjectiveSpecificRelationsVisibility}" 
+                            BorderBrush="{Binding Path=Edit.DerivedAdverbs.RelatedWordSensesBorderBrush}" BorderThickness="{Binding Path=Edit.DerivedAdverbs.RelatedWordSensesBorderThickness}" 
+                            AllowDrop="{Binding Path=Edit.DerivedAdverbs.DropIsEnabled}" Drop="DerivedAdverbsBorder_Drop"
+                            KeyUp="DerivedAdverbsBorder_KeyUp"
+                            Style="{StaticResource SectionBorderStyle}">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="Derived adverbs" Style="{StaticResource SectionHeaderStyle}"/>
+                            <ListBox Name="DerivedAdverbsList" ItemsSource="{Binding Path=CurrentWordSense.DerivedAdverbs, IsAsync=True}" DisplayMemberPath="PartOfSpeechAndWordText" Style="{StaticResource WordSensesListBoxStyle}"
+                                    MouseDoubleClick="DerivedAdverbsList_MouseDoubleClick"/>
+                        </StackPanel>
+                    </Border>
+                    <Border Name="BaseVerbFormsOfParticipleBorder" Visibility="{Binding AdjectiveSpecificRelationsVisibility}" 
+                            BorderBrush="{Binding Path=Edit.BaseVerbFormsOfParticiple.RelatedWordSensesBorderBrush}" BorderThickness="{Binding Path=Edit.BaseVerbFormsOfParticiple.RelatedWordSensesBorderThickness}" 
+                            AllowDrop="{Binding Path=Edit.BaseVerbFormsOfParticiple.DropIsEnabled}" Drop="BaseVerbFormsOfParticipleBorder_Drop"
+                            KeyUp="BaseVerbFormsOfParticipleBorder_KeyUp"
+                            Style="{StaticResource SectionBorderStyle}">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="Base verbs of participle" Style="{StaticResource SectionHeaderStyle}"/>
+                            <ListBox Name="BaseVerbFormsOfParticipleList" ItemsSource="{Binding Path=CurrentWordSense.BaseVerbFormsOfParticiple, IsAsync=True}" DisplayMemberPath="PartOfSpeechAndWordText" Style="{StaticResource WordSensesListBoxStyle}"
                                      MouseDoubleClick="BaseVerbFormsOfParticipleList_MouseDoubleClick"/>
-                                    </StackPanel>
-                                </Border>
-                            </StackPanel>
-                            <StackPanel Orientation="Vertical" Name="AdverbSpecificRelations" Visibility="Collapsed">
-                                <Border Style="{StaticResource SectionBorderStyle}">
-                                    <StackPanel Orientation="Vertical">
-                                        <TextBlock Text="Derived from adj." Style="{StaticResource SectionHeaderStyle}"/>
-                                        <ListBox Name="DerivedFromAdjectivesList" ItemsSource="{Binding DerivedFromAdjectives, IsAsync=True}" DisplayMemberPath="PartOfSpeechAndWordText" Style="{StaticResource WordSensesListBoxStyle}"
-                                     MouseDoubleClick="DerivedFromAdjectivesList_MouseDoubleClick"/>
-                                    </StackPanel>
-                                </Border>
-                            </StackPanel>
                         </StackPanel>
-                    </ScrollViewer>
-                </Border>
+                    </Border>
+                    <Border Name="ParticipleFormsBorder" Visibility="{Binding VerbSpecificRelationsVisibility}" 
+                            BorderBrush="{Binding Path=Edit.ParticipleForms.RelatedWordSensesBorderBrush}" BorderThickness="{Binding Path=Edit.ParticipleForms.RelatedWordSensesBorderThickness}" 
+                            AllowDrop="{Binding Path=Edit.ParticipleForms.DropIsEnabled}" Drop="ParticipleFormsBorder_Drop"
+                            KeyUp="ParticipleFormsBorder_KeyUp"
+                            Style="{StaticResource SectionBorderStyle}">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="Participle forms" Style="{StaticResource SectionHeaderStyle}"/>
+                            <ListBox Name="ParticipleFormsList" ItemsSource="{Binding Path=CurrentWordSense.ParticipleForms, IsAsync=True}" DisplayMemberPath="PartOfSpeechAndWordText" Style="{StaticResource WordSensesListBoxStyle}"
+                                     MouseDoubleClick="ParticipleFormsList_MouseDoubleClick"/>
+                        </StackPanel>
+                    </Border>
+                    <Border Name="PertainersBorder" Visibility="{Binding NounOrAdjectiveSpecificRelationsVisibility}" 
+                            BorderBrush="{Binding Path=Edit.Pertainers.RelatedWordSensesBorderBrush}" BorderThickness="{Binding Path=Edit.Pertainers.RelatedWordSensesBorderThickness}" 
+                            AllowDrop="{Binding Path=Edit.Pertainers.DropIsEnabled}" Drop="PertainersBorder_Drop"
+                            KeyUp="PertainersBorder_KeyUp"
+                            Style="{StaticResource SectionBorderStyle}">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="Pertainers" Style="{StaticResource SectionHeaderStyle}"/>
+                            <ListBox Name="PertainersList" ItemsSource="{Binding Path=CurrentWordSense.Pertainers, IsAsync=True}" DisplayMemberPath="PartOfSpeechAndWordText" Style="{StaticResource WordSensesListBoxStyle}"
+                                     MouseDoubleClick="PertainersList_MouseDoubleClick"/>
+                        </StackPanel>
+                    </Border>
+                    <Border Name="PertainsToBorder" Visibility="{Binding AdjectiveSpecificRelationsVisibility}" 
+                            BorderBrush="{Binding Path=Edit.PertainsTo.RelatedWordSensesBorderBrush}" BorderThickness="{Binding Path=Edit.PertainsTo.RelatedWordSensesBorderThickness}" 
+                            AllowDrop="{Binding Path=Edit.PertainsTo.DropIsEnabled}" Drop="PertainsToBorder_Drop"
+                            KeyUp="PertainsToBorder_KeyUp"
+                            Style="{StaticResource SectionBorderStyle}">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="Pertains to" Style="{StaticResource SectionHeaderStyle}"/>
+                            <ListBox Name="PertainsToList" ItemsSource="{Binding Path=CurrentWordSense.PertainsTo, IsAsync=True}" DisplayMemberPath="PartOfSpeechAndWordText" Style="{StaticResource WordSensesListBoxStyle}"
+                                     MouseDoubleClick="PertainsToList_MouseDoubleClick"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
             </Grid>
             <StackPanel Grid.Row="2" Name="FullWidthStack">
-                <Border Style="{StaticResource SectionBorderStyle}">
+                <Border Name="MorphosemanticBorder" Visibility="Visible"
+                        BorderBrush="{Binding Path=Edit.Morphosemantic.RelatedWordSensesBorderBrush}" BorderThickness="{Binding Path=Edit.Morphosemantic.RelatedWordSensesBorderThickness}" 
+                        Style="{StaticResource SectionBorderStyle}">
                     <StackPanel Name="MorphosemanticStack">
                         <TextBlock Text="Morphosemantic relations" Style="{StaticResource SectionHeaderStyle}"/>
-                        <DataGrid Name="MorphosemanticRelationsGrid" ItemsSource="{Binding MorphosemanticRelations, IsAsync=True}" Margin="0 4 0 0" HorizontalContentAlignment="Stretch" 
-                            AutoGenerateColumns="False" HeadersVisibility="Column" HorizontalGridLinesBrush="LightGray" VerticalGridLinesBrush="DarkGray"
-                            SelectionMode="Extended" Width="{Binding Path=ActualWidth, ElementName=MorphosemanticStack}">
+                        <DataGrid Name="MorphosemanticRelationsGrid" ItemsSource="{Binding Path=CurrentWordSense.MorphosemanticRelations, IsAsync=True}" 
+                                  Style="{StaticResource WordSensesDataGridStyle}" Width="{Binding Path=ActualWidth, ElementName=MorphosemanticStack}">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Source" Binding="{Binding Path=SourcePartOfSpeechAndWordText}" Width="*"/>
                                 <DataGridTextColumn Header="Relation" Binding="{Binding Path=Relation}" Width="*"/>
@@ -162,12 +196,13 @@
                         </DataGrid>
                     </StackPanel>
                 </Border>
-                <Border Style="{StaticResource SectionBorderStyle}">
+                <Border Name="TeleologyBorder" Visibility="Visible"
+                        BorderBrush="{Binding Path=Edit.Teleology.RelatedWordSensesBorderBrush}" BorderThickness="{Binding Path=Edit.Teleology.RelatedWordSensesBorderThickness}" 
+                        Style="{StaticResource SectionBorderStyle}">
                     <StackPanel Name="TeleologyStack">
                         <TextBlock Text="Teleology" Style="{StaticResource SectionHeaderStyle}"/>
-                        <DataGrid Name="TeleologyGrid" ItemsSource="{Binding Teleologies, IsAsync=True}" Margin="0 4 0 0" HorizontalContentAlignment="Stretch" 
-                            AutoGenerateColumns="False" HeadersVisibility="Column" HorizontalGridLinesBrush="LightGray" VerticalGridLinesBrush="DarkGray"
-                            SelectionMode="Extended" Width="{Binding Path=ActualWidth, ElementName=TeleologyStack}">
+                        <DataGrid Name="TeleologyGrid" ItemsSource="{Binding Path=CurrentWordSense.Teleologies, IsAsync=True}"
+                                  Style="{StaticResource WordSensesDataGridStyle}" Width="{Binding Path=ActualWidth, ElementName=TeleologyStack}">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Object" Binding="{Binding Path=SourcePartOfSpeechAndWordText}" Width="*"/>
                                 <DataGridTextColumn Header="Relation" Binding="{Binding Path=Relation}" Width="*"/>
@@ -176,14 +211,14 @@
                         </DataGrid>
                     </StackPanel>
                 </Border>
-                <StackPanel Orientation="Vertical" Name="FullWidthVerbSpecificRelations" Visibility="Collapsed">
-                    <Border Style="{StaticResource SectionBorderStyle}">
-                        <StackPanel Orientation="Vertical">
-                            <TextBlock Text="Verb frames" Style="{StaticResource SectionHeaderStyle}"/>
-                            <ListBox Name="VerbFramesList" ItemsSource="{Binding VerbFrames}" DisplayMemberPath="VerbFrame" Style="{StaticResource WordSensesListBoxStyle}"/>
-                        </StackPanel>
-                    </Border>
-                </StackPanel>
+                <Border Name="VerbFramesBorder" Visibility="{Binding VerbSpecificRelationsVisibility}" 
+                        BorderBrush="{Binding Path=Edit.VerbFrames.RelatedWordSensesBorderBrush}" BorderThickness="{Binding Path=Edit.VerbFrames.RelatedWordSensesBorderThickness}" 
+                        Style="{StaticResource SectionBorderStyle}">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Verb frames" Style="{StaticResource SectionHeaderStyle}"/>
+                        <ListBox Name="VerbFramesList" ItemsSource="{Binding Path=CurrentWordSense.VerbFrames}" DisplayMemberPath="VerbFrame" Style="{StaticResource WordSensesListBoxStyle}"/>
+                    </StackPanel>
+                </Border>
             </StackPanel>
         </Grid>
     </ScrollViewer>

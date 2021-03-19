@@ -46,5 +46,40 @@ namespace WordNet.Linq.Properties {
                 this["WordNet_ServerPort"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=38.192.14.25,49170;Initial Catalog=WordNet;Persist Security Info=True" +
+            ";User ID=sa")]
+        public string WordNetConnectionString {
+            get {
+                return ((string)(this["WordNetConnectionString"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=38.192.14.25,49170;Initial Catalog=WordNet;Persist Security Info=True" +
+            ";User ID=sa;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encr" +
+            "ypt=False;TrustServerCertificate=False")]
+        public string WordNetConnectionString1 {
+            get {
+                return ((string)(this["WordNetConnectionString1"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=38.192.14.25,49170;Initial Catalog=WordNet;Persist Security Info=True" +
+            ";User ID=sa;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Trus" +
+            "tServerCertificate=False")]
+        public string WordNetConnectionString2 {
+            get {
+                return ((string)(this["WordNetConnectionString2"]));
+            }
+        }
     }
 }

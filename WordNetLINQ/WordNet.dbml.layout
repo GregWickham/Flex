@@ -2,16 +2,16 @@
 <ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="WordNet">
   <DataContextMoniker Name="/WordNetDataContext" />
   <nestedChildShapes>
-    <classShape Id="96c7ebf7-44ad-4b97-a1f3-b63e638306cb" absoluteBounds="4.625, 0.75, 2, 1.3862939453125">
+    <classShape Id="8f24e94d-8fba-474c-89a9-56bde615f6ac" absoluteBounds="0.5, 0.5, 2, 1.3862939453125">
       <DataClassMoniker Name="/WordNetDataContext/Synset" />
       <nestedChildShapes>
-        <elementListCompartment Id="76110a2c-b4c4-44eb-8e87-8344e9214e77" absoluteBounds="4.6400000000000006, 1.21, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="353030c0-e003-4c69-a996-bc24b27a8ff7" absoluteBounds="0.51499999999999968, 0.96, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="66daefad-8e2c-4382-98ca-194f303c7250" absoluteBounds="7.25, 0.75, 2, 2.1554996744791666">
+    <classShape Id="adcf0d1a-81a1-47db-acb9-16e9043ee5e7" absoluteBounds="0.5, 2.25, 2, 1.9631982421875">
       <DataClassMoniker Name="/WordNetDataContext/WordSense" />
       <nestedChildShapes>
-        <elementListCompartment Id="fdb6c80c-c874-499c-a17b-3210500b7446" absoluteBounds="7.265, 1.21, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="aa332b71-fa54-49a9-9649-9f1de1542fcf" absoluteBounds="0.51500000000000012, 2.71, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
   </nestedChildShapes>

@@ -12,10 +12,10 @@ namespace WordNet.Linq
                 SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder
                 {
                     DataSource = $"{Properties.Settings.Default.WordNet_ServerHost},{Properties.Settings.Default.WordNet_ServerPort}",
-                    InitialCatalog = "wordnet",
+                    InitialCatalog = "WordNet",
                     PersistSecurityInfo = true,
-                    UserID = "Flex",
-                    Password = "d^%fVdYr1BCVFkSpk0vuZs%i"
+                    UserID = "WordNetEditor",
+                    Password = "Yxc5R0&cwbNnqfi^R4HjRfJy"
                 };
                 return builder.ToString();
             }
@@ -31,6 +31,8 @@ namespace WordNet.Linq
             Noun,
             Verb,
             Adjective,
+            AdjectiveHead,
+            AdjectiveSatellite,
             Adverb
         }
 
@@ -39,8 +41,8 @@ namespace WordNet.Linq
         {
             { 'n', PartOfSpeech.Noun },
             { 'v', PartOfSpeech.Verb },
-            { 'a', PartOfSpeech.Adjective },
-            { 's', PartOfSpeech.Adjective },
+            { 'a', PartOfSpeech.AdjectiveHead },
+            { 's', PartOfSpeech.AdjectiveSatellite },
             { 'r', PartOfSpeech.Adverb },
         };
 
@@ -54,10 +56,19 @@ namespace WordNet.Linq
 
         /// <summary>Return true if <paramref name="wordNetPartOfSpeechCode"/> represents PartOfSpeech.Noun</summary>
         internal static bool IsNoun(char wordNetPartOfSpeechCode) => PartOfSpeechCorrespondingTo(wordNetPartOfSpeechCode).Equals(PartOfSpeech.Noun);
+
         /// <summary>Return true if <paramref name="wordNetPartOfSpeechCode"/> represents PartOfSpeech.Verb</summary>
         internal static bool IsVerb(char wordNetPartOfSpeechCode) => PartOfSpeechCorrespondingTo(wordNetPartOfSpeechCode).Equals(PartOfSpeech.Verb);
+
         /// <summary>Return true if <paramref name="wordNetPartOfSpeechCode"/> represents PartOfSpeech.Adjective</summary>
-        internal static bool IsAdjective(char wordNetPartOfSpeechCode) => PartOfSpeechCorrespondingTo(wordNetPartOfSpeechCode).Equals(PartOfSpeech.Adjective);
+        internal static bool IsAdjective(char wordNetPartOfSpeechCode) => IsAdjectiveHead(wordNetPartOfSpeechCode) || IsAdjectiveSatellite(wordNetPartOfSpeechCode);
+
+        /// <summary>Return true if <paramref name="wordNetPartOfSpeechCode"/> represents PartOfSpeech.Adjective</summary>
+        internal static bool IsAdjectiveHead(char wordNetPartOfSpeechCode) => PartOfSpeechCorrespondingTo(wordNetPartOfSpeechCode).Equals(PartOfSpeech.AdjectiveHead);
+
+        /// <summary>Return true if <paramref name="wordNetPartOfSpeechCode"/> represents PartOfSpeech.Adjective</summary>
+        internal static bool IsAdjectiveSatellite(char wordNetPartOfSpeechCode) => PartOfSpeechCorrespondingTo(wordNetPartOfSpeechCode).Equals(PartOfSpeech.AdjectiveSatellite);
+
         /// <summary>Return true if <paramref name="wordNetPartOfSpeechCode"/> represents PartOfSpeech.Adverb</summary>
         internal static bool IsAdverb(char wordNetPartOfSpeechCode) => PartOfSpeechCorrespondingTo(wordNetPartOfSpeechCode).Equals(PartOfSpeech.Adverb);
 
@@ -66,7 +77,8 @@ namespace WordNet.Linq
         {
             PartOfSpeech.Noun => "n",
             PartOfSpeech.Verb => "v",
-            PartOfSpeech.Adjective => "adj",
+            PartOfSpeech.AdjectiveHead => "adj-h",
+            PartOfSpeech.AdjectiveSatellite => "adj-s",
             PartOfSpeech.Adverb => "adv",
             _ => "Unspecified",
         };

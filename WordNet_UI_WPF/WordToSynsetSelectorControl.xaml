@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WordNet.UserInterface"
              mc:Ignorable="d" 
-             d:DesignHeight="125" d:DesignWidth="800" Loaded="UserControl_Loaded">
+             d:DesignHeight="125" d:DesignWidth="800" MaxHeight="250" Loaded="UserControl_Loaded">
     
     <Grid>
         <Grid.ColumnDefinitions>
@@ -25,14 +25,10 @@
             </StackPanel>
         </Border>
 
-        <ListBox Grid.Column="1" Name="SynsetsMatchingWordList" ItemsSource="{Binding VisibleSynsets, IsAsync=True}" 
-                     SelectionMode="Single" SelectionChanged="SynsetsMatchingWordList_SelectionChanged" MouseDoubleClick="SynsetsMatchingWordList_MouseDoubleClick">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding GlossWithoutExamples, IsAsync=True}"/>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+        <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <ListBox Name="SynsetsMatchingWordList" ItemsSource="{Binding VisibleSynsets, IsAsync=True}" DisplayMemberPath="GlossWithoutExamples"              
+                 SelectionMode="Single" SelectionChanged="SynsetsMatchingWordList_SelectionChanged" MouseDoubleClick="SynsetsMatchingWordList_MouseDoubleClick"/>
+        </ScrollViewer>
         <ListBox Grid.Column="2" Name="UsageExamplesList" ItemsSource="{Binding GlossExamples}"/>
     </Grid>
     

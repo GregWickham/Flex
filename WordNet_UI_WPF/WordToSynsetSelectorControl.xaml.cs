@@ -6,10 +6,6 @@ using WordNet.UserInterface.ViewModels;
 
 namespace WordNet.UserInterface
 {
-    public delegate WordSpecification DroppedWordConverter(DragEventArgs e);
-
-    internal delegate void SynsetSelected_EventHandler(Synset synset);
-
     /// <summary>Interaction logic for WordToSynsetSelector.xaml</summary>
     public partial class WordToSynsetSelectorControl : UserControl
     {
@@ -96,8 +92,6 @@ namespace WordNet.UserInterface
             }
         }
 
-
         #endregion Drag / Drop of IElementTreeNode onto WordLookup        
-
     }
 }
